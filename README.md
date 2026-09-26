@@ -59,12 +59,16 @@ bbox for both.
 
 ### Why walking routes can look like driving routes
 
-OSRM's "foot" profile doesn't fail when there's no dedicated pedestrian way
-to route onto - it just routes along whatever's in the road network instead,
-which looks identical to a driving route on the map. This is almost always
-an OSM data-coverage gap on campus interiors, not a routing bug: college
-quads, plaza walkways, and building-to-building shortcuts are frequently
-missing from OSM even when the surrounding streets are well-mapped.
+The app uses profile-specific OSRM services: `routed-foot`, `routed-bike`, and
+`routed-car` on `routing.openstreetmap.de`. The generic public OSRM endpoint
+accepted `foot` and `bike` in the URL but returned the same campus route for
+all three profiles, so selecting the profile-specific service is important.
+
+Even with the correct service, a foot route can still follow roads when there
+is no dedicated pedestrian way in the routing graph. That is usually an OSM
+data-coverage gap on campus interiors: college quads, plaza walkways, and
+building-to-building shortcuts may be missing even when surrounding streets
+are well mapped.
 
 Run `scripts/fetch-footpaths-overpass.mjs` to pull whatever dedicated
 footway/path/pedestrian/steps ways OSM already has in your bbox into

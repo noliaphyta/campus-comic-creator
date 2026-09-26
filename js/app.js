@@ -9,21 +9,20 @@
 const CAMPUS_CENTER = [37.2712, -76.7112];
 const CAMPUS_ZOOM = 16;
 
-// Public OSRM demo server (FOSSGIS-sponsored; it does host foot/bike/driving,
-// not just car). Fine for a hackathon demo; rate-limited and not meant for
-// production traffic - self-host OSRM if this ever needs to be reliable
-// beyond a live judged demo. Profile is picked by the user (see
-// #route-profile) rather than hardcoded, since OSM rarely maps sidewalks as
-// separate ways - "foot" routing legitimately overlaps road centerlines a
-// lot of the time, and letting the walker pick foot/bike/driving is more
-// honest than pretending one fixed profile is always "the pedestrian path".
+// Profile-specific OSRM endpoints from routing.openstreetmap.de. The public
+// router.project-osrm.org endpoint accepted the profile names but returned
+// identical routes for this campus, so the service host must be selected with
+// the profile. Profile is picked by the user (see #route-profile).
 //
-// IMPORTANT: the demo server's own docs cap non-commercial use at 1
-// request/second with no uptime guarantee. plotRoute() throttles itself to
-// that rate (see ROUTE_MIN_INTERVAL_MS/throttleRouteRequest below) so a
-// burst of pin clicks can't blow through it; each click still eventually
-// gets its own route + story trigger, just spaced out if needed.
-const OSRM_BASE = "https://router.project-osrm.org/route/v1";
+// IMPORTANT: the service is public and rate-limited. plotRoute() throttles
+// itself to roughly one request/second (see ROUTE_MIN_INTERVAL_MS and
+// throttleRouteRequest below), so rapid profile changes and pin clicks do not
+// create an avoidable burst of requests.
+const OSRM_ENDPOINTS = {
+  foot: "https://routing.openstreetmap.de/routed-foot/route/v1/foot",
+  bike: "https://routing.openstreetmap.de/routed-bike/route/v1/bike",
+  driving: "https://routing.openstreetmap.de/routed-car/route/v1/driving",
+};
 const ROUTE_MIN_INTERVAL_MS = 1100;
 
 // Dedicated pedestrian ways (see scripts/fetch-footpaths-overpass.mjs). Used
@@ -682,7 +681,8 @@ async function plotRoute(waypoints) {
   if (seq !== routeRequestSeq) return null; // superseded while waiting out the rate-limit gap
 
   const coords = waypoints.map((w) => `${w.lon},${w.lat}`).join(";");
-  const url = `${OSRM_BASE}/${routeProfile}/${coords}?overview=full&geometries=geojson&steps=true`;
+  const endpoint = OSRM_ENDPOINTS[routeProfile] || OSRM_ENDPOINTS.foot;
+  const url = `${endpoint}/${coords}?overview=full&geometries=geojson&steps=true`;
 
   try {
     const res = await fetch(url);
