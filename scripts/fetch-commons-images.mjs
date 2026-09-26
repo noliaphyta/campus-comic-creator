@@ -133,19 +133,27 @@ async function main() {
     `Fetching Commons geosearch: lat=${lat} lon=${lon} radius=${radius}m (cap: ${max})`
   );
 
-  const allPages = [];
+  // MediaWiki's `continue` mechanism for a geosearch generator with two
+  // extra props (coordinates + imageinfo) doesn't page through NEW results
+  // each round - it re-returns the SAME ~500 pages and fills in one more
+  // prop batch per round (coordinates one round, imageinfo another). Naively
+  // concatenating pages across rounds duplicates every page instead of
+  // accumulating results, and worse, splits `coordinates` and `imageinfo`
+  // across different copies of the same page. Merge by pageid instead.
+  const pagesById = new Map();
   let continueToken = null;
   let page = 0;
 
   do {
     page += 1;
     const data = await fetchPage(lat, lon, radius, limit, continueToken);
-    const pages = Object.values(data.query?.pages || {});
-    allPages.push(...pages);
+    for (const p of Object.values(data.query?.pages || {})) {
+      pagesById.set(p.pageid, { ...pagesById.get(p.pageid), ...p });
+    }
     continueToken = data.continue || null;
-    console.log(`  page ${page}: +${pages.length} images (total ${allPages.length})`);
+    console.log(`  page ${page}: ${pagesById.size} unique pages so far`);
 
-    if (allPages.length >= max) {
+    if (pagesById.size >= max) {
       console.log(`  hit cap of ${max}, stopping (radius=${radius}m may be too wide for this cap)`);
       continueToken = null;
       break;
@@ -153,7 +161,7 @@ async function main() {
     if (continueToken) await sleep(RATE_LIMIT_MS);
   } while (continueToken);
 
-  if (allPages.length > max) allPages.length = max; // trim to exact cap
+  const allPages = [...pagesById.values()].slice(0, max);
 
   await mkdir(out, { recursive: true });
 

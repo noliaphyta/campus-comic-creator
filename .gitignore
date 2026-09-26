@@ -1,0 +1,53 @@
+# ---- macOS ----
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+.fseventsd
+.TemporaryItems
+Icon?
+
+# macOS zip/AppleDouble artifacts (shows up if a zip was made without
+# COPYFILE_DISABLE=1 on macOS - see scripts/build-upload-zip.sh)
+__MACOSX/
+
+# ---- Windows ----
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# ---- Linux ----
+*~
+.directory
+
+# ---- Editors / IDEs ----
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-workspace
+
+# ---- Node (scripts/*.mjs) ----
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.npm/
+
+# ---- Env / secrets ----
+.env
+.env.local
+.env.*.local
+
+# ---- Build output / packaging ----
+dist/
+build/
+*.zip
+
+# ---- Logs ----
+*.log

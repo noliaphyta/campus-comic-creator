@@ -1,43 +1,53 @@
 /**
  * stylize.js — the art pipeline.
  *
- * Pipeline order (finalized plan):
- *   1. bilateral filter    -> flatten/quantize the background
- *   2. k-means palette     -> extract 4-6 dominant colors
- *   3. edge/line overlay   -> comic linework layer
- *   4. one of: halftone (CSS) | ordered dither (canvas, reuses palette)
- *   5. suncalc lighting tint -> tint based on the photo's date + campus coords
+ * Pipeline (Canvas/WebGL via glfx-es6, MIT, https://www.npmjs.com/package/glfx-es6):
+ *   1. denoise()      -> flattens grain/noise, same job as a bilateral filter
+ *   2. ink()          -> comic linework pass (glfx's built-in pen-and-ink filter)
+ *   3. colorHalftone() [only for the "dither" style toggle] -> CMYK dot-screen
+ *   4. suncalc lighting tint -> composited on top with a 2D context
  *
- * Steps 4 is a *choice*, not an addition — pick one per photo/style toggle,
- * don't stack both. Halftone is the cheapest possible option (a CSS class
- * toggle, no pixel work); ordered dither is the next cheapest (one nested
- * loop, reuses the k-means palette already computed in step 2). Both are
- * "always fast, always works" and safe to run live during judging.
+ * glfx-es6 ships denoise/edgeWork/ink/colorHalftone as real WebGL shaders, so
+ * none of bilateralFilter/kMeansPalette/edgeOverlay/orderedDither are
+ * hand-rolled here — that was the point of pulling in the library instead of
+ * writing a k-means loop and a Bayer matrix by hand. "halftone" (the default,
+ * cheapest style) stays a pure CSS class toggle via applyHalftoneCSS(), zero
+ * canvas cost; "dither" reuses the same WebGL pipeline's colorHalftone() filter.
+ *
+ * suncalc (MIT, https://github.com/mourner/suncalc, pinned to 1.9.x on the
+ * CDN <script> tag — this version's getPosition() returns altitude/azimuth
+ * in radians) drives lightingTint(): how high the sun was over campus tints
+ * the scene warm (low sun / golden hour) or cool (sun below the horizon).
  *
  * Explicitly NOT built here (see build plan): procedural watercolor,
  * neural cartoonization, diffusion style transfer. Those stay pre-baked-only
  * or out of scope — never run live.
  */
 
-function bilateralFilter(ctx, width, height, opts = {}) {
-  // TODO: classic bilateral filter over the ImageData. Placeholder no-op.
-  return ctx.getImageData(0, 0, width, height);
-}
+const CAMPUS_LATLON = [37.2712, -76.7112]; // fallback if a photo has no lat/lon of its own
 
 /**
- * kMeansPalette(imageData, k) -> [{ r, g, b }, ...]
- * Extracts a small dominant-color palette. Reused by both the edge overlay
- * (linework color) and the ordered-dither pass (so dithering reflects each
- * photo's own extracted mood instead of a fixed generic palette).
+ * lightingTint(meta) -> { r, g, b, alpha }
+ * meta: { year, lat, lon, date? }. Photos only carry a `year`, not a
+ * timestamp, so absent an explicit meta.date this assumes a fall-semester
+ * campus-visit hour (Sept 15, 3pm) for that year — a reasonable stand-in
+ * for "a photo taken while W&M was in session," not a claim about the
+ * actual shot time. Pass meta.date (ISO string) to override per-photo.
  */
-function kMeansPalette(imageData, k = 5) {
-  // TODO: k-means over pixel colors, return an array of { r, g, b } of length k.
-  return [];
-}
+function lightingTint(meta = {}) {
+  if (typeof SunCalc === "undefined") return { r: 255, g: 255, b: 255, alpha: 0 };
 
-function edgeOverlay(ctx, width, height) {
-  // TODO: Sobel/Canny-style edge pass, composited as a dark linework layer.
-  return ctx.getImageData(0, 0, width, height);
+  const lat = meta.lat ?? CAMPUS_LATLON[0];
+  const lon = meta.lon ?? CAMPUS_LATLON[1];
+  const year = meta.year ?? new Date().getFullYear();
+  const date = meta.date ? new Date(meta.date) : new Date(year, 8, 15, 15, 0);
+
+  const { altitude } = SunCalc.getPosition(date, lat, lon); // radians (suncalc 1.9.x)
+  const altitudeDeg = (altitude * 180) / Math.PI;
+
+  if (altitudeDeg <= 0) return { r: 40, g: 60, b: 120, alpha: 0.35 }; // sun below horizon: cool night tint
+  if (altitudeDeg < 10) return { r: 255, g: 150, b: 60, alpha: 0.28 }; // golden hour: warm tint
+  return { r: 255, g: 244, b: 214, alpha: 0.1 }; // high sun: light warm-white wash
 }
 
 /**
@@ -52,85 +62,40 @@ function applyHalftoneCSS(targetEl, on = true) {
 }
 
 /**
- * orderedDither(imageData, palette) -> ImageData
- * Bayer/ordered dithering against a supplied palette (pass the output of
- * kMeansPalette here — see the module doc above for why). Reference
- * algorithm set: https://github.com/allen-garvey/dithermark
- */
-const BAYER_4X4 = [
-  [0, 8, 2, 10],
-  [12, 4, 14, 6],
-  [3, 11, 1, 9],
-  [15, 7, 13, 5],
-];
-
-function nearestPaletteColor(r, g, b, palette) {
-  let best = palette[0];
-  let bestDist = Infinity;
-  for (const c of palette) {
-    const d = (r - c.r) ** 2 + (g - c.g) ** 2 + (b - c.b) ** 2;
-    if (d < bestDist) {
-      bestDist = d;
-      best = c;
-    }
-  }
-  return best;
-}
-
-function orderedDither(imageData, palette) {
-  if (!palette || palette.length === 0) return imageData; // no palette yet, no-op
-  const { data, width, height } = imageData;
-  for (let y = 0; y < height; y++) {
-    for (let x = 0; x < width; x++) {
-      const i = (y * width + x) * 4;
-      const threshold = (BAYER_4X4[y % 4][x % 4] / 16 - 0.5) * 64; // spread ~ +-32
-      const r = data[i] + threshold;
-      const g = data[i + 1] + threshold;
-      const b = data[i + 2] + threshold;
-      const c = nearestPaletteColor(r, g, b, palette);
-      data[i] = c.r;
-      data[i + 1] = c.g;
-      data[i + 2] = c.b;
-    }
-  }
-  return imageData;
-}
-
-function lightingTint(date) {
-  // TODO: use suncalc (https://github.com/mourner/suncalc) with the photo's
-  // lat/lon/date to derive a warm/cool tint for the time of day + season.
-  return { r: 255, g: 255, b: 255, alpha: 0 };
-}
-
-/**
- * stylizePhoto(imgElement, meta, opts) -> canvas
+ * stylizePhoto(imgElement, meta, opts) -> { canvas, ditherStyle }
  * Runs the full pipeline client-side. This is what onPhotoSelected() in
  * app.js calls on marker click for the live-demo moment.
  *
+ * meta: { year, lat, lon, date? } — feeds lightingTint().
  * opts.ditherStyle: "halftone" | "dither" | "none" (default "halftone" —
  * it's the cheaper of the two and has zero canvas-pixel risk during a demo).
  */
 function stylizePhoto(imgElement, meta = {}, opts = {}) {
   const ditherStyle = opts.ditherStyle || "halftone";
 
-  const canvas = document.createElement("canvas");
-  canvas.width = imgElement.naturalWidth;
-  canvas.height = imgElement.naturalHeight;
-  const ctx = canvas.getContext("2d");
-  ctx.drawImage(imgElement, 0, 0);
-
-  bilateralFilter(ctx, canvas.width, canvas.height);
-  const palette = kMeansPalette(ctx.getImageData(0, 0, canvas.width, canvas.height));
-  edgeOverlay(ctx, canvas.width, canvas.height);
-
+  const glCanvas = fx.canvas();
+  const texture = glCanvas.texture(imgElement);
+  let chain = glCanvas.draw(texture).denoise(20).ink(0.25);
   if (ditherStyle === "dither") {
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    ctx.putImageData(orderedDither(imageData, palette), 0, 0);
+    chain = chain.colorHalftone(0.5, 0.5, 0, 4);
   }
-  // ditherStyle === "halftone" is applied by the caller via applyHalftoneCSS()
-  // on the wrapping element, not here — it's a CSS-layer effect, not canvas.
+  chain.update();
 
-  // TODO: composite lightingTint(meta.date) over the canvas.
+  // Composite the suncalc lighting tint on top via a plain 2D canvas — glfx
+  // owns the WebGL canvas, but a flat color-over blend doesn't need WebGL.
+  const canvas = document.createElement("canvas");
+  canvas.width = glCanvas.width;
+  canvas.height = glCanvas.height;
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(glCanvas, 0, 0);
 
-  return { canvas, palette, ditherStyle };
+  const tint = lightingTint(meta);
+  if (tint.alpha > 0) {
+    ctx.globalCompositeOperation = "overlay";
+    ctx.fillStyle = `rgba(${tint.r}, ${tint.g}, ${tint.b}, ${tint.alpha})`;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.globalCompositeOperation = "source-over";
+  }
+
+  return { canvas, ditherStyle };
 }

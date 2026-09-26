@@ -18,6 +18,8 @@ let map;
 let photosById = {};
 let selectedWaypoints = []; // [{ lat, lon, buildingId }, ...] in click order
 let routeLayer = null;
+let markersLayer = null; // L.layerGroup holding the currently-visible photo markers
+let yearRange = { min: null, max: null }; // current slider selection, inclusive
 
 async function loadJSON(path) {
   const res = await fetch(path);
@@ -26,27 +28,19 @@ async function loadJSON(path) {
 }
 
 /**
- * photosToGeoJSON(photos) -> GeoJSON FeatureCollection
- * Leaflet.timeline needs a FeatureCollection with start/end (or a `time`)
- * property per feature - the flat photos.json array doesn't match that
- * shape on its own. This is the adapter step; don't skip it, it was the
- * one concrete bug risk flagged in the plan.
+ * photoMarkerIcon(photo) -> L.DivIcon
+ * A small square thumbnail marker (photo.styled || photo.file) instead of a
+ * generic pin - native Leaflet feature (L.divIcon), no extra dependency.
  */
-function photosToGeoJSON(photos) {
-  return {
-    type: "FeatureCollection",
-    features: photos
-      .filter((p) => typeof p.lat === "number" && typeof p.lon === "number" && p.year)
-      .map((p) => ({
-        type: "Feature",
-        geometry: { type: "Point", coordinates: [p.lon, p.lat] },
-        properties: {
-          ...p,
-          start: `${p.year}-01-01`,
-          end: `${p.year}-12-31`,
-        },
-      })),
-  };
+function photoMarkerIcon(photo) {
+  const src = photo.styled || photo.file;
+  return L.divIcon({
+    className: "photo-marker",
+    html: src ? `<img src="${src}" alt="">` : "",
+    iconSize: [44, 44],
+    iconAnchor: [22, 22],
+    popupAnchor: [0, -22],
+  });
 }
 
 async function init() {
@@ -76,31 +70,218 @@ async function init() {
     console.warn("data/buildings.geojson not found yet - skipping footprints.", err);
   }
 
-  if (photos.length && window.L.timeline) {
-    const timeline = L.timeline(photosToGeoJSON(photos), {
-      pointToLayer: (feature, latlng) => {
-        const marker = L.marker(latlng);
-        marker.bindPopup(
-          `<strong>${feature.properties.building ?? "Unknown building"}</strong><br>${feature.properties.year ?? "?"}`
-        );
-        marker.on("click", () => onPhotoSelected(feature.properties));
-        return marker;
-      },
-    });
-    timeline.addTo(map);
-    document.getElementById("timeline-controls").appendChild(timeline.getContainer());
+  markersLayer = L.layerGroup().addTo(map);
+
+  if (photos.length) {
+    renderYearRangeSlider(photos); // builds the slider AND does the first renderMarkers() call
   } else {
-    // Fallback: plain markers, no year slider, if Leaflet.timeline didn't load
-    // or there's no photo data yet.
-    photos.forEach((photo) => {
-      if (typeof photo.lat !== "number" || typeof photo.lon !== "number") return;
-      const marker = L.marker([photo.lat, photo.lon]).addTo(map);
-      marker.bindPopup(`<strong>${photo.building ?? "Unknown building"}</strong><br>${photo.year ?? "?"}`);
-      marker.on("click", () => onPhotoSelected(photo));
-    });
+    document.getElementById("timeline-controls").hidden = true;
   }
 
   renderCredits(photos);
+}
+
+/**
+ * renderMarkers(photos) — clears markersLayer and re-populates it with one
+ * marker per photo that has usable coordinates. This is the single place
+ * that actually puts photo pins on the map; both the initial load and every
+ * slider move funnel through here so there's one code path to debug if a
+ * pin doesn't show up (check: does the photo have numeric lat/lon? did
+ * markersLayer get created before this was called?).
+ */
+function renderMarkers(photos) {
+  markersLayer.clearLayers();
+  photos.forEach((photo) => {
+    if (typeof photo.lat !== "number" || typeof photo.lon !== "number") return;
+    const marker = L.marker([photo.lat, photo.lon], { icon: photoMarkerIcon(photo) });
+    marker.bindPopup(`<strong>${photo.building ?? "Unknown building"}</strong><br>${photo.year ?? "?"}`);
+    marker.on("click", () => onPhotoSelected(photo));
+    marker.addTo(markersLayer);
+  });
+}
+
+// Fixed hit-area/visual width (px) shared by each pill handle AND the
+// native <input type=range> thumb underneath it, so the browser's own
+// thumb-centering math and our pill-centering math agree on where "the
+// handle" actually is. See renderYearRangeSlider() below.
+const YEAR_RANGE_PILL_WIDTH = 46;
+
+/**
+ * renderYearRangeSlider(photos) — builds a two-handled YEAR RANGE control
+ * (min year + max year), not a single-position "current year" scrubber, with
+ * a per-year photo-count histogram behind it so you can see where the data
+ * actually is before you drag.
+ *
+ * Leaflet.timeline's stock L.TimelineSliderControl only exposes one moving
+ * position on the timeline; with photosToGeoJSON() giving each photo a
+ * start/end of just its own calendar year, that one position only ever
+ * shows the (usually single) photo whose year contains it - stepping
+ * through discrete years one at a time. With a dataset this small (8-12
+ * curated photos, per docs/build-plan.md's "Image Sourcing" target) that
+ * hides almost everything most of the time. A range - drag the low/high
+ * handles to bracket a span of years and see every photo inside that span
+ * at once - is a better fit, so this is a small dependency-free dual-range
+ * control instead of Leaflet.timeline's slider.
+ *
+ * The two <input type=range> thumbs stay fully functional (mouse, touch,
+ * keyboard arrows) but are made invisible; a plain <div class="year-range-
+ * pill"> sitting on top of each one shows the selected year as text and is
+ * what the user actually sees dragging. The pill and the native thumb are
+ * both YEAR_RANGE_PILL_WIDTH px wide, so the browser's built-in thumb
+ * placement and our JS pill placement land on the same pixel.
+ */
+function renderYearRangeSlider(photos) {
+  const years = photos.map((p) => p.year).filter((y) => typeof y === "number");
+  const el = document.getElementById("timeline-controls");
+  el.innerHTML = "";
+
+  if (!years.length) {
+    el.hidden = true;
+    renderMarkers(photos); // still show pins for photos that do have coords, just no year filter
+    return;
+  }
+
+  el.hidden = false;
+  const minYear = Math.min(...years);
+  const maxYear = Math.max(...years);
+  const span = maxYear - minYear || 1; // avoid /0 when every photo is the same year
+  yearRange = { min: minYear, max: maxYear };
+
+  // Per-year counts feed the histogram bars. Years with zero photos still
+  // get an (empty) column so the bar spacing lines up with the axis below.
+  const counts = {};
+  for (let y = minYear; y <= maxYear; y++) counts[y] = 0;
+  years.forEach((y) => { counts[y] += 1; });
+  const maxCount = Math.max(1, ...Object.values(counts));
+
+  const wrap = document.createElement("div");
+  wrap.className = "year-range";
+
+  const label = document.createElement("div");
+  label.className = "year-range-label";
+  wrap.appendChild(label);
+
+  // ---- histogram: one bar per calendar year (not per day - with a
+  // dataset this size, day-level bins were tried and just looked noisy).
+  // Bar height is sqrt-scaled so a single-photo year doesn't vanish next
+  // to a busier one. ----
+  const hist = document.createElement("div");
+  hist.className = "year-histogram";
+  const barCols = {};
+  for (let y = minYear; y <= maxYear; y++) {
+    const col = document.createElement("div");
+    col.className = "year-histogram-col";
+    const bar = document.createElement("div");
+    bar.className = "year-histogram-bar";
+    const h = counts[y] > 0 ? Math.max(10, Math.sqrt(counts[y] / maxCount) * 100) : 4;
+    bar.style.height = h + "%";
+    col.appendChild(bar);
+    hist.appendChild(col);
+    barCols[y] = col;
+  }
+  wrap.appendChild(hist);
+
+  // ---- year axis: a tick per year, thinned out if there are a lot of
+  // them, with the most recent year called out like a "latest" tag. ----
+  const axis = document.createElement("div");
+  axis.className = "year-axis";
+  const axisYears = [];
+  for (let y = minYear; y <= maxYear; y++) axisYears.push(y);
+  const stride = Math.max(1, Math.ceil(axisYears.length / 10));
+  axisYears.forEach((y, i) => {
+    const show = i === 0 || i === axisYears.length - 1 || i % stride === 0;
+    if (!show) return;
+    const tick = document.createElement("span");
+    tick.textContent = y;
+    tick.style.left = (((y - minYear) / span) * 100) + "%";
+    if (i === axisYears.length - 1) tick.classList.add("latest");
+    axis.appendChild(tick);
+  });
+  wrap.appendChild(axis);
+
+  // ---- track: a thin rail, a thin colored fill between the two handles
+  // (not a thick bar - just the rail itself, recolored), and the two pill
+  // handles on top. ----
+  const track = document.createElement("div");
+  track.className = "year-range-track";
+
+  const rail = document.createElement("div");
+  rail.className = "year-range-rail";
+  const railFill = document.createElement("div");
+  railFill.className = "year-range-rail-fill";
+  track.appendChild(rail);
+  track.appendChild(railFill);
+
+  const minInput = document.createElement("input");
+  minInput.type = "range";
+  minInput.className = "year-range-input year-range-min";
+  minInput.min = String(minYear);
+  minInput.max = String(maxYear);
+  minInput.value = String(minYear);
+
+  const maxInput = document.createElement("input");
+  maxInput.type = "range";
+  maxInput.className = "year-range-input year-range-max";
+  maxInput.min = String(minYear);
+  maxInput.max = String(maxYear);
+  maxInput.value = String(maxYear);
+
+  const minPill = document.createElement("div");
+  minPill.className = "year-range-pill";
+  const maxPill = document.createElement("div");
+  maxPill.className = "year-range-pill";
+
+  track.appendChild(minInput);
+  track.appendChild(maxInput);
+  track.appendChild(minPill);
+  track.appendChild(maxPill);
+  wrap.appendChild(track);
+  el.appendChild(wrap);
+
+  // Centers `pill` at the px position the browser would center a
+  // YEAR_RANGE_PILL_WIDTH-wide native thumb for this year value.
+  function positionPill(pill, year) {
+    pill.textContent = String(year);
+    const trackWidth = track.clientWidth || 1;
+    const pct = (year - minYear) / span;
+    const half = YEAR_RANGE_PILL_WIDTH / 2;
+    pill.style.left = (half + pct * (trackWidth - half * 2)) + "px";
+  }
+
+  // If every photo is the same year there's nothing to drag between - still
+  // render the control (so the UI doesn't jump around if data changes
+  // later), it just has one usable position.
+  const updateLabelAndMarkers = () => {
+    let lo = Math.min(Number(minInput.value), Number(maxInput.value));
+    let hi = Math.max(Number(minInput.value), Number(maxInput.value));
+    // Keep the two handles from crossing so "min" is always <= "max".
+    minInput.value = String(lo);
+    maxInput.value = String(hi);
+    yearRange = { min: lo, max: hi };
+    label.textContent = lo === hi ? `${lo}` : `${lo} – ${hi}`;
+
+    const loPct = ((lo - minYear) / span) * 100;
+    const hiPct = ((hi - minYear) / span) * 100;
+    railFill.style.left = loPct + "%";
+    railFill.style.right = (100 - hiPct) + "%";
+    positionPill(minPill, lo);
+    positionPill(maxPill, hi);
+
+    for (let y = minYear; y <= maxYear; y++) {
+      barCols[y].classList.toggle("in-range", y >= lo && y <= hi);
+    }
+
+    renderMarkers(photos.filter((p) => typeof p.year === "number" && p.year >= lo && p.year <= hi));
+  };
+
+  minInput.addEventListener("input", updateLabelAndMarkers);
+  maxInput.addEventListener("input", updateLabelAndMarkers);
+  // Pill positions are computed in px from the track's current width, so a
+  // window resize (which the old plain-CSS-thumb version got for free)
+  // needs an explicit repaint here.
+  window.addEventListener("resize", updateLabelAndMarkers);
+
+  updateLabelAndMarkers(); // initial paint: full range selected, all photos shown
 }
 
 /**
@@ -136,6 +317,16 @@ function renderWaypointChips() {
     clear.textContent = "Clear path";
     clear.addEventListener("click", resetPath);
     el.appendChild(clear);
+
+    // The route is open-ended (the player can keep clicking pins), so
+    // there's no way to infer "last leg" from the map alone - the player
+    // says when they're done, and that's what picks the epilogue variant.
+    const finish = document.createElement("button");
+    finish.textContent = "Finish walk";
+    finish.addEventListener("click", () => {
+      if (window.renderEpilogue) window.renderEpilogue();
+    });
+    el.appendChild(finish);
   }
 }
 
@@ -179,17 +370,45 @@ async function plotRoute(waypoints) {
   }
 }
 
-function runStylizeAndStory(photo) {
-  const isLast = false; // TODO: app-level logic for "is this the last planned stop"
-  // TODO: load photo.file into an <img>, call stylizePhoto() from stylize.js,
-  // applyHalftoneCSS() or the dither branch depending on the active style
-  // toggle, then show the result in #story-bg before calling jumpToBuilding.
+function loadImage(src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = src;
+  });
+}
+
+/**
+ * runStylizeAndStory(photo) — live-stylizes photo.file via stylize.js's
+ * stylizePhoto() and caches the result onto photo.styled, THEN calls
+ * jumpToBuilding(). story.js's renderPassage() already reads
+ * `photo.styled || photo.file` for the background image, so updating
+ * photo.styled here is what "sets #story-bg's image before invoking
+ * jumpToBuilding" in practice - story.js doesn't need to know stylize.js
+ * exists, keeping the map/content separation clean. If live stylization
+ * fails (no WebGL, image didn't load, etc.) photo.styled is left alone and
+ * renderPassage() falls back to the precomputed/raw image on its own.
+ */
+async function runStylizeAndStory(photo) {
+  if (photo.file && typeof stylizePhoto === "function") {
+    try {
+      const img = await loadImage(photo.file);
+      const { canvas, ditherStyle } = stylizePhoto(img, {
+        year: photo.year,
+        lat: photo.lat,
+        lon: photo.lon,
+      });
+      photo.styled = canvas.toDataURL("image/png");
+      const wrap = document.getElementById("story-bg-wrap");
+      if (wrap) applyHalftoneCSS(wrap, ditherStyle === "halftone");
+    } catch (err) {
+      console.warn(`Live stylization failed for "${photo.id}" - using the precomputed/raw image instead.`, err);
+    }
+  }
 
   if (window.jumpToBuilding) {
     window.jumpToBuilding(photo.id);
-  }
-  if (isLast && window.renderEpilogue) {
-    window.renderEpilogue();
   }
 }
 

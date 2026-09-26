@@ -1,0 +1,55 @@
+# Deploys this repo to GitHub Pages on every push to main.
+#
+# This is a fully static site (index.html + css/ + js/ + data/) with no
+# build step, so the job just hands the repo contents straight to Pages.
+#
+# One-time setup (can't be done from this file): in the repo's Settings ->
+# Pages, set "Source" to "GitHub Actions". Until that's done, this workflow
+# will run but the deploy step will fail with a "Pages site not found"-style
+# error.
+#
+# If you'd rather deploy to Vercel instead of GitHub Pages: Vercel doesn't
+# need a workflow file at all for a static site like this one - connect the
+# repo at vercel.com/new and it auto-deploys on every push, with no build
+# command needed (leave "Build Command" and "Output Directory" as their
+# defaults, or explicitly set output directory to ".").
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  # Lets you trigger a deploy manually from the Actions tab without a push.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one deploy in flight at a time; a newer push cancels a still-running
+# older one instead of queuing behind it.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload site as Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "."
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

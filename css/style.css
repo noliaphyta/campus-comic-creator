@@ -43,6 +43,184 @@ main {
   padding: 8px 20px;
 }
 
+/* ---- Year RANGE slider (two handles, not a single "current year" scrubber) ----
+   Two <input type=range> stacked on the same track. Each one's own runnable
+   track is transparent and click-through (pointer-events: none on the
+   input), so only the thumb itself is draggable - that's what lets both
+   handles live on one track without one permanently covering the other.
+   The native thumbs are made invisible (opacity: 0) but stay the actual
+   drag/keyboard target; the ".year-range-pill" divs on top are what's
+   visually shown, positioned in JS to match. See renderYearRangeSlider()
+   in js/app.js. */
+.year-range {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.year-range-label {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--ink);
+}
+
+/* ---- Histogram: one bar per calendar year, sitting above the axis/track
+   so you can see where the photos are before you drag. Deliberately one
+   bar per YEAR, not per day - a day-level version of this was tried and
+   just produced visual noise at this dataset size. ---- */
+.year-histogram {
+  display: flex;
+  align-items: flex-end;
+  height: 56px;
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 6px 6px 0 0;
+  overflow: hidden;
+}
+
+.year-histogram-col {
+  flex: 1;
+  height: 100%;
+  min-width: 1px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.year-histogram-bar {
+  width: 100%;
+  background: #cfc7ba;
+  border-radius: 1px 1px 0 0;
+  transition: background 0.15s ease;
+}
+
+.year-histogram-col.in-range .year-histogram-bar {
+  background: var(--accent);
+}
+
+.year-axis {
+  position: relative;
+  height: 16px;
+  margin: 2px 0 6px;
+  font-size: 0.68rem;
+  color: #888;
+}
+
+.year-axis span {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.year-axis span.latest {
+  top: -2px;
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 700;
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+.year-range-track {
+  position: relative;
+  height: 28px;
+}
+
+/* Thin rail (not a thick bar) - the "fill" below is just this same rail
+   recolored between the two handles. */
+.year-range-rail {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 2px;
+  border-radius: 2px;
+  background: #d8d3c8;
+}
+
+.year-range-rail-fill {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 2px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+
+/* The visible handle: a pill showing the selected year. Purely decorative
+   (pointer-events: none) - dragging happens on the invisible native thumb
+   underneath, which is kept the same width so the two line up. */
+.year-range-pill {
+  position: absolute;
+  top: 50%;
+  width: 46px;
+  height: 22px;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent);
+  color: var(--paper);
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: 999px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+}
+
+.year-range-input {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  height: 22px;
+  margin: 0;
+  background: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+  pointer-events: none; /* the track/input itself ignores clicks... */
+}
+
+.year-range-input::-webkit-slider-runnable-track {
+  background: transparent;
+}
+
+.year-range-input::-moz-range-track {
+  background: transparent;
+}
+
+.year-range-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  pointer-events: auto; /* ...but the thumb itself is still grabbable */
+  width: 46px;
+  height: 22px;
+  border-radius: 999px;
+  background: transparent;
+  border: none;
+  opacity: 0; /* invisible - the .year-range-pill on top is what's shown */
+  cursor: grab;
+}
+
+.year-range-input:active::-webkit-slider-thumb {
+  cursor: grabbing;
+}
+
+.year-range-input::-moz-range-thumb {
+  pointer-events: auto;
+  width: 46px;
+  height: 22px;
+  border-radius: 999px;
+  background: transparent;
+  border: none;
+  opacity: 0;
+  cursor: grab;
+}
+
+.year-range-input:active::-moz-range-thumb {
+  cursor: grabbing;
+}
+
 #story-panel {
   padding: 16px 20px;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
@@ -83,6 +261,24 @@ footer a:hover {
   opacity: 0.85;
 }
 
+/* ---- Photo thumbnail map markers (screenshot-style, L.divIcon) ---- */
+.photo-marker {
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #ccc;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+.photo-marker img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 /* ---- Path plotting (map A -> B -> C waypoint picker) ---- */
 #path-controls {
   padding: 8px 20px;
@@ -107,7 +303,12 @@ footer a:hover {
   gap: 10px;
 }
 
+#story-bg-wrap {
+  display: block;
+}
+
 #story-bg {
+  display: block;
   width: 100%;
   max-height: 50vh;
   object-fit: contain;

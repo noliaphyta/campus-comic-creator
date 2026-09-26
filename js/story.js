@@ -149,10 +149,9 @@ function renderPassage({ text, bg, sprite, feel, choices, done }) {
     choicesEl.appendChild(btn);
   });
 
-  if (done) {
-    // TODO (app.js): if this was the last leg in the player's route, call
-    // renderEpilogue() below instead of / after this passage.
-  }
+  // Nothing else to do here when a knot finishes: the player decides when
+  // the walk is over (the "Finish walk" button in app.js), which calls
+  // window.renderEpilogue() directly - this module doesn't guess "last leg".
 }
 
 function renderEpilogue() {
