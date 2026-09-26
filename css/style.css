@@ -291,6 +291,21 @@ footer a:hover {
   font-size: 0.85rem;
 }
 
+#route-status {
+  margin-left: 12px;
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
+#route-status[data-state="ok"] {
+  color: #4a6b3a;
+}
+
+#route-status[data-state="no-footpaths"],
+#route-status[data-state="fallback"] {
+  color: #8a3324;
+}
+
 /* ---- Filmstrip ("photostream"): prev/next through the current Tier-A
    batch. Tier A is capped (see tierASize() in app.js) so this never grows
    past what fits on one row on a phone. ---- */

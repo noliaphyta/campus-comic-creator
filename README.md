@@ -23,6 +23,9 @@ js/app.js                   map / OSRM path plotting / timeline / credits
 js/stylize.js                the art pipeline (halftone + dither modules stubbed)
 js/story.js                  inkjs driver - bridges the Ink script to the map
 data/buildings.geojson       Overpass building footprints (prep day)
+data/paths.geojson           Overpass dedicated footpaths (prep day) - see
+                              "Why walking routes can look like driving
+                              routes" below
 data/photos.json             curated photo dataset (prep day, hand-authored)
                               - see data/photos.example.json for the schema
 data/story.ink                narrative source (writer's file, see docs/narrative-system.md)
@@ -42,6 +45,7 @@ scripts/fetch-buildings-overpass.mjs
 ```
 node scripts/fetch-commons-images.mjs --lat 37.2712 --lon -76.7112 --radius 400 --out ./data
 node scripts/fetch-buildings-overpass.mjs --south 37.266 --west -76.716 --north 37.276 --east -76.706
+node scripts/fetch-footpaths-overpass.mjs --south 37.266 --west -76.716 --north 37.276 --east -76.706
 ```
 
 The Commons script writes `data/commons-geosearch-raw.json` and
@@ -49,7 +53,28 @@ The Commons script writes `data/commons-geosearch-raw.json` and
 the scaffold down to 8–12 images (license check, building match, resolution
 check — see docs/build-plan.md's "Image Sourcing" section) and write the
 result into `data/photos.json` yourself, following `data/photos.example.json`'s
-schema. The buildings script writes `data/buildings.geojson` directly.
+schema. The buildings script writes `data/buildings.geojson` directly, and
+the footpaths script writes `data/paths.geojson` directly - use the same
+bbox for both.
+
+### Why walking routes can look like driving routes
+
+OSRM's "foot" profile doesn't fail when there's no dedicated pedestrian way
+to route onto - it just routes along whatever's in the road network instead,
+which looks identical to a driving route on the map. This is almost always
+an OSM data-coverage gap on campus interiors, not a routing bug: college
+quads, plaza walkways, and building-to-building shortcuts are frequently
+missing from OSM even when the surrounding streets are well-mapped.
+
+Run `scripts/fetch-footpaths-overpass.mjs` to pull whatever dedicated
+footway/path/pedestrian/steps ways OSM already has in your bbox into
+`data/paths.geojson`; `js/app.js` renders them as a thin blue dashed layer.
+If that layer is empty (or sparse) near the buildings you're routing
+between, that's your answer - the fix is mapping the real paths in OSM (or
+sourcing them from campus GIS), not changing routing code. The app also
+now shows a live status line next to the "Path type" dropdown (distance,
+time, and a note when a "foot" route has no nearby mapped footpath), so this
+is visible during a demo instead of only in the browser console.
 
 ## Narrative content
 

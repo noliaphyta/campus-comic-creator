@@ -17,7 +17,25 @@ const CAMPUS_ZOOM = 16;
 // separate ways - "foot" routing legitimately overlaps road centerlines a
 // lot of the time, and letting the walker pick foot/bike/driving is more
 // honest than pretending one fixed profile is always "the pedestrian path".
+//
+// IMPORTANT: the demo server's own docs cap non-commercial use at 1
+// request/second with no uptime guarantee. plotRoute() throttles itself to
+// that rate (see ROUTE_MIN_INTERVAL_MS/throttleRouteRequest below) so a
+// burst of pin clicks can't blow through it; each click still eventually
+// gets its own route + story trigger, just spaced out if needed.
 const OSRM_BASE = "https://router.project-osrm.org/route/v1";
+const ROUTE_MIN_INTERVAL_MS = 1100;
+
+// Dedicated pedestrian ways (see scripts/fetch-footpaths-overpass.mjs). Used
+// only to explain routing results, not to route - if this layer is empty
+// near a plotted route, that's a strong signal OSM has no mapped campus
+// footpaths there and the "foot" profile is falling back to the road
+// network, which is what makes a walking route look like a driving route.
+const PATHS_GEOJSON = "data/paths.geojson";
+// Rough degrees-per-meter buffer (~120m) for the "are there footpaths near
+// this route" bbox check below; doesn't need to be precise, just a sanity
+// radius, since this is a heuristic explanation, not a routing input.
+const NEARBY_PATH_BUFFER_DEG = 0.0011;
 
 let map;
 let photosById = {};
@@ -27,6 +45,9 @@ let routeProfile = "foot"; // foot | bike | driving - see #route-profile select
 let markersLayer = null; // L.layerGroup holding Tier A (thumbnail) markers
 let dotCluster = null; // L.markerClusterGroup holding Tier B (dot) markers
 let yearRange = { min: null, max: null }; // current slider selection, inclusive
+let footpathFeatures = []; // raw LineString features from data/paths.geojson, [] if not fetched yet
+let routeRequestSeq = 0; // increments per plotRoute() call; guards against out-of-order/superseded responses
+let lastRouteRequestAt = 0; // Date.now() of the last OSRM fetch actually sent; see throttleRouteRequest()
 
 // ---- Two-tier markers + reshuffle pagination state ----
 // Tier A gets a real thumbnail marker (touches Wikimedia's thumbnail
@@ -154,6 +175,23 @@ async function init() {
     }).addTo(map);
   } catch (err) {
     console.warn("data/buildings.geojson not found yet - skipping footprints.", err);
+  }
+
+  try {
+    const paths = await loadJSON(PATHS_GEOJSON);
+    footpathFeatures = paths.features || [];
+    L.geoJSON(paths, {
+      style: { color: "#2b6cb0", weight: 2, opacity: 0.6, dashArray: "1 4" },
+    }).addTo(map);
+  } catch (err) {
+    footpathFeatures = [];
+    console.warn(
+      `${PATHS_GEOJSON} not found yet - skipping footpath overlay. Run ` +
+        "scripts/fetch-footpaths-overpass.mjs to generate it; without it, " +
+        "there's no way to visually tell whether a 'walking' route is " +
+        "following real footpaths or just the road network.",
+      err
+    );
   }
 
   markersLayer = L.layerGroup().addTo(map); // Tier A: thumbnails
@@ -544,6 +582,87 @@ function resetPath() {
     map.removeLayer(routeLayer);
     routeLayer = null;
   }
+  setRouteStatus("", "");
+}
+
+// Waits out whatever's left of a 1-request/second gap since the last OSRM
+// fetch actually sent. See ROUTE_MIN_INTERVAL_MS above for why this exists.
+async function throttleRouteRequest() {
+  const wait = lastRouteRequestAt + ROUTE_MIN_INTERVAL_MS - Date.now();
+  if (wait > 0) await new Promise((resolve) => setTimeout(resolve, wait));
+  lastRouteRequestAt = Date.now();
+}
+
+function drawFallbackRoute(waypoints) {
+  if (routeLayer) map.removeLayer(routeLayer);
+  // Deliberately styled differently from a real routed line (red, wider gaps)
+  // so a degraded state is never visually mistaken for a normal one.
+  routeLayer = L.polyline(waypoints.map((w) => [w.lat, w.lon]), { color: "#c0392b", weight: 3, dashArray: "2 8" });
+  routeLayer.addTo(map);
+}
+
+function setRouteStatus(text, state) {
+  const el = document.getElementById("route-status");
+  if (!el) return;
+  el.textContent = text;
+  el.dataset.state = state;
+}
+
+// bbox (with a buffer) around a route's coordinates, used only for the
+// nearby-footpath heuristic in reportRouteStatus() - not for routing.
+function bboxOfLineString(coords, bufferDeg) {
+  let minLon = Infinity, minLat = Infinity, maxLon = -Infinity, maxLat = -Infinity;
+  for (const [lon, lat] of coords) {
+    if (lon < minLon) minLon = lon;
+    if (lon > maxLon) maxLon = lon;
+    if (lat < minLat) minLat = lat;
+    if (lat > maxLat) maxLat = lat;
+  }
+  return [minLon - bufferDeg, minLat - bufferDeg, maxLon + bufferDeg, maxLat + bufferDeg];
+}
+
+function anyFootpathNear([minLon, minLat, maxLon, maxLat]) {
+  return footpathFeatures.some((f) => {
+    const coords = f.geometry?.coordinates || [];
+    return coords.some(([lon, lat]) => lon >= minLon && lon <= maxLon && lat >= minLat && lat <= maxLat);
+  });
+}
+
+/**
+ * reportRouteStatus(route) — surfaces what OSRM returned instead of
+ * discarding it. Distance/duration come from data plotRoute already fetches
+ * (the route object, populated because of steps=true) but the old code threw
+ * away. The "any footpaths nearby?" check is a heuristic, not a routing
+ * input: it does not change what gets drawn, it only explains it. If a
+ * "foot"-profile route has no dedicated footway/path/pedestrian ways
+ * anywhere near it (see footpathFeatures, from data/paths.geojson - run
+ * scripts/fetch-footpaths-overpass.mjs to generate it), that's almost always
+ * why it looks identical to a driving route: OSM has nothing else to route
+ * pedestrians onto in that area, not a bug in this code.
+ */
+function reportRouteStatus(route) {
+  const km = (route.distance / 1000).toFixed(1);
+  const mins = Math.max(1, Math.round(route.duration / 60));
+  const profileLabel = { foot: "walking paths", bike: "cycling paths", driving: "roads" }[routeProfile] || routeProfile;
+
+  if (routeProfile === "foot" && footpathFeatures.length === 0) {
+    setRouteStatus(
+      `${km} km, ~${mins} min via ${profileLabel}. No footpath data loaded yet ` +
+        "(run scripts/fetch-footpaths-overpass.mjs) - can't confirm this avoids roads.",
+      "no-footpaths"
+    );
+    return;
+  }
+
+  if (routeProfile === "foot" && !anyFootpathNear(bboxOfLineString(route.geometry.coordinates, NEARBY_PATH_BUFFER_DEG))) {
+    setRouteStatus(
+      `${km} km, ~${mins} min. No mapped campus footpaths near this route - it's likely following the road network.`,
+      "no-footpaths"
+    );
+    return;
+  }
+
+  setRouteStatus(`${km} km, ~${mins} min via ${profileLabel}.`, "ok");
 }
 
 /**
@@ -551,8 +670,17 @@ function resetPath() {
  * semicolon-separated coordinate list and returns the fastest route visiting
  * them IN ORDER, split into one `legs[]` entry per consecutive pair. One
  * call handles A->B->C->... ; you do not need one call per pair.
+ *
+ * Throttled to respect the demo server's 1req/s limit (throttleRouteRequest)
+ * and guarded with a sequence number so that if a newer plotRoute() call
+ * starts before an older one's response comes back, the older one's result
+ * is discarded instead of clobbering the map with a stale route.
  */
 async function plotRoute(waypoints) {
+  const seq = ++routeRequestSeq;
+  await throttleRouteRequest();
+  if (seq !== routeRequestSeq) return null; // superseded while waiting out the rate-limit gap
+
   const coords = waypoints.map((w) => `${w.lon},${w.lat}`).join(";");
   const url = `${OSRM_BASE}/${routeProfile}/${coords}?overview=full&geometries=geojson&steps=true`;
 
@@ -560,19 +688,32 @@ async function plotRoute(waypoints) {
     const res = await fetch(url);
     if (!res.ok) throw new Error(`OSRM error ${res.status}`);
     const data = await res.json();
+    if (seq !== routeRequestSeq) return null; // a newer request has since started
+
+    // OSRM can return 200 OK with code !== "Ok" (e.g. "NoRoute" when a
+    // waypoint snaps to a segment disconnected from the rest of the graph).
+    // The old code only checked `!data.routes?.[0]`, which is true here too,
+    // but it returned early with no fallback drawn at all - a silent no-op
+    // that looks like a broken app, not a degraded one.
     const route = data.routes?.[0];
-    if (!route) return null;
+    if (data.code !== "Ok" || !route) {
+      console.warn(`OSRM returned no usable route (code: ${data.code || "unknown"}) - drawing a straight line instead.`);
+      drawFallbackRoute(waypoints);
+      setRouteStatus("No route found between these points - showing a straight line instead.", "fallback");
+      return null;
+    }
 
     if (routeLayer) map.removeLayer(routeLayer);
     routeLayer = L.geoJSON(route.geometry, { style: { color: "#1a1a1a", weight: 3, dashArray: "4 4" } });
     routeLayer.addTo(map);
 
+    reportRouteStatus(route);
     return route.legs; // one leg per consecutive waypoint pair
   } catch (err) {
+    if (seq !== routeRequestSeq) return null;
     console.warn("OSRM route request failed - drawing straight lines instead.", err);
-    if (routeLayer) map.removeLayer(routeLayer);
-    routeLayer = L.polyline(waypoints.map((w) => [w.lat, w.lon]), { color: "#1a1a1a", dashArray: "4 4" });
-    routeLayer.addTo(map);
+    drawFallbackRoute(waypoints);
+    setRouteStatus("Couldn't reach the routing service - showing a straight line instead.", "fallback");
     return null;
   }
 }
