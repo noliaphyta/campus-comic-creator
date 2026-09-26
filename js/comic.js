@@ -306,7 +306,15 @@ async function renderPanels(photos, aspectValue, perPanel, statusEl, mode = "aut
 
   for (let i = 0; i < photos.length; i++) {
     const photo = photos[i];
-    const settings = perPanel[i];
+    // Shared links and older recipes may omit a panel entry. Keep rendering
+    // usable with safe defaults instead of crashing on settings.filterStyle.
+    const settings = {
+      filterStyle: "halftone",
+      captionText: `${buildingLabel(photos[i])}${photos[i].year ? ` — ${photos[i].year}` : ""}`,
+      feel: null,
+      charSide: "left",
+      ...(perPanel?.[i] || {}),
+    };
     statusEl.textContent = `Rendering panel ${i + 1} of ${photos.length}…`;
 
     const panel = document.createElement("div");
@@ -476,6 +484,7 @@ function collectManualSettings() {
  * re-wiring - the buttons just act on whatever's on screen now.
  */
 function showSaveBar() {
+  if (document.body.dataset.page === "viewer") return;
   const bar = document.getElementById("save-share-bar");
   if (!bar) return;
   bar.hidden = false;
@@ -487,6 +496,8 @@ function showSaveBar() {
   });
   document.getElementById("download-finished-btn").addEventListener("click", downloadFinishedZip);
   document.getElementById("copy-link-btn").addEventListener("click", copyShareLink);
+  const finishBtn = document.getElementById("open-finished-btn");
+  if (finishBtn) finishBtn.addEventListener("click", openFinishedComic);
 }
 
 function triggerDownload(blob, filename) {
@@ -599,7 +610,8 @@ async function copyShareLink() {
   const { photos, mode, aspectValue, perPanel } = lastRenderCtx;
   const recipe = buildRecipe(photos, mode, aspectValue, perPanel);
   const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(recipe))));
-  location.hash = `c=${encoded}`;
+  const viewerUrl = new URL("comic-view.html", location.href);
+  viewerUrl.hash = `c=${encoded}`;
 
   statusEl.textContent =
     encoded.length > 2000
@@ -607,11 +619,19 @@ async function copyShareLink() {
       : "Link copied.";
 
   try {
-    await navigator.clipboard.writeText(location.href);
+    await navigator.clipboard.writeText(viewerUrl.href);
   } catch (err) {
     console.warn("navigator.clipboard.writeText failed for the share link.", err);
     statusEl.textContent += " (Clipboard blocked - copy the address bar manually.)";
   }
+}
+
+function openFinishedComic() {
+  if (!lastRenderCtx) return;
+  const { photos, mode, aspectValue, perPanel } = lastRenderCtx;
+  const recipe = buildRecipe(photos, mode, aspectValue, perPanel);
+  const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(recipe))));
+  location.href = `comic-view.html#c=${encoded}`;
 }
 
 /**
@@ -697,8 +717,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   wireDarkMode();
 
   const recipe = tryLoadFromHash();
+  const viewerOnly = document.body.dataset.page === "viewer";
   if (recipe) {
     await renderFromRecipe(recipe);
+    return;
+  }
+
+  if (viewerOnly) {
+    document.getElementById("generate-status").textContent = "Open a finished comic link to view it.";
     return;
   }
 

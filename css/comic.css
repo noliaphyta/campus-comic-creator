@@ -299,3 +299,6 @@
   font-size: 0.78rem;
   color: var(--muted);
 }
+
+body[data-page="viewer"] #save-share-bar { display: none; }
+body[data-page="viewer"] #comic-main { max-width: 900px; margin: 0 auto; }

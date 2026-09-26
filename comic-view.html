@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Campus Comic</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/comic.css">
+</head>
+<body data-page="viewer">
+  <header>
+    <div class="header-row">
+      <div>
+        <h1>Campus Comic</h1>
+        <p class="tagline">An interactive visual novel made from a campus walk.</p>
+      </div>
+      <button id="dark-mode-toggle" type="button" title="Toggle dark mode">🌙</button>
+    </div>
+    <a id="back-to-map" href="index.html">&larr; Explore the map</a>
+  </header>
+  <main id="comic-main">
+    <div id="no-path-message" hidden></div>
+    <section id="comic-setup" hidden></section>
+    <p id="generate-status" role="status"></p>
+    <section id="comic-panels"></section>
+    <section id="save-share-bar" hidden></section>
+  </main>
+  <div id="credits-panel"></div>
+  <script src="https://unpkg.com/inkjs@2/dist/ink.js"></script>
+  <script src="https://unpkg.com/glfx-es6/dist/glfx-es6.min.js"></script>
+  <script src="https://unpkg.com/suncalc@1.9.0/suncalc.js"></script>
+  <script src="js/shared.js"></script>
+  <script src="js/stylize.js"></script>
+  <script src="js/comic.js"></script>
+</body>
+</html>
