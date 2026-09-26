@@ -135,11 +135,13 @@ async function init() {
 
   let photos = [];
   let buildings = null;
+  const dataset = new URLSearchParams(window.location.search).get("dataset");
+  const photosPath = dataset === "test" ? "data/photos.scaffold.json" : "data/photos.json";
 
   try {
-    photos = await loadJSON("data/photos.json");
+    photos = await loadJSON(photosPath);
   } catch (err) {
-    console.warn("data/photos.json not found yet - using empty set.", err);
+    console.warn(`${photosPath} not found yet - using empty set.`, err);
   }
 
   photosById = Object.fromEntries(photos.map((p) => [p.id, p]));

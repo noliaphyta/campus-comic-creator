@@ -110,3 +110,25 @@ python3 -m http.server 8080
 # or
 npx serve .
 ```
+
+### Testing with more photos
+
+The normal app uses the curated `data/photos.json` dataset. To exercise the
+larger, 140-entry Commons candidate pool, open:
+
+```
+http://localhost:8080/?dataset=test
+```
+
+The test mode reads `data/photos.scaffold.json` directly, so it does not
+duplicate that generated fixture. Its entries are intentionally uncurated:
+many do not have confirmed building matches, and licenses include CC BY,
+CC BY-SA, CC0, and Public Domain. Use this mode for testing markers,
+clustering, filmstrip pagination, year filtering, and loading fallbacks only;
+review and copy individual entries into `data/photos.json` before treating
+them as production content.
+
+The scaffold points at Wikimedia's remote image URLs. Those are suitable for
+map thumbnails, but live Canvas stylization can be blocked by cross-origin
+image restrictions; when testing stylization, download selected images into
+`assets/photos/raw/` and update their `file` fields to local paths.
