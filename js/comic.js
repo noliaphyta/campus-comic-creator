@@ -93,13 +93,17 @@ function wireDarkMode() {
 }
 
 /**
- * renderPathCredits(photos) — same copy-pastable attribution block as the
- * map page (js/app.js's renderCredits()), but scoped to ONLY the photos in
- * this path, in path order, since that's the set this specific comic
- * actually uses.
+ * renderPathCredits(photos, target) — same copy-pastable attribution block
+ * as the map page (js/app.js's renderCredits()), but scoped to ONLY the
+ * photos in this path, in path order, since that's the set this specific
+ * comic actually uses. `target` defaults to the page's #credits-panel
+ * (comic.html's always-visible credits strip); presentVisualNovel() passes
+ * its own end-screen container instead so the viewer can show credits only
+ * once the story is finished rather than up front.
  */
-function renderPathCredits(photos) {
-  const el = document.getElementById("credits-panel");
+function renderPathCredits(photos, target) {
+  const el = target || document.getElementById("credits-panel");
+  if (!el) return;
   if (!photos.length) {
     el.hidden = true;
     return;
@@ -123,16 +127,16 @@ function renderPathCredits(photos) {
     `<button type="button" id="copy-credits-btn">Copy</button></div>` +
     `<pre id="attribution-plaintext" tabindex="0"></pre>` +
     `</div>`;
-  document.getElementById("attribution-plaintext").textContent = plainText;
+  el.querySelector("#attribution-plaintext").textContent = plainText;
 
-  const copyBtn = document.getElementById("copy-credits-btn");
+  const copyBtn = el.querySelector("#copy-credits-btn");
   copyBtn.addEventListener("click", async () => {
     try {
       await navigator.clipboard.writeText(plainText);
       copyBtn.textContent = "Copied!";
     } catch (err) {
       const range = document.createRange();
-      range.selectNodeContents(document.getElementById("attribution-plaintext"));
+      range.selectNodeContents(el.querySelector("#attribution-plaintext"));
       const sel = window.getSelection();
       sel.removeAllRanges();
       sel.addRange(range);
@@ -188,6 +192,45 @@ function cropToAspect(img, ratioW, ratioH) {
 function parseAspect(value) {
   const [w, h] = value.split(":").map(Number);
   return { w, h, css: `${w} / ${h}` };
+}
+
+/**
+ * medianColor(canvas) -> "rgb(r, g, b)"
+ * Samples the given canvas (or image) down to a small grid and takes the
+ * per-channel MEDIAN (not mean/average) across those samples, so one
+ * blown-out sky or a dark doorway doesn't drag an otherwise-midtone photo's
+ * backdrop color to an extreme the way an average would. Used to color the
+ * letterbox/pillarbox area behind a contained (not cropped) VN panel image
+ * - see buildVNPanel() below.
+ */
+function medianColor(source) {
+  const SAMPLE = 24; // small grid is plenty for a background tint and keeps this cheap
+  const canvas = document.createElement("canvas");
+  canvas.width = SAMPLE;
+  canvas.height = SAMPLE;
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(source, 0, 0, SAMPLE, SAMPLE);
+  let data;
+  try {
+    data = ctx.getImageData(0, 0, SAMPLE, SAMPLE).data;
+  } catch (err) {
+    // Can throw on a tainted canvas if a source image's CORS headers were
+    // missing (shouldn't happen for Commons uploads - see loadImage() - but
+    // fall back to a neutral dark tone rather than let the whole panel fail).
+    console.warn("medianColor: canvas read blocked, falling back to a neutral background.", err);
+    return "rgb(20, 20, 20)";
+  }
+  const r = [], g = [], b = [];
+  for (let i = 0; i < data.length; i += 4) {
+    r.push(data[i]);
+    g.push(data[i + 1]);
+    b.push(data[i + 2]);
+  }
+  const mid = (arr) => {
+    arr.sort((a, c) => a - c);
+    return arr[Math.floor(arr.length / 2)];
+  };
+  return `rgb(${mid(r)}, ${mid(g)}, ${mid(b)})`;
 }
 
 /**
@@ -481,6 +524,88 @@ async function renderPanels(photos, aspectValue, perPanel, statusEl, mode = "aut
 }
 
 /**
+ * buildVNPanel(photo, i, total, settings) -> Promise<{panel, caption, canvas}>
+ * The viewer-only counterpart to buildPanel(): unlike the creator's strip
+ * view, the VN viewer does NOT force-crop every photo to one shared aspect
+ * ratio (recipe.aspect from the creator's dropdown is intentionally IGNORED
+ * here). Instead each photo keeps its own natural aspect ratio - landscape
+ * photos get a landscape frame, portrait photos get a portrait frame (see
+ * "portrait or landscape depending on aspect ratio" in the brief) - shown
+ * with object-fit: contain so nothing is cropped out, and the panel's own
+ * background is set to that photo's sampled median color so any letterbox/
+ * pillarbox bars read as an intentional backdrop instead of dead space.
+ */
+async function buildVNPanel(photo, i, total, settings) {
+  const panel = document.createElement("div");
+  panel.className = "comic-panel vn-panel";
+
+  const img = document.createElement("img");
+  img.className = "panel-bg";
+  img.alt = buildingLabel(photo);
+
+  let panelCanvas = null;
+  try {
+    const srcImg = await loadImage(photo.file);
+    if (settings.filterStyle === "none" || typeof stylizePhoto !== "function") {
+      panelCanvas = srcImg; // stylizePhoto expects a canvas-like source; the raw <img> works fine as medianColor()'s/drawImage()'s source too
+    } else {
+      const { canvas } = stylizePhoto(srcImg, { year: photo.year, lat: photo.lat, lon: photo.lon }, { ditherStyle: settings.filterStyle });
+      panelCanvas = canvas;
+    }
+    img.src = panelCanvas.toDataURL ? panelCanvas.toDataURL("image/png") : photo.file;
+    panel.style.background = medianColor(panelCanvas);
+    // --vn-ratio drives the CSS width/height math in .vn-panel--landscape/
+    // --portrait (comic.css) - the photo's own aspect ratio, not a shared
+    // crop ratio, so the frame itself is landscape- or portrait-shaped to
+    // match this specific photo.
+    const ratio = srcImg.width / srcImg.height;
+    panel.style.setProperty("--vn-ratio", ratio);
+    panel.classList.add(ratio >= 1 ? "vn-panel--landscape" : "vn-panel--portrait");
+  } catch (err) {
+    console.warn(`Could not load/filter "${photo.id}" - falling back to the raw image untouched.`, err);
+    img.src = photo.styled || photo.file;
+    panel.style.background = "rgb(20, 20, 20)";
+    panel.style.setProperty("--vn-ratio", 16 / 9);
+    panel.classList.add("vn-panel--landscape");
+  }
+  panel.appendChild(img);
+
+  renderCharacterPlaceholder(panel, settings.charSide);
+
+  const textbox = document.createElement("div");
+  textbox.className = "comic-textbox";
+  const caption = document.createElement("span");
+  caption.className = "caption-text";
+  textbox.appendChild(caption);
+  if (settings.feel) {
+    const feelEl = document.createElement("span");
+    feelEl.className = "feel-line";
+    feelEl.textContent = settings.feel;
+    textbox.appendChild(feelEl);
+  }
+  panel.appendChild(textbox);
+
+  return { panel, caption, canvas: panelCanvas };
+}
+
+/**
+ * buildCreditsScreen(photos) -> HTMLElement
+ * The VN's final "page" - shown only once the story is finished (see
+ * showPanelAt()/showAdvanceUI() below), reusing renderPathCredits()'s
+ * markup/copy-button behavior but inside a VN-styled panel instead of the
+ * creator page's always-visible strip.
+ */
+function buildCreditsScreen(photos) {
+  const panel = document.createElement("div");
+  panel.className = "comic-panel vn-panel vn-credits-screen";
+  const inner = document.createElement("div");
+  inner.className = "vn-credits-inner";
+  panel.appendChild(inner);
+  renderPathCredits(photos, inner);
+  return panel;
+}
+
+/**
  * presentVisualNovel(photos, aspectValue, perPanel, statusEl, mode)
  * The comic-view.html read path: generate the same panels renderPanels()
  * would (same buildPanel() call, same settings resolution - "generate the
@@ -499,8 +624,33 @@ async function renderPanels(photos, aspectValue, perPanel, statusEl, mode = "aut
  *     click-to-advance affordance is replaced with choice buttons, and
  *     picking one jumps to the chosen photo index rather than i + 1
  */
+/**
+ * presentVisualNovel(photos, aspectValue, perPanel, statusEl, mode)
+ * The comic-view.html read path: generate the panels (same buildVNPanel()
+ * call for every photo - "generate" step), but present them one at a time,
+ * full-frame, click-through, instead of dumping the whole strip on screen
+ * together. `aspectValue` (the creator's chosen crop ratio) is accepted for
+ * signature/call-site compatibility with renderPanels() but NOT applied -
+ * see buildVNPanel()'s doc comment for why the VN view uses each photo's
+ * own natural aspect instead of one shared crop.
+ *
+ * Per panel:
+ *   - the image is shown uncropped (object-fit: contain) inside a frame
+ *     shaped to that photo's own aspect ratio, backed by its median color
+ *   - the caption typewriter starts immediately (no scroll-into-view gate -
+ *     there's nothing else on screen to scroll to), inside a textbox
+ *     capped at a fraction of the frame's height so long captions never
+ *     grow past the visible frame (see .comic-textbox in comic.css)
+ *   - clicking/tapping while typing fast-forwards the caption to completion;
+ *     clicking again (or when a panel has no choices) advances to the next
+ *     panel; the credits screen (see buildCreditsScreen() above) is
+ *     appended as one final "page" after the last photo, so credits show
+ *     only once the story is actually finished, not up front
+ *   - if perPanel[i].choices is present (see captionsForVN() below), the
+ *     click-to-advance affordance is replaced with choice buttons, and
+ *     picking one jumps to the chosen photo index rather than i + 1
+ */
 async function presentVisualNovel(photos, aspectValue, perPanel, statusEl, mode = "auto") {
-  const aspect = parseAspect(aspectValue);
   const panelsEl = document.getElementById("comic-panels");
   panelsEl.innerHTML = "";
   panelsEl.classList.add("comic-panels--vn");
@@ -516,8 +666,7 @@ async function presentVisualNovel(photos, aspectValue, perPanel, statusEl, mode 
     const photo = photos[i];
     const settings = resolvedSettings(photos, perPanel, i);
     statusEl.textContent = `Generating panel ${i + 1} of ${photos.length}…`;
-    const { panel, caption, canvas: panelCanvas } = await buildPanel(photo, i, photos.length, aspect, settings);
-    panel.classList.add("vn-panel");
+    const { panel, caption, canvas: panelCanvas } = await buildVNPanel(photo, i, photos.length, settings);
     built.push({ panel, caption, settings });
     renderedPanels.push({
       photo,
@@ -528,6 +677,11 @@ async function presentVisualNovel(photos, aspectValue, perPanel, statusEl, mode 
       charSide: settings.charSide,
     });
   }
+  // The credits screen is the (built.length)-th "panel" - past the last
+  // real photo - so it slots into the exact same showPanelAt()/click-to-
+  // advance flow as everything else, with no separate end-state branch.
+  const creditsPanel = buildCreditsScreen(photos);
+  built.push({ panel: creditsPanel, caption: null, settings: { captionText: "", choices: [] } });
 
   statusEl.textContent = "";
   lastRenderCtx = { photos, aspectValue, mode, perPanel };
@@ -540,6 +694,12 @@ async function presentVisualNovel(photos, aspectValue, perPanel, statusEl, mode 
     current = i;
     const { panel, caption, settings } = built[i];
     panelsEl.appendChild(panel);
+
+    if (!caption) {
+      // The credits screen has no typewriter/advance affordance of its own.
+      typing = null;
+      return;
+    }
 
     let cancelled = false;
     typing = {
@@ -586,22 +746,20 @@ async function presentVisualNovel(photos, aspectValue, perPanel, statusEl, mode 
         box.appendChild(btn);
       });
       built[current].panel.appendChild(box);
-    } else if (current < built.length - 1) {
+    } else {
+      // current + 1 always exists now - the credits screen is the last
+      // entry in built[], so "next" from the final photo lands there
+      // instead of a dead-end "The end" hint.
       const hint = document.createElement("div");
       hint.className = "vn-advance-hint";
-      hint.textContent = "Click to continue ▸";
-      built[current].panel.appendChild(hint);
-    } else {
-      const hint = document.createElement("div");
-      hint.className = "vn-advance-hint vn-advance-hint--end";
-      hint.textContent = "The end";
+      hint.textContent = current < built.length - 2 ? "Click to continue ▸" : "Click for credits ▸";
       built[current].panel.appendChild(hint);
     }
   }
 
   panelsEl.addEventListener("click", (evt) => {
-    if (evt.target.closest(".vn-choice-btn")) return; // choice buttons handle their own click
-    if (!typing) return;
+    if (evt.target.closest(".vn-choice-btn, .attribution-copy-header, #attribution-plaintext")) return; // interactive elements handle their own clicks
+    if (!typing) return; // credits screen: nothing to advance to
     if (!typing.done) {
       typing.finish();
       return;
@@ -882,7 +1040,10 @@ function tryLoadFromHash() {
  */
 async function renderFromRecipe(recipe) {
   const statusEl = document.getElementById("generate-status");
-  document.getElementById("comic-setup").hidden = true;
+  // #comic-setup only exists on comic.html (the creator); comic-view.html
+  // (the viewer) never renders it, so guard rather than assume it's there.
+  const setupEl = document.getElementById("comic-setup");
+  if (setupEl) setupEl.hidden = true;
   document.getElementById("no-path-message").hidden = true;
 
   let library = [];
@@ -901,7 +1062,12 @@ async function renderFromRecipe(recipe) {
     return;
   }
 
-  renderPathCredits(photos);
+  const viewerOnly = document.body.dataset.page === "viewer";
+  // On the creator page credits are informational context shown up front;
+  // on the immersive viewer they'd break the "just the story" framing, so
+  // presentVisualNovel() shows them only once the story reaches its end
+  // (see the credits screen built at the bottom of that function).
+  if (!viewerOnly) renderPathCredits(photos);
 
   let perPanel;
   if (recipe.mode === "manual") {

@@ -301,29 +301,67 @@
 }
 
 body[data-page="viewer"] #save-share-bar { display: none; }
-body[data-page="viewer"] #comic-main { max-width: 900px; margin: 0 auto; }
 
 /* ---- Visual-novel presentation (comic-view.html only): one full-frame
-   panel on screen at a time, click-through dialogue, choice buttons -
-   see presentVisualNovel() in js/comic.js. Only #comic-panels switches
-   layout (via the .comic-panels--vn modifier class); the strip view used
-   by comic.html's editor is untouched. ---- */
+   panel on screen at a time, click-through dialogue, choice buttons - see
+   presentVisualNovel()/buildVNPanel() in js/comic.js. Only #comic-panels
+   switches layout (via the .comic-panels--vn modifier class); the strip
+   view used by comic.html's editor is untouched.
+
+   The whole page is a single non-scrolling stage (see body[data-page=
+   "viewer"] in css/style.css): #comic-main fills the viewport and centers
+   one panel at a time. Each panel keeps ITS OWN photo's natural aspect
+   ratio rather than a shared crop ratio - .vn-panel--landscape/--portrait
+   (set in buildVNPanel()) cap width vs. height differently so a landscape
+   photo reads as a wide frame and a portrait photo reads as a tall frame,
+   both always fitting fully inside the viewport with no scrolling. Each
+   panel's own background-color (its sampled median color, set inline by
+   buildVNPanel()) shows through as letterbox/pillarbox bars around the
+   image instead of a fixed black bar. ---- */
 #comic-panels.comic-panels--vn {
-  display: block;
-  padding: 0;
-  gap: 0;
-  height: min(80vh, 720px);
-  min-height: 420px;
+  display: contents; /* #comic-main (style.css) does the centering; this just lets .vn-panel act as a direct flex child of it */
 }
 
 #comic-panels.comic-panels--vn .comic-panel.vn-panel {
-  width: 100%;
-  height: 100%;
-  max-width: none;
+  position: relative;
   margin: 0;
   border-radius: 12px;
+  overflow: hidden;
   cursor: pointer;
-  animation: vn-panel-in 0.25s ease-out;
+  animation: vn-panel-in 0.2s ease-out;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Landscape photo: frame is as wide as the viewport allows, height follows
+   from the photo's own ratio (set as --vn-ratio inline by buildVNPanel()). */
+.vn-panel--landscape {
+  width: min(94vw, 94dvh * var(--vn-ratio, 1.5), 1100px);
+  aspect-ratio: var(--vn-ratio, 16 / 9);
+  max-height: 90dvh;
+}
+
+/* Portrait photo (or a landscape viewport that's short/wide, i.e. most
+   phones on their side): frame is as tall as the viewport allows instead,
+   width follows from the same ratio - this is the "portrait or landscape
+   depending on aspect ratio" behavior from a phone's point of view. */
+.vn-panel--portrait {
+  height: min(90dvh, 90vw / var(--vn-ratio, 0.75), 1100px);
+  aspect-ratio: var(--vn-ratio, 3 / 4);
+  max-width: 96vw;
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  /* Short landscape phone viewport (rotated phone): cap by height more
+     aggressively so a portrait photo's frame can't push past the top/
+     bottom edges even with on-screen browser chrome eating into dvh. */
+  .vn-panel--portrait { height: min(86dvh, 90vw / var(--vn-ratio, 0.75), 1100px); }
+}
+
+.vn-panel img.panel-bg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* never crops - the panel's own background-color (median color) fills any remaining space */
 }
 
 @keyframes vn-panel-in {
@@ -331,10 +369,17 @@ body[data-page="viewer"] #comic-main { max-width: 900px; margin: 0 auto; }
   to { opacity: 1; }
 }
 
+/* Textbox is capped well short of the panel's own height so even a long
+   caption can never grow the page past the viewport (the outer page is
+   non-scrolling - see body[data-page="viewer"] in css/style.css); the
+   overflow-y is a safety net for a pathologically long caption, not the
+   expected case. */
 #comic-panels.comic-panels--vn .comic-textbox {
   font-size: 1.05rem;
-  min-height: 4.4em;
-  padding: 18px 20px 22px;
+  max-height: 34%;
+  overflow-y: auto;
+  padding: 16px 18px 20px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.88), rgba(0, 0, 0, 0.75) 55%, rgba(0, 0, 0, 0));
 }
 
 .vn-advance-hint {
@@ -347,11 +392,6 @@ body[data-page="viewer"] #comic-main { max-width: 900px; margin: 0 auto; }
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
   animation: vn-hint-pulse 1.4s ease-in-out infinite;
   pointer-events: none;
-}
-
-.vn-advance-hint--end {
-  animation: none;
-  font-style: italic;
 }
 
 @keyframes vn-hint-pulse {
@@ -383,4 +423,53 @@ body[data-page="viewer"] #comic-main { max-width: 900px; margin: 0 auto; }
 .vn-choice-btn:focus-visible {
   background: rgba(0, 0, 0, 0.8);
   border-color: #fdfaf3;
+}
+
+/* ---- End-of-story credits screen: the VN's final "page" (see
+   buildCreditsScreen() in js/comic.js), styled as its own panel rather
+   than the raw #credits-panel look used on comic.html - dark card, same
+   width cap as a landscape photo panel, scrolls internally if the credit
+   list is long rather than growing past the (non-scrolling) viewport. ---- */
+.vn-credits-screen {
+  width: min(94vw, 640px);
+  height: min(90dvh, 780px);
+  max-height: 90dvh;
+  background: #14110f;
+  color: #fdfaf3;
+  cursor: default;
+  display: flex;
+}
+
+.vn-credits-inner {
+  width: 100%;
+  padding: 28px 24px;
+  overflow-y: auto;
+}
+
+.vn-credits-inner strong {
+  display: block;
+  font-size: 1.15rem;
+  margin-bottom: 10px;
+}
+
+.vn-credits-inner ul {
+  margin: 6px 0 0;
+  padding-left: 18px;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.vn-credits-inner a { color: #e08a63; }
+
+.vn-credits-inner .attribution-copy-block {
+  margin-top: 16px;
+  border-color: rgba(253, 250, 243, 0.25);
+}
+
+.vn-credits-inner .attribution-copy-header {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.vn-credits-inner #attribution-plaintext {
+  color: #fdfaf3;
 }

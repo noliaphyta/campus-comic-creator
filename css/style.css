@@ -38,6 +38,36 @@ body {
   transition: background-color 0.15s ease, color 0.15s ease;
 }
 
+/* ---- Immersive viewer (comic-view.html): no header, no page scroll - the
+   whole viewport is the "screen" the visual novel plays on. dvh (not vh)
+   so mobile browser chrome showing/hiding doesn't leave a sliver of scroll
+   room at the bottom. See css/comic.css for the panel-frame sizing that
+   fills this space. ---- */
+body[data-page="viewer"] {
+  height: 100dvh;
+  overflow: hidden;
+  background: #0b0a09; /* neutral stage color behind/around the panel, independent of light/dark theme */
+}
+
+body[data-page="viewer"] #comic-main {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body[data-page="viewer"] #generate-status {
+  color: #fdfaf3;
+  padding: 12px 20px;
+  text-align: center;
+}
+
+body[data-page="viewer"] #no-path-message {
+  color: #fdfaf3;
+  border-color: rgba(255, 255, 255, 0.2);
+  margin: 20px;
+}
+
 header {
   padding: 16px 20px 8px;
 }
