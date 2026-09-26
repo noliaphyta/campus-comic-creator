@@ -65,26 +65,10 @@ function tierASize() {
 }
 
 /**
- * buildingLabel(photo) / photoDisplayName(photo) - human-readable label for
- * a photo, used anywhere a photo needs a short caption (waypoint chips,
- * popups, filmstrip, credits). Prefers the confirmed building name; when
- * there isn't one (most of the promoted-but-unmatched dataset - see
- * promote-photos.mjs), falls back to a cleaned-up version of the Commons
- * title instead of the raw slug `id` (which is the entire image file name
- * concatenated with underscores, e.g. "the_wren_building_5170250013" - not
- * fit to show anyone).
+ * photoDisplayName(photo) — buildingLabel() (js/shared.js) plus the year,
+ * for spots (waypoint chips, filmstrip captions) that want both in one
+ * string.
  */
-function buildingLabel(photo) {
-  if (photo.building) return photo.building;
-  const base = (photo.title || photo.id || "Unknown")
-    .replace(/^File:/, "")
-    .replace(/\.[a-zA-Z0-9]+$/, "")
-    .replace(/[_-]+/g, " ")
-    .replace(/\s*\(\d+\)\s*$/, "") // drop the trailing Wikimedia page-id
-    .trim();
-  return base || "Unknown";
-}
-
 function photoDisplayName(photo) {
   const label = buildingLabel(photo);
   return photo.year ? `${label} (${photo.year})` : label;
@@ -127,11 +111,7 @@ function shuffledDiverse(photos) {
   return out;
 }
 
-async function loadJSON(path) {
-  const res = await fetch(path);
-  if (!res.ok) throw new Error(`Failed to load ${path}: ${res.status}`);
-  return res.json();
-}
+// loadJSON() now lives in js/shared.js (loaded before this file).
 
 /**
  * photoMarkerIcon(photo) -> L.DivIcon
@@ -794,24 +774,8 @@ async function runStylizeAndStory(photo) {
   }
 }
 
-/**
- * attributionLine(photo) -> plain-text CC-style attribution, e.g.
- * `"James Blair Hall, College of William and Mary (3859960606)" by Jane
- * Doe, CC BY-SA 2.0, via Wikimedia Commons -
- * https://commons.wikimedia.org/wiki/File:...`
- * `photo.source` is already the Wikimedia Commons File: description page
- * (not a redirect/thumbnail/raw-upload URL - see
- * scripts/fetch-commons-images.mjs's `page.descriptionurl`), which is what
- * the license actually requires linking to. `photo.creator` is optional
- * (older curated entries may not have it) and falls back gracefully.
- */
-function attributionLine(photo) {
-  const title = photo.title || buildingLabel(photo);
-  const creator = photo.creator ? ` by ${photo.creator}` : "";
-  const license = photo.license || "license unknown";
-  const link = photo.source || "#";
-  return `"${title}"${creator}, ${license}, via Wikimedia Commons - ${link}`;
-}
+// attributionLine() now lives in js/shared.js (loaded before this file).
+
 
 /**
  * renderCredits(photos) — auto-generates the attribution list from the

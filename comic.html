@@ -73,6 +73,13 @@
     </section>
 
     <section id="comic-panels"></section>
+
+    <section id="save-share-bar" hidden>
+      <button id="download-originals-btn" type="button">Download original photos (.zip)</button>
+      <button id="download-finished-btn" type="button">Download finished comic (.zip)</button>
+      <button id="copy-link-btn" type="button">Copy shareable link</button>
+      <p id="save-share-status" role="status"></p>
+    </section>
   </main>
 
   <div id="credits-panel"></div>
@@ -80,6 +87,8 @@
   <script src="https://unpkg.com/inkjs@2/dist/ink.js"></script>
   <script src="https://unpkg.com/glfx-es6/dist/glfx-es6.min.js"></script>
   <script src="https://unpkg.com/suncalc@1.9.0/suncalc.js"></script>
+  <script src="https://unpkg.com/[email protected]/dist/jszip.min.js"></script>
+  <script src="js/shared.js"></script>
   <script src="js/stylize.js"></script>
   <script src="js/comic.js"></script>
 </body>

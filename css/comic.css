@@ -263,3 +263,39 @@
 @keyframes comic-caret-blink {
   50% { opacity: 0; }
 }
+
+/* ---- Save & Share bar: reuses the .attribution-copy-header button look
+   from css/style.css (same border/pill/accent-color styling as the
+   "Copy" button on the credits panel) rather than inventing a new one. ---- */
+#save-share-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 0 20px 20px;
+  padding: 12px 16px;
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+}
+
+#save-share-bar button {
+  border: 1px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+#save-share-bar button:hover {
+  background: var(--accent);
+  color: var(--paper);
+}
+
+#save-share-status {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--muted);
+}

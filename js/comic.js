@@ -22,23 +22,55 @@
  * autogenerate is the first target (see request.txt).
  */
 
-function buildingLabel(photo) {
-  if (photo.building) return photo.building;
-  const base = (photo.title || photo.id || "Unknown")
-    .replace(/^File:/, "")
-    .replace(/\.[a-zA-Z0-9]+$/, "")
-    .replace(/[_-]+/g, " ")
-    .replace(/\s*\(\d+\)\s*$/, "")
-    .trim();
-  return base || "Unknown";
+// buildingLabel() and attributionLine() now live in js/shared.js (loaded
+// before this file).
+
+// renderedPanels: one entry per panel actually drawn by the most recent
+// renderPanels() call, keeping the live canvas around (not just the data
+// URL baked into the <img>) so the save/export functions below have real
+// pixels to zip up. Reset at the top of renderPanels(). lastRenderCtx is
+// the renderPanels() call's own arguments, kept for "Copy shareable link"
+// (buildRecipe needs the exact photos/aspect/mode/perPanel that produced
+// what's on screen right now).
+let renderedPanels = [];
+let lastRenderCtx = null;
+
+// Character bounding-box placeholder position, as fractions of the panel.
+// Read by BOTH renderCharacterPlaceholder() (DOM, percentages) and
+// characterBboxRect() (canvas, pixels) so the two can't drift apart - swap
+// these numbers once and both the live page and the exported PNG follow.
+const CHAR_BBOX = { width: 0.26, height: 0.55, bottom: 0.14, left: 0.08, right: 0.08, center: 0.37 };
+
+function characterBboxRect(side, canvasWidth, canvasHeight) {
+  const w = canvasWidth * CHAR_BBOX.width;
+  const h = canvasHeight * CHAR_BBOX.height;
+  const y = canvasHeight * (1 - CHAR_BBOX.bottom) - h;
+  let x;
+  if (side === "right") x = canvasWidth * (1 - CHAR_BBOX.right) - w;
+  else if (side === "center") x = canvasWidth * CHAR_BBOX.center;
+  else x = canvasWidth * CHAR_BBOX.left;
+  return { x, y, w, h };
 }
 
-function attributionLine(photo) {
-  const title = photo.title || buildingLabel(photo);
-  const creator = photo.creator ? ` by ${photo.creator}` : "";
-  const license = photo.license || "license unknown";
-  const link = photo.source || "#";
-  return `"${title}"${creator}, ${license}, via Wikimedia Commons - ${link}`;
+/**
+ * bakeOverlaysOntoCanvas(canvas, side) — draws the character bounding-box
+ * rectangle (same math as the DOM version) directly onto the panel's
+ * pixels, for the "Download finished comic" export. No caption/feel text
+ * baked in - those stay a page-only overlay (see comicpublishplan.txt
+ * step 3's revision). Idempotent: guarded so re-exporting the same canvas
+ * doesn't double-stroke the rectangle.
+ */
+function bakeOverlaysOntoCanvas(canvas, side) {
+  if (canvas.dataset.baked === "true") return;
+  const ctx = canvas.getContext("2d");
+  const { x, y, w, h } = characterBboxRect(side, canvas.width, canvas.height);
+  ctx.save();
+  ctx.strokeStyle = "rgba(255, 255, 255, 0.85)";
+  ctx.lineWidth = Math.max(2, canvas.width * 0.004);
+  ctx.setLineDash([canvas.width * 0.012, canvas.width * 0.012]);
+  ctx.strokeRect(x, y, w, h);
+  ctx.restore();
+  canvas.dataset.baked = "true";
 }
 
 function wireDarkMode() {
@@ -169,11 +201,11 @@ function parseAspect(value) {
 function renderCharacterPlaceholder(panelEl, side = "left") {
   const box = document.createElement("div");
   box.className = "character-bbox";
-  box.style.width = "26%";
-  box.style.height = "55%";
-  if (side === "right") box.style.right = "8%";
-  else if (side === "center") { box.style.left = "37%"; }
-  else box.style.left = "8%";
+  box.style.width = `${CHAR_BBOX.width * 100}%`;
+  box.style.height = `${CHAR_BBOX.height * 100}%`;
+  if (side === "right") box.style.right = `${CHAR_BBOX.right * 100}%`;
+  else if (side === "center") box.style.left = `${CHAR_BBOX.center * 100}%`;
+  else box.style.left = `${CHAR_BBOX.left * 100}%`;
   box.textContent = "Character";
   panelEl.appendChild(box);
 }
@@ -260,7 +292,7 @@ async function captionsForPath(photos) {
   });
 }
 
-async function renderPanels(photos, aspectValue, perPanel, statusEl) {
+async function renderPanels(photos, aspectValue, perPanel, statusEl, mode = "auto") {
   // perPanel: array (one entry per photo) of { filterStyle, captionText, feel, charSide }.
   // Autogenerate builds this array itself from a single global filter choice
   // and the Ink-derived captions; manual mode builds it from the per-panel
@@ -270,6 +302,7 @@ async function renderPanels(photos, aspectValue, perPanel, statusEl) {
   const aspect = parseAspect(aspectValue);
   const panelsEl = document.getElementById("comic-panels");
   panelsEl.innerHTML = "";
+  renderedPanels = [];
 
   for (let i = 0; i < photos.length; i++) {
     const photo = photos[i];
@@ -289,20 +322,31 @@ async function renderPanels(photos, aspectValue, perPanel, statusEl) {
     img.className = "panel-bg";
     img.alt = buildingLabel(photo);
 
+    let panelCanvas = null; // set below on success; stays null if load/crop/filter failed
     try {
       const srcImg = await loadImage(photo.file);
       const cropped = cropToAspect(srcImg, aspect.w, aspect.h);
       if (settings.filterStyle === "none" || typeof stylizePhoto !== "function") {
-        img.src = cropped.toDataURL("image/png");
+        panelCanvas = cropped;
       } else {
         const { canvas } = stylizePhoto(cropped, { year: photo.year, lat: photo.lat, lon: photo.lon }, { ditherStyle: settings.filterStyle });
-        img.src = canvas.toDataURL("image/png");
+        panelCanvas = canvas;
       }
+      img.src = panelCanvas.toDataURL("image/png");
     } catch (err) {
       console.warn(`Could not load/crop/filter "${photo.id}" - falling back to the raw image untouched.`, err);
       img.src = photo.styled || photo.file;
     }
     panel.appendChild(img);
+
+    renderedPanels.push({
+      photo,
+      canvas: panelCanvas,
+      filterStyle: settings.filterStyle,
+      captionText: settings.captionText,
+      feel: settings.feel,
+      charSide: settings.charSide,
+    });
 
     renderCharacterPlaceholder(panel, settings.charSide);
 
@@ -337,6 +381,8 @@ async function renderPanels(photos, aspectValue, perPanel, statusEl) {
   }
 
   statusEl.textContent = `Done — ${photos.length} panels.`;
+  lastRenderCtx = { photos, aspectValue, mode, perPanel };
+  showSaveBar();
 }
 
 /**
@@ -421,6 +467,222 @@ function collectManualSettings() {
   }));
 }
 
+/**
+ * showSaveBar() — reveals #save-share-bar and wires its three buttons, once
+ * (guarded by dataset.wired, same pattern buildManualEditors() uses). The
+ * handlers always read the module-level lastRenderCtx/renderedPanels at
+ * click time rather than closing over arguments, so re-generating the
+ * comic (new aspect ratio, different mode, etc.) doesn't require
+ * re-wiring - the buttons just act on whatever's on screen now.
+ */
+function showSaveBar() {
+  const bar = document.getElementById("save-share-bar");
+  if (!bar) return;
+  bar.hidden = false;
+  if (bar.dataset.wired === "true") return;
+  bar.dataset.wired = "true";
+
+  document.getElementById("download-originals-btn").addEventListener("click", () => {
+    if (lastRenderCtx) downloadOriginalsZip(lastRenderCtx.photos);
+  });
+  document.getElementById("download-finished-btn").addEventListener("click", downloadFinishedZip);
+  document.getElementById("copy-link-btn").addEventListener("click", copyShareLink);
+}
+
+function triggerDownload(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+function fetchAsBlob(url) {
+  // Commons origin URLs already need to be fetchable/CORS-open for canvas
+  // work (loadImage() above sets crossOrigin for the same reason), so this
+  // is no new cross-origin assumption.
+  return fetch(url).then((res) => {
+    if (!res.ok) throw new Error(`Failed to fetch ${url}: ${res.status}`);
+    return res.blob();
+  });
+}
+
+function extFromUrl(url) {
+  const match = url.split("?")[0].match(/\.([a-zA-Z0-9]+)$/);
+  return match ? match[1].toLowerCase() : "jpg";
+}
+
+/**
+ * downloadOriginalsZip(photos) — the untouched, full-resolution Commons
+ * originals for this path, plus a credits.txt. `photo.id` is already the
+ * slugified Commons title (see scripts/fetch-commons-images.mjs), so it
+ * doubles as a clean, collision-free zip filename with no extra slugging.
+ */
+async function downloadOriginalsZip(photos) {
+  const statusEl = document.getElementById("save-share-status");
+  statusEl.textContent = "Zipping original photos…";
+  const zip = new JSZip();
+  for (const photo of photos) {
+    try {
+      const blob = await fetchAsBlob(photo.file);
+      zip.file(`${photo.id}.${extFromUrl(photo.file)}`, blob);
+    } catch (err) {
+      console.warn(`Could not fetch the original for "${photo.id}" - skipping it in the zip.`, err);
+    }
+  }
+  zip.file("credits.txt", photos.map(attributionLine).join("\n"));
+  const blob = await zip.generateAsync({ type: "blob" });
+  triggerDownload(blob, "campus-comic-originals.zip");
+  statusEl.textContent = "Downloaded original photos.";
+}
+
+/**
+ * downloadFinishedZip() — flat PNGs of the visual panels (crop + filter +
+ * character bbox rectangle), from renderedPanels' live canvases. Panels
+ * whose image failed to load/crop/filter (canvas: null) are skipped rather
+ * than exporting a blank/broken file.
+ */
+async function downloadFinishedZip() {
+  const statusEl = document.getElementById("save-share-status");
+  const entries = renderedPanels.filter((p) => p.canvas);
+  if (!entries.length) {
+    statusEl.textContent = "Nothing to export yet - generate the comic first.";
+    return;
+  }
+  statusEl.textContent = "Zipping finished panels…";
+  const zip = new JSZip();
+  for (let i = 0; i < entries.length; i++) {
+    const { photo, canvas, charSide } = entries[i];
+    bakeOverlaysOntoCanvas(canvas, charSide);
+    const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
+    if (blob) zip.file(`${String(i + 1).padStart(2, "0")}-${photo.id}.png`, blob);
+  }
+  zip.file("credits.txt", entries.map((e) => attributionLine(e.photo)).join("\n"));
+  const blob = await zip.generateAsync({ type: "blob" });
+  triggerDownload(blob, "campus-comic-finished.zip");
+  statusEl.textContent = "Downloaded finished comic.";
+}
+
+/**
+ * buildRecipe(photos, mode, aspectValue, perPanel) — the small JSON blob a
+ * shareable link encodes. Auto mode deliberately omits caption/feel (they're
+ * re-derived from data/story.ink.json on load, so an old link stays live if
+ * the Ink story gets edited later); manual mode has to store them since
+ * they're free text with no other source of truth.
+ */
+function buildRecipe(photos, mode, aspectValue, perPanel) {
+  return {
+    v: 1,
+    mode,
+    aspect: aspectValue,
+    ids: photos.map((p) => p.id),
+    panels: perPanel.map((s) =>
+      mode === "auto"
+        ? { filter: s.filterStyle }
+        : { filter: s.filterStyle, side: s.charSide, caption: s.captionText, feel: s.feel }
+    ),
+  };
+}
+
+/**
+ * copyShareLink() — encodes buildRecipe()'s output into location.hash and
+ * copies the full URL. Long manual captions can make this link long; rather
+ * than silently truncating (which would corrupt the recipe on decode), it
+ * still copies the full link and just warns.
+ */
+async function copyShareLink() {
+  const statusEl = document.getElementById("save-share-status");
+  if (!lastRenderCtx) return;
+  const { photos, mode, aspectValue, perPanel } = lastRenderCtx;
+  const recipe = buildRecipe(photos, mode, aspectValue, perPanel);
+  const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(recipe))));
+  location.hash = `c=${encoded}`;
+
+  statusEl.textContent =
+    encoded.length > 2000
+      ? "Long manual captions make this link long — consider shortening captions. Link copied anyway."
+      : "Link copied.";
+
+  try {
+    await navigator.clipboard.writeText(location.href);
+  } catch (err) {
+    console.warn("navigator.clipboard.writeText failed for the share link.", err);
+    statusEl.textContent += " (Clipboard blocked - copy the address bar manually.)";
+  }
+}
+
+/**
+ * tryLoadFromHash() -> recipe object | null
+ * Reads a `#c=<base64>` share link written by copyShareLink(). Returns null
+ * (not throws) for "no link" and "malformed link" alike - both mean "fall
+ * through to the normal localStorage path" to the caller.
+ */
+function tryLoadFromHash() {
+  const match = location.hash.match(/c=([^&]+)/);
+  if (!match) return null;
+  try {
+    const json = decodeURIComponent(escape(atob(match[1])));
+    return JSON.parse(json);
+  } catch (err) {
+    console.warn("Malformed comic link.", err);
+    return null;
+  }
+}
+
+/**
+ * renderFromRecipe(recipe) — the read-only reader path for a shared link:
+ * resolve recipe.ids against the live data/photos.json (not whatever's in
+ * this browser's localStorage), skip the editor UI entirely, and render.
+ * Auto-mode recipes re-run captionsForPath() against the current
+ * data/story.ink.json rather than storing caption text.
+ */
+async function renderFromRecipe(recipe) {
+  const statusEl = document.getElementById("generate-status");
+  document.getElementById("comic-setup").hidden = true;
+  document.getElementById("no-path-message").hidden = true;
+
+  let library = [];
+  try {
+    library = await loadJSON("data/photos.json");
+  } catch (err) {
+    console.error("Could not load data/photos.json for this shared link.", err);
+    statusEl.textContent = "Could not load the photo library for this link.";
+    return;
+  }
+
+  const libraryById = Object.fromEntries(library.map((p) => [p.id, p]));
+  const photos = recipe.ids.map((id) => libraryById[id]).filter(Boolean);
+  if (photos.length < 2) {
+    statusEl.textContent = "This link's photos are no longer in the library.";
+    return;
+  }
+
+  renderPathCredits(photos);
+
+  let perPanel;
+  if (recipe.mode === "manual") {
+    perPanel = recipe.panels.map((p) => ({
+      filterStyle: p.filter,
+      charSide: p.side,
+      captionText: p.caption,
+      feel: p.feel,
+    }));
+  } else {
+    const captions = await captionsForPath(photos);
+    perPanel = captions.map((c, i) => ({
+      filterStyle: recipe.panels[i]?.filter || "halftone",
+      charSide: "left",
+      captionText: c.text,
+      feel: c.feel,
+    }));
+  }
+
+  await renderPanels(photos, recipe.aspect, perPanel, statusEl, recipe.mode);
+}
+
 function loadPathFromStorage() {
   try {
     const raw = localStorage.getItem("ccc_comic_path");
@@ -431,8 +693,14 @@ function loadPathFromStorage() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   wireDarkMode();
+
+  const recipe = tryLoadFromHash();
+  if (recipe) {
+    await renderFromRecipe(recipe);
+    return;
+  }
 
   const photos = loadPathFromStorage();
   if (!Array.isArray(photos) || photos.length < 2) {
@@ -471,7 +739,7 @@ document.addEventListener("DOMContentLoaded", () => {
         captionText: c.text,
         feel: c.feel,
       }));
-      await renderPanels(photos, aspectValue, perPanel, statusEl);
+      await renderPanels(photos, aspectValue, perPanel, statusEl, "auto");
     } catch (err) {
       console.error("Comic generation failed.", err);
       statusEl.textContent = "Something went wrong generating the comic - check the console.";
@@ -482,7 +750,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const aspectValue = document.getElementById("aspect-ratio-manual").value;
     const perPanel = collectManualSettings();
     try {
-      await renderPanels(photos, aspectValue, perPanel, statusEl);
+      await renderPanels(photos, aspectValue, perPanel, statusEl, "manual");
     } catch (err) {
       console.error("Comic generation failed.", err);
       statusEl.textContent = "Something went wrong generating the comic - check the console.";
