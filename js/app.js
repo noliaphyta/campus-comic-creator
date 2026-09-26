@@ -9,17 +9,101 @@
 const CAMPUS_CENTER = [37.2712, -76.7112];
 const CAMPUS_ZOOM = 16;
 
-// Public OSRM demo server. Fine for a hackathon demo; rate-limited and not
-// meant for production traffic - self-host OSRM if this ever needs to be
-// reliable beyond a live judged demo.
-const OSRM_BASE = "https://router.project-osrm.org/route/v1/foot";
+// Public OSRM demo server (FOSSGIS-sponsored; it does host foot/bike/driving,
+// not just car). Fine for a hackathon demo; rate-limited and not meant for
+// production traffic - self-host OSRM if this ever needs to be reliable
+// beyond a live judged demo. Profile is picked by the user (see
+// #route-profile) rather than hardcoded, since OSM rarely maps sidewalks as
+// separate ways - "foot" routing legitimately overlaps road centerlines a
+// lot of the time, and letting the walker pick foot/bike/driving is more
+// honest than pretending one fixed profile is always "the pedestrian path".
+const OSRM_BASE = "https://router.project-osrm.org/route/v1";
 
 let map;
 let photosById = {};
 let selectedWaypoints = []; // [{ lat, lon, buildingId }, ...] in click order
 let routeLayer = null;
-let markersLayer = null; // L.layerGroup holding the currently-visible photo markers
+let routeProfile = "foot"; // foot | bike | driving - see #route-profile select
+let markersLayer = null; // L.layerGroup holding Tier A (thumbnail) markers
+let dotCluster = null; // L.markerClusterGroup holding Tier B (dot) markers
 let yearRange = { min: null, max: null }; // current slider selection, inclusive
+
+// ---- Two-tier markers + reshuffle pagination state ----
+// Tier A gets a real thumbnail marker (touches Wikimedia's thumbnail
+// servers); Tier B gets a plain clustered dot. Capping Tier A at a fixed
+// batch size is what keeps thumbnail requests from scaling with dataset
+// size - see renderMarkers()/drawNextBatch() below.
+let currentFilteredPhotos = []; // the photos passing the current year filter
+let shuffleQueue = []; // remaining photos for this filter, diversity-shuffled
+let shuffleBatches = []; // batches already drawn this session, in order
+let batchIndex = -1; // which entry of shuffleBatches is on screen now
+
+function tierASize() {
+  return Math.max(8, Math.min(30, Math.round(window.innerWidth / 55)));
+}
+
+/**
+ * buildingLabel(photo) / photoDisplayName(photo) - human-readable label for
+ * a photo, used anywhere a photo needs a short caption (waypoint chips,
+ * popups, filmstrip, credits). Prefers the confirmed building name; when
+ * there isn't one (most of the promoted-but-unmatched dataset - see
+ * promote-photos.mjs), falls back to a cleaned-up version of the Commons
+ * title instead of the raw slug `id` (which is the entire image file name
+ * concatenated with underscores, e.g. "the_wren_building_5170250013" - not
+ * fit to show anyone).
+ */
+function buildingLabel(photo) {
+  if (photo.building) return photo.building;
+  const base = (photo.title || photo.id || "Unknown")
+    .replace(/^File:/, "")
+    .replace(/\.[a-zA-Z0-9]+$/, "")
+    .replace(/[_-]+/g, " ")
+    .replace(/\s*\(\d+\)\s*$/, "") // drop the trailing Wikimedia page-id
+    .trim();
+  return base || "Unknown";
+}
+
+function photoDisplayName(photo) {
+  const label = buildingLabel(photo);
+  return photo.year ? `${label} (${photo.year})` : label;
+}
+
+// Coarse ~100m grid cell - used to diversify a batch when `building` is
+// null (the common case until buildings.geojson has real polygons), so two
+// photos of the same spot don't cluster together in the interleave below.
+function diversityKey(photo) {
+  return photo.building ? `b:${photo.building}` : `g:${Math.round(photo.lat * 1000)},${Math.round(photo.lon * 1000)}`;
+}
+
+function shuffle(arr) {
+  const out = [...arr];
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}
+
+// Round-robins across diversity groups (each pre-shuffled) so page 1 isn't
+// 20 photos of the same building/event.
+function shuffledDiverse(photos) {
+  const groups = new Map();
+  shuffle(photos).forEach((p) => {
+    const k = diversityKey(p);
+    if (!groups.has(k)) groups.set(k, []);
+    groups.get(k).push(p);
+  });
+  const buckets = shuffle([...groups.values()]);
+  const out = [];
+  let i = 0;
+  while (out.length < photos.length) {
+    const bucket = buckets[i % buckets.length];
+    if (bucket.length) out.push(bucket.shift());
+    i++;
+    if (buckets.every((b) => b.length === 0)) break;
+  }
+  return out;
+}
 
 async function loadJSON(path) {
   const res = await fetch(path);
@@ -70,7 +154,16 @@ async function init() {
     console.warn("data/buildings.geojson not found yet - skipping footprints.", err);
   }
 
-  markersLayer = L.layerGroup().addTo(map);
+  markersLayer = L.layerGroup().addTo(map); // Tier A: thumbnails
+  dotCluster = L.markerClusterGroup({ showCoverageOnHover: false }).addTo(map); // Tier B: dots
+
+  const profileSelect = document.getElementById("route-profile");
+  if (profileSelect) {
+    profileSelect.addEventListener("change", () => {
+      routeProfile = profileSelect.value;
+      if (selectedWaypoints.length > 1) plotRoute(selectedWaypoints);
+    });
+  }
 
   if (photos.length) {
     renderYearRangeSlider(photos); // builds the slider AND does the first renderMarkers() call
@@ -82,22 +175,134 @@ async function init() {
 }
 
 /**
- * renderMarkers(photos) — clears markersLayer and re-populates it with one
- * marker per photo that has usable coordinates. This is the single place
- * that actually puts photo pins on the map; both the initial load and every
- * slider move funnel through here so there's one code path to debug if a
- * pin doesn't show up (check: does the photo have numeric lat/lon? did
- * markersLayer get created before this was called?).
+ * renderMarkers(photos) — entry point for "these are the photos in the
+ * current year filter". Resets the reshuffle queue for this filter (per the
+ * build plan: changing the year slider resets the shuffle so you can't land
+ * on a stale batch that's no longer in range) and draws the first batch.
+ * Both the initial load and every slider move funnel through here.
  */
 function renderMarkers(photos) {
+  currentFilteredPhotos = photos;
+  shuffleQueue = shuffledDiverse(photos);
+  shuffleBatches = [];
+  batchIndex = -1;
+  drawNextBatch();
+}
+
+/**
+ * drawNextBatch() — draws another random (diversity-interleaved) Tier-A
+ * batch from the shuffle queue, or steps forward into a batch already drawn
+ * this session if one exists ahead of the current position. If the queue
+ * runs dry, it reshuffles the full filtered set rather than stopping, so
+ * "next" always has something to show.
+ */
+function drawNextBatch() {
+  if (batchIndex < shuffleBatches.length - 1) {
+    batchIndex++;
+  } else {
+    if (!shuffleQueue.length && currentFilteredPhotos.length) {
+      shuffleQueue = shuffledDiverse(currentFilteredPhotos);
+    }
+    shuffleBatches.push(shuffleQueue.splice(0, tierASize()));
+    batchIndex = shuffleBatches.length - 1;
+  }
+  paintTiers(shuffleBatches[batchIndex] || []);
+}
+
+function drawPrevBatch() {
+  if (batchIndex <= 0) return;
+  batchIndex--;
+  paintTiers(shuffleBatches[batchIndex] || []);
+}
+
+/**
+ * paintTiers(tierAPhotos) — the single place that actually puts photo pins
+ * on the map: Tier A (tierAPhotos) gets a real thumbnail marker, everything
+ * else in currentFilteredPhotos gets a plain clustered dot. Both bind the
+ * same popup and click handler - picking a location never depends on
+ * having seen a thumbnail first.
+ */
+function paintTiers(tierAPhotos) {
   markersLayer.clearLayers();
-  photos.forEach((photo) => {
+  dotCluster.clearLayers();
+  const tierAIds = new Set(tierAPhotos.map((p) => p.id));
+
+  tierAPhotos.forEach((photo) => {
     if (typeof photo.lat !== "number" || typeof photo.lon !== "number") return;
     const marker = L.marker([photo.lat, photo.lon], { icon: photoMarkerIcon(photo) });
-    marker.bindPopup(`<strong>${photo.building ?? "Unknown building"}</strong><br>${photo.year ?? "?"}`);
-    marker.on("click", () => onPhotoSelected(photo));
+    bindPhotoMarker(marker, photo);
     marker.addTo(markersLayer);
   });
+
+  currentFilteredPhotos.forEach((photo) => {
+    if (tierAIds.has(photo.id)) return;
+    if (typeof photo.lat !== "number" || typeof photo.lon !== "number") return;
+    const dot = L.circleMarker([photo.lat, photo.lon], {
+      radius: 5,
+      weight: 1,
+      color: "#8a3324",
+      fillColor: "#8a3324",
+      fillOpacity: 0.6,
+    });
+    bindPhotoMarker(dot, photo);
+    dotCluster.addLayer(dot);
+  });
+
+  renderFilmstrip(tierAPhotos);
+}
+
+function bindPhotoMarker(marker, photo) {
+  marker.bindPopup(`<strong>${buildingLabel(photo)}</strong><br>${photo.year ?? "?"}`);
+  marker.on("click", () => onPhotoSelected(photo));
+}
+
+/**
+ * renderFilmstrip(tierAPhotos) — prev/next strip bound to whichever photos
+ * are currently Tier A. "Next" draws another shuffled batch (drawNextBatch);
+ * "previous" just walks back through batches already drawn this session,
+ * since there's no stable global order to page through otherwise.
+ */
+function renderFilmstrip(tierAPhotos) {
+  const el = document.getElementById("filmstrip");
+  if (!el) return;
+  if (!tierAPhotos.length) {
+    el.hidden = true;
+    return;
+  }
+  el.hidden = false;
+  el.innerHTML = "";
+
+  const prev = document.createElement("button");
+  prev.type = "button";
+  prev.className = "filmstrip-nav";
+  prev.textContent = "‹";
+  prev.disabled = batchIndex <= 0;
+  prev.addEventListener("click", drawPrevBatch);
+  el.appendChild(prev);
+
+  const track = document.createElement("div");
+  track.className = "filmstrip-track";
+  tierAPhotos.forEach((photo) => {
+    const fig = document.createElement("figure");
+    fig.className = "filmstrip-item";
+    const img = document.createElement("img");
+    img.src = photo.thumb || photo.styled || photo.file;
+    img.alt = "";
+    const caption = document.createElement("figcaption");
+    caption.textContent = photoDisplayName(photo);
+    fig.appendChild(img);
+    fig.appendChild(caption);
+    fig.addEventListener("click", () => onPhotoSelected(photo));
+    track.appendChild(fig);
+  });
+  el.appendChild(track);
+
+  const next = document.createElement("button");
+  next.type = "button";
+  next.className = "filmstrip-nav";
+  next.textContent = "›";
+  next.addEventListener("click", drawNextBatch);
+  el.appendChild(next);
 }
 
 // Fixed hit-area/visual width (px) shared by each pill handle AND the
@@ -309,7 +514,7 @@ function renderWaypointChips() {
   selectedWaypoints.forEach((wp, i) => {
     const chip = document.createElement("span");
     chip.className = "waypoint-chip";
-    chip.textContent = `${i + 1}. ${wp.buildingId}`;
+    chip.textContent = `${i + 1}. ${photoDisplayName(photosById[wp.buildingId] || {})}`;
     el.appendChild(chip);
   });
   if (selectedWaypoints.length > 0) {
@@ -347,7 +552,7 @@ function resetPath() {
  */
 async function plotRoute(waypoints) {
   const coords = waypoints.map((w) => `${w.lon},${w.lat}`).join(";");
-  const url = `${OSRM_BASE}/${coords}?overview=full&geometries=geojson&steps=true`;
+  const url = `${OSRM_BASE}/${routeProfile}/${coords}?overview=full&geometries=geojson&steps=true`;
 
   try {
     const res = await fetch(url);

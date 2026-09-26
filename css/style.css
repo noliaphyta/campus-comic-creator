@@ -279,6 +279,76 @@ footer a:hover {
   display: block;
 }
 
+/* ---- Route profile picker (walking/cycling/roads) ---- */
+#route-profile-controls {
+  padding: 4px 20px 0;
+  font-size: 0.8rem;
+  color: #555;
+}
+
+#route-profile-controls select {
+  margin-left: 6px;
+  font-size: 0.85rem;
+}
+
+/* ---- Filmstrip ("photostream"): prev/next through the current Tier-A
+   batch. Tier A is capped (see tierASize() in app.js) so this never grows
+   past what fits on one row on a phone. ---- */
+#filmstrip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 20px;
+}
+
+.filmstrip-nav {
+  flex: 0 0 auto;
+  border: 1px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  border-radius: 999px;
+  width: 28px;
+  height: 28px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.filmstrip-nav:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.filmstrip-track {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.filmstrip-item {
+  flex: 0 0 auto;
+  width: 64px;
+  margin: 0;
+  cursor: pointer;
+  text-align: center;
+}
+
+.filmstrip-item img {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 6px;
+  display: block;
+}
+
+.filmstrip-item figcaption {
+  font-size: 0.6rem;
+  color: #666;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* ---- Path plotting (map A -> B -> C waypoint picker) ---- */
 #path-controls {
   padding: 8px 20px;

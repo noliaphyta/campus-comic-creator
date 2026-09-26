@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Campus Comic Creator</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
@@ -15,7 +17,17 @@
 
   <main>
     <div id="map"></div>
+    <div id="route-profile-controls">
+      <label for="route-profile">Path type
+        <select id="route-profile">
+          <option value="foot" selected>Walking paths</option>
+          <option value="bike">Cycling paths</option>
+          <option value="driving">Roads</option>
+        </select>
+      </label>
+    </div>
     <div id="path-controls"></div>
+    <div id="filmstrip" hidden></div>
     <div id="timeline-controls"></div>
 
     <div id="story-panel" hidden>
@@ -51,6 +63,7 @@
   </footer>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
   <script src="https://unpkg.com/inkjs@2/dist/ink.js"></script>
   <script src="https://unpkg.com/glfx-es6/dist/glfx-es6.min.js"></script>
   <script src="https://unpkg.com/suncalc@1.9.0/suncalc.js"></script>
