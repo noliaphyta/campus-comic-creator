@@ -6,8 +6,10 @@
  * "refresh" pass after a community-upload round). It is NOT called from the
  * deployed site and should never run during the hackathon or in the browser.
  *
- * Hits Wikimedia's official Commons API directly:
- *   action=query&generator=geosearch&prop=coordinates|imageinfo
+ * Hits Wikimedia's official Commons API directly. It first pages through
+ * geosearch results (title + coordinates), then requests image metadata for
+ * those titles in batches. Keeping search and metadata requests separate
+ * prevents continuation from reprocessing the same generator result set.
  * This is the same underlying data wikimap.toolforge.org shows on a map —
  * we skip that layer entirely and go straight to the source, so we're not
  * depending on a third-party Toolforge tool's uptime or rate limits.
@@ -25,8 +27,9 @@
  * Outputs (into --out, default ./data):
  *   commons-geosearch-raw.json   - full raw API response, for your records
  *   photos.scaffold.json         - starter entries for photos.json:
- *                                  id, file (source url), year (guess), lat, lon,
- *                                  source, license, building: null
+ *                                  id, file (source url), author/credit/license
+ *                                  metadata, year (guess), lat, lon, source,
+ *                                  license, building: null
  *
  * You still do Steps 2-5 from the build plan by hand: vet licenses, confirm
  * resolution, match each photo to a real building, and fold the scaffold
@@ -46,6 +49,7 @@ const USER_AGENT =
   "campus-comic-creator/1.0 (hackathon project; contact: eychan@wm.edu";
 
 const RATE_LIMIT_MS = 1000; // be polite: ~1 request/sec, this is a one-time batch job
+const METADATA_BATCH_SIZE = 50; // conservative title batch size for query prop requests
 
 function parseArgs(argv) {
   const out = { lat: 37.2712, lon: -76.7112, radius: 400, out: "./data", limit: 500, max: 10000 };
@@ -61,7 +65,7 @@ function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
 }
 
-async function fetchPage(lat, lon, radius, limit, continueToken) {
+async function fetchGeosearchPage(lat, lon, radius, limit, continueToken) {
   const params = new URLSearchParams({
     action: "query",
     format: "json",
@@ -70,14 +74,30 @@ async function fetchPage(lat, lon, radius, limit, continueToken) {
     ggsradius: String(Math.min(radius, 10000)), // 10000m is the API's hard max
     ggsnamespace: "6", // File: namespace only
     ggslimit: String(Math.min(limit, 500)),
-    prop: "coordinates|imageinfo",
-    iiprop: "url|size|extmetadata",
-    iiurlwidth: "330",
+    prop: "coordinates",
   });
   if (continueToken) {
     for (const [k, v] of Object.entries(continueToken)) params.set(k, v);
   }
 
+  const res = await fetch(`${API}?${params.toString()}`, {
+    headers: { "User-Agent": USER_AGENT, Accept: "application/json" },
+  });
+  if (!res.ok) {
+    throw new Error(`Commons API error ${res.status}: ${await res.text()}`);
+  }
+  return res.json();
+}
+
+async function fetchImageMetadata(titles) {
+  const params = new URLSearchParams({
+    action: "query",
+    format: "json",
+    prop: "imageinfo",
+    titles: titles.join("|"),
+    iiprop: "url|size|extmetadata",
+    iiurlwidth: "330",
+  });
   const res = await fetch(`${API}?${params.toString()}`, {
     headers: { "User-Agent": USER_AGENT, Accept: "application/json" },
   });
@@ -94,6 +114,23 @@ function guessYear(extmetadata) {
     "";
   const match = raw.match(/\b(1[5-9]\d\d|20\d\d)\b/);
   return match ? Number(match[0]) : null;
+}
+
+function plainText(value = "") {
+  return value
+    .replace(/<[^>]+>/g, "")
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .trim();
+}
+
+function firstHref(value = "") {
+  const match = value.match(/href=["']([^"']+)["']/i);
+  if (!match) return null;
+  return match[1].startsWith("//") ? `https:${match[1]}` : match[1];
 }
 
 function toScaffoldEntry(page) {
@@ -113,12 +150,16 @@ function toScaffoldEntry(page) {
     info.extmetadata?.UsageTerms?.value ||
     "UNKNOWN - verify on file page";
 
+  const metadata = info.extmetadata || {};
   // Artist/Credit come through as HTML (often an <a> to the photographer's
-  // Commons user page) - strip tags for a plain-text creator name good
-  // enough for an attribution line; a human still eyeballs this during the
-  // per-image vetting pass (see docs/build-plan.md's Image Sourcing section).
-  const rawArtist = info.extmetadata?.Artist?.value || info.extmetadata?.Credit?.value || "";
-  const creator = rawArtist.replace(/<[^>]+>/g, "").trim() || null;
+  // Commons user page). Keep both readable text and the link for attribution.
+  const rawArtist = metadata.Artist?.value || "";
+  const rawCredit = metadata.Credit?.value || "";
+  const creator = plainText(rawArtist || rawCredit) || null;
+  const creatorUrl = firstHref(rawArtist) || firstHref(rawCredit);
+  const licenseUrl = metadata.LicenseUrl?.value || null;
+  const description = plainText(metadata.ImageDescription?.value || "") || null;
+  const dateOriginal = metadata.DateTimeOriginal?.value || metadata.DateTime?.value || null;
 
   return {
     id: slug,
@@ -130,7 +171,14 @@ function toScaffoldEntry(page) {
     lon: coord.lon,
     source: page.descriptionurl, // Commons File: description page - required for CC attribution, not the raw file URL
     license,
+    licenseUrl,
     creator,
+    creatorUrl,
+    credit: plainText(rawCredit) || null,
+    description,
+    dateOriginal,
+    width: info.width || null,
+    height: info.height || null,
   };
 }
 
@@ -141,25 +189,20 @@ async function main() {
     `Fetching Commons geosearch: lat=${lat} lon=${lon} radius=${radius}m (cap: ${max})`
   );
 
-  // MediaWiki's `continue` mechanism for a geosearch generator with two
-  // extra props (coordinates + imageinfo) doesn't page through NEW results
-  // each round - it re-returns the SAME ~500 pages and fills in one more
-  // prop batch per round (coordinates one round, imageinfo another). Naively
-  // concatenating pages across rounds duplicates every page instead of
-  // accumulating results, and worse, splits `coordinates` and `imageinfo`
-  // across different copies of the same page. Merge by pageid instead.
+  // Geosearch is the only paged phase. It returns file titles and coordinates;
+  // continuation advances through actual nearby matches.
   const pagesById = new Map();
   let continueToken = null;
-  let page = 0;
+  let searchPage = 0;
 
   do {
-    page += 1;
-    const data = await fetchPage(lat, lon, radius, limit, continueToken);
+    searchPage += 1;
+    const data = await fetchGeosearchPage(lat, lon, radius, limit, continueToken);
     for (const p of Object.values(data.query?.pages || {})) {
       pagesById.set(p.pageid, { ...pagesById.get(p.pageid), ...p });
     }
     continueToken = data.continue || null;
-    console.log(`  page ${page}: ${pagesById.size} unique pages so far`);
+    console.log(`  geosearch page ${searchPage}: ${pagesById.size} unique files so far`);
 
     if (pagesById.size >= max) {
       console.log(`  hit cap of ${max}, stopping (radius=${radius}m may be too wide for this cap)`);
@@ -169,7 +212,23 @@ async function main() {
     if (continueToken) await sleep(RATE_LIMIT_MS);
   } while (continueToken);
 
-  const allPages = [...pagesById.values()].slice(0, max);
+  const candidates = [...pagesById.values()].slice(0, max);
+  const metadataByTitle = new Map();
+  const batchCount = Math.ceil(candidates.length / METADATA_BATCH_SIZE);
+  for (let offset = 0; offset < candidates.length; offset += METADATA_BATCH_SIZE) {
+    const batch = candidates.slice(offset, offset + METADATA_BATCH_SIZE);
+    const data = await fetchImageMetadata(batch.map((p) => p.title));
+    for (const p of Object.values(data.query?.pages || {})) {
+      metadataByTitle.set(p.title, p);
+    }
+    console.log(`  metadata batch ${Math.floor(offset / METADATA_BATCH_SIZE) + 1}/${batchCount}`);
+    if (offset + METADATA_BATCH_SIZE < candidates.length) await sleep(RATE_LIMIT_MS);
+  }
+
+  const allPages = candidates.map((candidate) => ({
+    ...candidate,
+    ...(metadataByTitle.get(candidate.title) || {}),
+  }));
 
   await mkdir(out, { recursive: true });
 

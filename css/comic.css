@@ -302,3 +302,85 @@
 
 body[data-page="viewer"] #save-share-bar { display: none; }
 body[data-page="viewer"] #comic-main { max-width: 900px; margin: 0 auto; }
+
+/* ---- Visual-novel presentation (comic-view.html only): one full-frame
+   panel on screen at a time, click-through dialogue, choice buttons -
+   see presentVisualNovel() in js/comic.js. Only #comic-panels switches
+   layout (via the .comic-panels--vn modifier class); the strip view used
+   by comic.html's editor is untouched. ---- */
+#comic-panels.comic-panels--vn {
+  display: block;
+  padding: 0;
+  gap: 0;
+  height: min(80vh, 720px);
+  min-height: 420px;
+}
+
+#comic-panels.comic-panels--vn .comic-panel.vn-panel {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  margin: 0;
+  border-radius: 12px;
+  cursor: pointer;
+  animation: vn-panel-in 0.25s ease-out;
+}
+
+@keyframes vn-panel-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+#comic-panels.comic-panels--vn .comic-textbox {
+  font-size: 1.05rem;
+  min-height: 4.4em;
+  padding: 18px 20px 22px;
+}
+
+.vn-advance-hint {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  font-size: 0.8rem;
+  color: #fdfaf3;
+  opacity: 0.85;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  animation: vn-hint-pulse 1.4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.vn-advance-hint--end {
+  animation: none;
+  font-style: italic;
+}
+
+@keyframes vn-hint-pulse {
+  50% { opacity: 0.4; }
+}
+
+.vn-choices {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.vn-choice-btn {
+  text-align: left;
+  border: 1px solid rgba(253, 250, 243, 0.6);
+  background: rgba(0, 0, 0, 0.55);
+  color: #fdfaf3;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.vn-choice-btn:hover,
+.vn-choice-btn:focus-visible {
+  background: rgba(0, 0, 0, 0.8);
+  border-color: #fdfaf3;
+}
