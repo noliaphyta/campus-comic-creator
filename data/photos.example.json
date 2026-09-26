@@ -1,0 +1,14 @@
+[
+  {
+    "_comment": "One annotated example entry. Not read by the app - data/photos.json is (real entries, no _comment key). Delete this file's contents down to a plain array before anyone tries to load it directly.",
+    "id": "wren_building",
+    "building": "Sir Christopher Wren Building",
+    "year": 1931,
+    "lat": 37.2707,
+    "lon": -76.7071,
+    "file": "assets/photos/raw/wren_building_1931.jpg",
+    "styled": "assets/photos/styled/wren_building_1931.png",
+    "license": "Public Domain",
+    "source": "https://commons.wikimedia.org/wiki/File:Example.jpg"
+  }
+]

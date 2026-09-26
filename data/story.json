@@ -1,0 +1,10 @@
+{
+  "_note": "FALLBACK ONLY. Primary narrative content lives in data/story.ink, compiled to data/story.ink.json and run via inkjs (see js/story.js). This plain-JSON graph exists only as an emergency fallback if the Ink compile step falls through on demo day - keep it in sync loosely, don't maintain it in parallel as a real second content track.",
+  "start": "intro",
+  "passages": {
+    "intro": {
+      "text": "Replace with real passage text if this fallback is ever needed.",
+      "choices": []
+    }
+  }
+}

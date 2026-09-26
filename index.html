@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Campus Comic Creator</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header>
+    <h1>Campus Comic Creator</h1>
+    <p class="tagline">Plot a walk across campus history. Click 2+ pins to build a path.</p>
+  </header>
+
+  <main>
+    <div id="map"></div>
+    <div id="path-controls"></div>
+    <div id="timeline-controls"></div>
+
+    <div id="story-panel" hidden>
+      <img id="story-bg" alt="" hidden>
+      <img id="story-sprite" alt="" hidden>
+      <p id="story-text"></p>
+      <p id="story-feel" hidden></p>
+      <div id="story-choices"></div>
+      <button id="mute-toggle" type="button" data-muted="false">🔊 Voice on</button>
+      <audio id="story-audio" data-muted="false"></audio>
+    </div>
+  </main>
+
+  <div id="credits-panel" hidden></div>
+
+  <details id="about-panel">
+    <summary>About this project &amp; how AI is used</summary>
+    <ul>
+      <li>Every AI-suggested building match or generated line is reviewed by a
+        human before it's used — AI assists curation, it doesn't replace it.</li>
+      <li>All background photos are openly licensed (Public Domain or CC0) and
+        credited by name in the Credits panel above, with a link to the source.</li>
+      <li>Live AI features (narrative generation, if enabled) are opt-in
+        toggles, never the only path through the story.</li>
+      <li>No personal data is collected from visitors to this site.</li>
+    </ul>
+  </details>
+
+  <footer>
+    <a id="contribute-link" href="https://commons.wikimedia.org/wiki/Special:UploadWizard" target="_blank" rel="noopener">
+      Contribute a photo to Wikimedia Commons
+    </a>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.timeline@1.2.4/dist/leaflet.timeline.js"></script>
+  <script src="https://unpkg.com/inkjs@2/dist/ink.js"></script>
+  <script src="js/stylize.js"></script>
+  <script src="js/story.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
