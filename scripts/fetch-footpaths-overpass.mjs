@@ -27,7 +27,77 @@
 
 import { writeFile } from "node:fs/promises";
 
-const OVERPASS_API = "https://overpass-api.de/api/interpreter";
+// overpass-api.de is a single shared public instance and is frequently
+// overloaded (504 / "Dispatcher_Client::request_read_and_idx::timeout" is
+// Overpass's own "I'm too busy right now" response, not an error in the
+// query). These are the other public mirrors documented at
+// https://wiki.openstreetmap.org/wiki/Overpass_API#Public_Overpass_API_instances
+// - queryOverpass() below retries each with backoff before giving up.
+const OVERPASS_ENDPOINTS = [
+  "https://overpass-api.de/api/interpreter",
+  "https://lz4.overpass-api.de/api/interpreter",
+  "https://overpass.kumi.systems/api/interpreter",
+];
+
+// Overpass's Apache front-end now 406s any request that doesn't send a
+// distinct, descriptive User-Agent (Node's fetch sends none by default) -
+// see https://community.openstreetmap.org/t/overpass-api-error-406/143198.
+// Put a real contact here before running this for real, same as the
+// Wikimedia Commons script's USER_AGENT.
+const USER_AGENT =
+  "campus-comic-creator/1.0 (hackathon project; contact: eychan@wm.edu";
+
+/**
+ * queryOverpass(query) — POSTs to each endpoint in OVERPASS_ENDPOINTS in
+ * turn, retrying a busy/overloaded response (429/502/503/504) a few times
+ * with backoff before moving to the next mirror. Only gives up once every
+ * endpoint has been tried; a real query error (4xx other than 429, or a
+ * malformed-query message in the body) still fails fast instead of retrying
+ * pointlessly against every mirror.
+ */
+async function queryOverpass(query) {
+  const RETRYABLE = new Set([429, 502, 503, 504]);
+  let lastErr;
+
+  for (const endpoint of OVERPASS_ENDPOINTS) {
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      try {
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain", "User-Agent": USER_AGENT },
+          body: query,
+        });
+
+        if (res.ok) return await res.json();
+
+        if (RETRYABLE.has(res.status)) {
+          lastErr = new Error(`Overpass error ${res.status} from ${endpoint}`);
+          const waitMs = attempt * 3000;
+          console.warn(`${endpoint} is busy (${res.status}) - retrying in ${waitMs / 1000}s (attempt ${attempt}/3)...`);
+          await new Promise((resolve) => setTimeout(resolve, waitMs));
+          continue;
+        }
+
+        // Not a "busy" status - a real error (bad query, auth, etc). No
+        // point retrying this or trying other mirrors, they'll say the same.
+        throw new Error(`Overpass error ${res.status}: ${await res.text()}`);
+      } catch (err) {
+        lastErr = err;
+        if (err.name === "TypeError") {
+          // Network-level failure (DNS, connection refused, etc) - worth a
+          // quick retry, but don't loop forever on a dead mirror.
+          console.warn(`${endpoint} unreachable (${err.message}) - retrying (attempt ${attempt}/3)...`);
+          await new Promise((resolve) => setTimeout(resolve, attempt * 2000));
+          continue;
+        }
+        throw err;
+      }
+    }
+    console.warn(`Giving up on ${endpoint} after 3 attempts, trying the next mirror...`);
+  }
+
+  throw lastErr || new Error("All Overpass endpoints failed");
+}
 
 function parseArgs(argv) {
   // Same default box as fetch-buildings-overpass.mjs - narrow this to your
@@ -91,14 +161,7 @@ async function main() {
 
   console.log(`Querying Overpass for dedicated footpaths in bbox ${args.south},${args.west},${args.north},${args.east}`);
 
-  const res = await fetch(OVERPASS_API, {
-    method: "POST",
-    headers: { "Content-Type": "text/plain" },
-    body: query,
-  });
-  if (!res.ok) throw new Error(`Overpass error ${res.status}: ${await res.text()}`);
-
-  const data = await res.json();
+  const data = await queryOverpass(query);
   const geojson = overpassToGeoJSON(data);
 
   await writeFile(args.out, JSON.stringify(geojson, null, 2));

@@ -43,7 +43,7 @@ const API = "https://commons.wikimedia.org/w/api.php";
 // before you run this for real - it's required by their API usage policy,
 // not optional politeness.
 const USER_AGENT =
-  "WM-Geospatial-Comic-Archive/1.0 (hackathon project; contact: REPLACE_ME@wm.edu)";
+  "campus-comic-creator/1.0 (hackathon project; contact: eychan@wm.edu";
 
 const RATE_LIMIT_MS = 1000; // be polite: ~1 request/sec, this is a one-time batch job
 
