@@ -11,12 +11,21 @@
 </head>
 <body>
   <header>
-    <h1>Campus Comic Creator</h1>
-    <p class="tagline">Plot a walk across campus history. Click 2+ pins to build a path.</p>
+    <div class="header-row">
+      <div>
+        <h1>Campus Comic Creator</h1>
+        <p class="tagline">Plot a walk across campus history. Click 2+ pins to build a path.</p>
+      </div>
+      <button id="dark-mode-toggle" type="button" title="Toggle dark mode">🌙</button>
+    </div>
   </header>
 
   <main>
     <div id="map"></div>
+    <div id="map-layer-controls">
+      <label><input type="checkbox" id="toggle-buildings" checked> Buildings</label>
+      <label><input type="checkbox" id="toggle-paths" checked> Footpaths</label>
+    </div>
     <div id="route-profile-controls">
       <label for="route-profile">Path type
         <select id="route-profile">
@@ -37,8 +46,6 @@
       <p id="story-text"></p>
       <p id="story-feel" hidden></p>
       <div id="story-choices"></div>
-      <button id="mute-toggle" type="button" data-muted="false">🔊 Voice on</button>
-      <audio id="story-audio" data-muted="false"></audio>
     </div>
   </main>
 

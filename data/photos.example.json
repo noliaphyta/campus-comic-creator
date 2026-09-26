@@ -9,6 +9,7 @@
     "file": "assets/photos/raw/wren_building_1931.jpg",
     "styled": "assets/photos/styled/wren_building_1931.png",
     "license": "Public Domain",
-    "source": "https://commons.wikimedia.org/wiki/File:Example.jpg"
+    "source": "https://commons.wikimedia.org/wiki/File:Example.jpg",
+    "creator": "Jane Doe (optional - Commons 'Artist' field; omit if unknown, credits panel falls back gracefully)"
   }
 ]

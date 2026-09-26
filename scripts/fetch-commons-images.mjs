@@ -113,6 +113,13 @@ function toScaffoldEntry(page) {
     info.extmetadata?.UsageTerms?.value ||
     "UNKNOWN - verify on file page";
 
+  // Artist/Credit come through as HTML (often an <a> to the photographer's
+  // Commons user page) - strip tags for a plain-text creator name good
+  // enough for an attribution line; a human still eyeballs this during the
+  // per-image vetting pass (see docs/build-plan.md's Image Sourcing section).
+  const rawArtist = info.extmetadata?.Artist?.value || info.extmetadata?.Credit?.value || "";
+  const creator = rawArtist.replace(/<[^>]+>/g, "").trim() || null;
+
   return {
     id: slug,
     file: info.url, // full-resolution original; download this by hand after license review
@@ -121,8 +128,9 @@ function toScaffoldEntry(page) {
     building: null, // fill in by hand - Step 3 of the build plan
     lat: coord.lat,
     lon: coord.lon,
-    source: page.descriptionurl,
+    source: page.descriptionurl, // Commons File: description page - required for CC attribution, not the raw file URL
     license,
+    creator,
   };
 }
 

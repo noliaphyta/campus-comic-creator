@@ -173,21 +173,8 @@ function renderFallbackPassage(buildingId) {
   console.warn(`Rendering fallback passage for "${buildingId}" from data/story.json.`);
 }
 
-function wireMuteToggle() {
-  const btn = document.getElementById("mute-toggle");
-  const player = document.getElementById("story-audio");
-  if (!btn || !player) return;
-  btn.addEventListener("click", () => {
-    const muted = player.dataset.muted !== "true";
-    player.dataset.muted = String(muted);
-    if (muted) player.pause();
-    btn.textContent = muted ? "🔈 Voice off" : "🔊 Voice on";
-  });
-}
-
 document.addEventListener("DOMContentLoaded", () => {
   loadStory();
-  wireMuteToggle();
 });
 
 // Exposed for app.js - it owns sequencing (which building is next) and

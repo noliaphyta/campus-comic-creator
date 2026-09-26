@@ -45,6 +45,8 @@ let markersLayer = null; // L.layerGroup holding Tier A (thumbnail) markers
 let dotCluster = null; // L.markerClusterGroup holding Tier B (dot) markers
 let yearRange = { min: null, max: null }; // current slider selection, inclusive
 let footpathFeatures = []; // raw LineString features from data/paths.geojson, [] if not fetched yet
+let buildingsLayer = null; // L.geoJSON layer for data/buildings.geojson, toggled by #toggle-buildings
+let pathsLayer = null; // L.geoJSON layer for data/paths.geojson, toggled by #toggle-paths
 let routeRequestSeq = 0; // increments per plotRoute() call; guards against out-of-order/superseded responses
 let lastRouteRequestAt = 0; // Date.now() of the last OSRM fetch actually sent; see throttleRouteRequest()
 
@@ -169,7 +171,7 @@ async function init() {
 
   try {
     buildings = await loadJSON("data/buildings.geojson");
-    L.geoJSON(buildings, {
+    buildingsLayer = L.geoJSON(buildings, {
       style: { color: "#8a3324", weight: 1, fillOpacity: 0.05 },
     }).addTo(map);
   } catch (err) {
@@ -179,7 +181,7 @@ async function init() {
   try {
     const paths = await loadJSON(PATHS_GEOJSON);
     footpathFeatures = paths.features || [];
-    L.geoJSON(paths, {
+    pathsLayer = L.geoJSON(paths, {
       style: { color: "#2b6cb0", weight: 2, opacity: 0.6, dashArray: "1 4" },
     }).addTo(map);
   } catch (err) {
@@ -203,6 +205,9 @@ async function init() {
       if (selectedWaypoints.length > 1) plotRoute(selectedWaypoints);
     });
   }
+
+  wireLayerToggles();
+  wireDarkMode();
 
   if (photos.length) {
     renderYearRangeSlider(photos); // builds the slider AND does the first renderMarkers() call
@@ -572,6 +577,35 @@ function renderWaypointChips() {
     });
     el.appendChild(finish);
   }
+
+  if (selectedWaypoints.length >= 2) {
+    const comicBtn = document.createElement("button");
+    comicBtn.id = "generate-comic-btn";
+    comicBtn.textContent = "🖼️ Generate Comic";
+    comicBtn.addEventListener("click", goToComicCreator);
+    el.appendChild(comicBtn);
+  }
+}
+
+/**
+ * goToComicCreator() — hands the player's current path (in click order) off
+ * to the standalone comic-creator page. The mapping UI and the comic UI are
+ * deliberately separate pages/scripts (see docs) - this is the only bridge
+ * between them, a small JSON blob of just the photos on this path, written
+ * to localStorage (not the URL - photo objects carry full Commons metadata
+ * and can be too big for a query string).
+ */
+function goToComicCreator() {
+  const pathPhotos = selectedWaypoints
+    .map((wp) => photosById[wp.buildingId])
+    .filter(Boolean);
+  if (pathPhotos.length < 2) return;
+  try {
+    localStorage.setItem("ccc_comic_path", JSON.stringify(pathPhotos));
+  } catch (err) {
+    console.warn("Could not stash path for the comic creator.", err);
+  }
+  window.location.href = "comic.html";
 }
 
 function resetPath() {
@@ -761,10 +795,32 @@ async function runStylizeAndStory(photo) {
 }
 
 /**
+ * attributionLine(photo) -> plain-text CC-style attribution, e.g.
+ * `"James Blair Hall, College of William and Mary (3859960606)" by Jane
+ * Doe, CC BY-SA 2.0, via Wikimedia Commons -
+ * https://commons.wikimedia.org/wiki/File:...`
+ * `photo.source` is already the Wikimedia Commons File: description page
+ * (not a redirect/thumbnail/raw-upload URL - see
+ * scripts/fetch-commons-images.mjs's `page.descriptionurl`), which is what
+ * the license actually requires linking to. `photo.creator` is optional
+ * (older curated entries may not have it) and falls back gracefully.
+ */
+function attributionLine(photo) {
+  const title = photo.title || buildingLabel(photo);
+  const creator = photo.creator ? ` by ${photo.creator}` : "";
+  const license = photo.license || "license unknown";
+  const link = photo.source || "#";
+  return `"${title}"${creator}, ${license}, via Wikimedia Commons - ${link}`;
+}
+
+/**
  * renderCredits(photos) — auto-generates the attribution list from the
- * source/license metadata already captured per photo at ingest time. Don't
- * discard those fields when curating photos.json - this is where they're
- * used, not just provenance bookkeeping.
+ * source/license/creator metadata already captured per photo at ingest
+ * time. Don't discard those fields when curating photos.json - this is
+ * where they're used, not just provenance bookkeeping. Renders both a
+ * clickable list (source links to the actual Commons file page) and a
+ * plain-text block the whole thing can be copy-pasted from in one go, for
+ * anyone reusing these images/credits elsewhere.
  */
 function renderCredits(photos) {
   const el = document.getElementById("credits-panel");
@@ -773,14 +829,101 @@ function renderCredits(photos) {
     return;
   }
   el.hidden = false;
+
   const items = photos
-    .map(
-      (p) =>
-        `<li>${p.building ?? "Unknown"}, ${p.year ?? "?"} — ${p.license ?? "license unknown"} — ` +
-        `<a href="${p.source ?? "#"}" target="_blank" rel="noopener">source</a></li>`
-    )
+    .map((p) => {
+      const label = p.building || buildingLabel(p);
+      const creator = p.creator ? ` — photo by ${p.creator}` : "";
+      return (
+        `<li>${label}, ${p.year ?? "?"}${creator} — ${p.license ?? "license unknown"} — ` +
+        `<a href="${p.source ?? "#"}" target="_blank" rel="noopener">Wikimedia Commons file page</a></li>`
+      );
+    })
     .join("");
-  el.innerHTML = `<strong>Credits</strong><ul>${items}</ul>`;
+
+  const plainText = photos.map(attributionLine).join("\n");
+
+  el.innerHTML =
+    `<strong>Credits</strong><ul>${items}</ul>` +
+    `<div class="attribution-copy-block">` +
+    `<div class="attribution-copy-header"><span>Copy-pastable attribution</span>` +
+    `<button type="button" id="copy-credits-btn">Copy</button></div>` +
+    `<pre id="attribution-plaintext" tabindex="0"></pre>` +
+    `</div>`;
+
+  // textContent (not innerHTML) for the <pre> - it's plain attribution
+  // text, not markup, and must round-trip exactly on copy/select-all.
+  document.getElementById("attribution-plaintext").textContent = plainText;
+
+  const copyBtn = document.getElementById("copy-credits-btn");
+  copyBtn.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(plainText);
+      copyBtn.textContent = "Copied!";
+    } catch (err) {
+      // Clipboard API can fail (permissions, insecure context) - the <pre>
+      // is still plain selectable text, so select it as a fallback so the
+      // user can Ctrl/Cmd+C manually instead of hitting a dead button.
+      const range = document.createRange();
+      range.selectNodeContents(document.getElementById("attribution-plaintext"));
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      copyBtn.textContent = "Select-all applied";
+      console.warn("navigator.clipboard.writeText failed - selected the text instead.", err);
+    }
+    setTimeout(() => { copyBtn.textContent = "Copy"; }, 2000);
+  });
+}
+
+/**
+ * wireLayerToggles() — #toggle-buildings / #toggle-paths checkboxes just
+ * add/remove the already-built Leaflet layers; they don't refetch or
+ * rebuild anything, so toggling is instant either direction.
+ */
+function wireLayerToggles() {
+  const buildingsCb = document.getElementById("toggle-buildings");
+  if (buildingsCb) {
+    buildingsCb.addEventListener("change", () => {
+      if (!buildingsLayer) return;
+      if (buildingsCb.checked) map.addLayer(buildingsLayer);
+      else map.removeLayer(buildingsLayer);
+    });
+  }
+  const pathsCb = document.getElementById("toggle-paths");
+  if (pathsCb) {
+    pathsCb.addEventListener("change", () => {
+      if (!pathsLayer) return;
+      if (pathsCb.checked) map.addLayer(pathsLayer);
+      else map.removeLayer(pathsLayer);
+    });
+  }
+}
+
+/**
+ * wireDarkMode() — toggles a `data-theme="dark"` attribute on <html>; all
+ * the actual color changes live in css/style.css under
+ * `:root[data-theme="dark"]`. Persisted in localStorage so it survives a
+ * reload; otherwise falls back to the OS-level prefers-color-scheme.
+ */
+function wireDarkMode() {
+  const btn = document.getElementById("dark-mode-toggle");
+  if (!btn) return;
+  const stored = localStorage.getItem("ccc_theme");
+  const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const initialDark = stored ? stored === "dark" : prefersDark;
+  applyTheme(initialDark);
+
+  btn.addEventListener("click", () => {
+    const isDark = document.documentElement.dataset.theme === "dark";
+    applyTheme(!isDark);
+    localStorage.setItem("ccc_theme", !isDark ? "dark" : "light");
+  });
+
+  function applyTheme(dark) {
+    document.documentElement.dataset.theme = dark ? "dark" : "light";
+    btn.textContent = dark ? "☀️" : "🌙";
+  }
 }
 
 document.addEventListener("DOMContentLoaded", init);

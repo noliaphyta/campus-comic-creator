@@ -1,0 +1,265 @@
+/* comic.css — styles specific to comic.html. css/style.css supplies the
+   shared header/theme-variable/credits-panel/attribution-block rules; this
+   file only adds what's unique to the comic-creator page. */
+
+#back-to-map {
+  display: inline-block;
+  margin: 4px 20px 0;
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+#back-to-map:hover { text-decoration: underline; }
+
+#no-path-message {
+  margin: 16px 20px;
+  padding: 14px 16px;
+  border: 1px dashed var(--panel-border);
+  border-radius: 8px;
+  color: var(--muted);
+}
+
+#comic-setup {
+  margin: 12px 20px;
+  padding: 14px 16px;
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#mode-fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+#mode-fieldset legend {
+  font-weight: 600;
+  padding: 0 0 4px;
+}
+
+#mode-fieldset label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+.mode-disabled { color: var(--muted); }
+
+.soon-tag {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  border: 1px solid var(--muted);
+  border-radius: 999px;
+  padding: 1px 8px;
+}
+
+#autogen-options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+#autogen-options label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.85rem;
+}
+
+#generate-btn {
+  background: var(--accent);
+  color: var(--paper);
+  border: none;
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  align-self: flex-end;
+}
+
+#generate-status {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+  min-height: 1em;
+}
+
+#manual-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#manual-panel-editors {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.manual-editor-row {
+  display: flex;
+  gap: 12px;
+  padding: 10px;
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+}
+
+.manual-editor-thumb {
+  flex: 0 0 auto;
+  width: 84px;
+  height: 84px;
+  object-fit: cover;
+  border-radius: 6px;
+  background: #ccc;
+}
+
+.manual-editor-fields {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.manual-editor-controls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.manual-editor-controls select {
+  font-size: 0.8rem;
+}
+
+.manual-caption-textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 0.85rem;
+  padding: 6px 8px;
+  border: 1px solid var(--panel-border);
+  border-radius: 4px;
+  background: var(--paper);
+  color: var(--ink);
+  resize: vertical;
+}
+
+.manual-feel-input {
+  width: 100%;
+  font-size: 0.8rem;
+  font-style: italic;
+  padding: 4px 8px;
+  border: 1px solid var(--panel-border);
+  border-radius: 4px;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+#build-manual-btn {
+  background: var(--accent);
+  color: var(--paper);
+  border: none;
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  align-self: flex-end;
+}
+
+/* ---- Panels: each one is a fixed-aspect-ratio "page" - background image
+   (cropped + filtered), a character bounding-box placeholder, and a
+   typewriter textbox, stacked with CSS position rather than canvas
+   compositing so the text stays real DOM text (selectable, accessible,
+   animatable with plain JS/CSS - see js/comic.js's typewriter()). ---- */
+#comic-panels {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 0 20px 20px;
+}
+
+.comic-panel {
+  position: relative;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+}
+
+.comic-panel img.panel-bg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.comic-panel .panel-index {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+/* Character bounding-box placeholder - swap this out for real character
+   art later; positioning/sizing logic lives in js/comic.js's
+   renderCharacterPlaceholder() so it's one place to change. */
+.character-bbox {
+  position: absolute;
+  bottom: 14%;
+  border: 2px dashed rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.comic-textbox {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 14px 16px 18px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0));
+  color: #fdfaf3;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  min-height: 3.2em;
+}
+
+.comic-textbox .feel-line {
+  display: block;
+  margin-top: 4px;
+  font-style: italic;
+  font-size: 0.8rem;
+  opacity: 0.85;
+}
+
+.comic-textbox .caption-cursor {
+  display: inline-block;
+  width: 0.5em;
+  animation: comic-caret-blink 0.9s steps(1) infinite;
+}
+
+@keyframes comic-caret-blink {
+  50% { opacity: 0; }
+}

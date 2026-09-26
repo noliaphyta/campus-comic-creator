@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Comic Creator — Campus Comic Creator</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/comic.css" />
+</head>
+<body>
+  <header>
+    <div class="header-row">
+      <div>
+        <h1>Comic Creator</h1>
+        <p class="tagline">Turns the path you plotted on the map into a comic/visual-novel strip.</p>
+      </div>
+      <button id="dark-mode-toggle" type="button" title="Toggle dark mode">🌙</button>
+    </div>
+    <a id="back-to-map" href="index.html">&larr; Back to the map</a>
+  </header>
+
+  <main id="comic-main">
+    <div id="no-path-message" hidden>
+      No path found. Go back to the map, click 2 or more building pins to
+      build a path, then hit <strong>Generate Comic</strong>.
+    </div>
+
+    <section id="comic-setup">
+      <fieldset id="mode-fieldset">
+        <legend>How do you want to build it?</legend>
+        <label>
+          <input type="radio" name="comic-mode" value="auto" checked>
+          Autogenerate (pick a look, we do the rest)
+        </label>
+        <label id="manual-mode-label">
+          <input type="radio" name="comic-mode" value="manual">
+          Manually select styles &amp; story
+        </label>
+      </fieldset>
+
+      <div id="autogen-options">
+        <label for="aspect-ratio">Panel aspect ratio
+          <select id="aspect-ratio">
+            <option value="16:9">Widescreen (16:9)</option>
+            <option value="4:3" selected>Classic panel (4:3)</option>
+            <option value="1:1">Square (1:1)</option>
+            <option value="9:16">Portrait / phone (9:16)</option>
+          </select>
+        </label>
+        <label for="filter-style">Visual filter
+          <select id="filter-style">
+            <option value="halftone" selected>Halftone (ink dots)</option>
+            <option value="dither">CMYK dither</option>
+            <option value="none">None (cropped only)</option>
+          </select>
+        </label>
+        <button id="generate-btn" type="button">Generate Comic</button>
+      </div>
+
+      <div id="manual-options" hidden>
+        <label for="aspect-ratio-manual">Panel aspect ratio (applies to every panel)
+          <select id="aspect-ratio-manual">
+            <option value="16:9">Widescreen (16:9)</option>
+            <option value="4:3" selected>Classic panel (4:3)</option>
+            <option value="1:1">Square (1:1)</option>
+            <option value="9:16">Portrait / phone (9:16)</option>
+          </select>
+        </label>
+        <div id="manual-panel-editors"></div>
+        <button id="build-manual-btn" type="button">Build Comic</button>
+      </div>
+      <p id="generate-status" role="status"></p>
+    </section>
+
+    <section id="comic-panels"></section>
+  </main>
+
+  <div id="credits-panel"></div>
+
+  <script src="https://unpkg.com/inkjs@2/dist/ink.js"></script>
+  <script src="https://unpkg.com/glfx-es6/dist/glfx-es6.min.js"></script>
+  <script src="https://unpkg.com/suncalc@1.9.0/suncalc.js"></script>
+  <script src="js/stylize.js"></script>
+  <script src="js/comic.js"></script>
+</body>
+</html>
