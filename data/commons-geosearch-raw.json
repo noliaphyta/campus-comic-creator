@@ -1274,6 +1274,14 @@
     "ns": 6,
     "title": "File:Cooking chocolate for smores on a piece of lettuce (3859960496).jpg",
     "index": 9,
+    "coordinates": [
+      {
+        "lat": 37.269596,
+        "lon": -76.708581,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
     "imagerepository": "local",
     "imageinfo": [
       {
@@ -1386,14 +1394,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.269596,
-        "lon": -76.708581,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -1401,6 +1401,14 @@
     "ns": 6,
     "title": "File:Burning papers at the end of the semester (3859175125).jpg",
     "index": 10,
+    "coordinates": [
+      {
+        "lat": 37.269544,
+        "lon": -76.708806,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
     "imagerepository": "local",
     "imageinfo": [
       {
@@ -1512,14 +1520,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.269544,
-        "lon": -76.708806,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -2544,6 +2544,14 @@
     "ns": 6,
     "title": "File:Dormroom Sega at William and Mary (3860000796).jpg",
     "index": 19,
+    "coordinates": [
+      {
+        "lat": 37.269523,
+        "lon": -76.708774,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
     "imagerepository": "local",
     "imageinfo": [
       {
@@ -2655,14 +2663,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.269523,
-        "lon": -76.708774,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -3433,6 +3433,14 @@
     "ns": 6,
     "title": "File:Installation of Sandra Day OConnor as Chancellor of William and Mary (3453102296).jpg",
     "index": 26,
+    "coordinates": [
+      {
+        "lat": 37.270799,
+        "lon": -76.709155,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
     "imagerepository": "local",
     "imageinfo": [
       {
@@ -3545,14 +3553,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270799,
-        "lon": -76.709155,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -3560,6 +3560,14 @@
     "ns": 6,
     "title": "File:Installation of Sandra Day OConnor as Chancellor of William and Mary (3453091154).jpg",
     "index": 27,
+    "coordinates": [
+      {
+        "lat": 37.270799,
+        "lon": -76.709155,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
     "imagerepository": "local",
     "imageinfo": [
       {
@@ -3671,14 +3679,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270799,
-        "lon": -76.709155,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -3814,6 +3814,14 @@
     "ns": 6,
     "title": "File:Installation of Sandra Day OConnor as Chancellor of William and Mary (3452287315).jpg",
     "index": 29,
+    "coordinates": [
+      {
+        "lat": 37.270799,
+        "lon": -76.709155,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
     "imagerepository": "local",
     "imageinfo": [
       {
@@ -3926,14 +3934,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270799,
-        "lon": -76.709155,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -3941,6 +3941,14 @@
     "ns": 6,
     "title": "File:Preperations for the Installation of former Supreme Court Justice Sandra Day OConnor as Chancellor of the College of William and Mary (3453090716).jpg",
     "index": 30,
+    "coordinates": [
+      {
+        "lat": 37.270799,
+        "lon": -76.709155,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
     "imagerepository": "local",
     "imageinfo": [
       {
@@ -4053,14 +4061,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270799,
-        "lon": -76.709155,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -4068,6 +4068,14 @@
     "ns": 6,
     "title": "File:Installation of Sandra Day OConnor as Chancellor of William and Mary (3452270423).jpg",
     "index": 31,
+    "coordinates": [
+      {
+        "lat": 37.270799,
+        "lon": -76.709155,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
     "imagerepository": "local",
     "imageinfo": [
       {
@@ -4180,14 +4188,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270799,
-        "lon": -76.709155,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -4195,6 +4195,14 @@
     "ns": 6,
     "title": "File:Installation of Sandra Day OConnor as Chancellor of William and Mary (3452269973).jpg",
     "index": 32,
+    "coordinates": [
+      {
+        "lat": 37.270799,
+        "lon": -76.709155,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
     "imagerepository": "local",
     "imageinfo": [
       {
@@ -4307,14 +4315,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270799,
-        "lon": -76.709155,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -4322,6 +4322,14 @@
     "ns": 6,
     "title": "File:Installation of Sandra Day OConnor as Chancellor of William and Mary (3453086724).jpg",
     "index": 33,
+    "coordinates": [
+      {
+        "lat": 37.270799,
+        "lon": -76.709155,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
     "imagerepository": "local",
     "imageinfo": [
       {
@@ -4434,14 +4442,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270799,
-        "lon": -76.709155,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -4449,6 +4449,14 @@
     "ns": 6,
     "title": "File:Installation of Sandra Day OConnor as Chancellor of William and Mary (3452274183).jpg",
     "index": 34,
+    "coordinates": [
+      {
+        "lat": 37.270799,
+        "lon": -76.709155,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
     "imagerepository": "local",
     "imageinfo": [
       {
@@ -4561,14 +4569,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270799,
-        "lon": -76.709155,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -4576,6 +4576,14 @@
     "ns": 6,
     "title": "File:Pep Band Closet (3415408085).jpg",
     "index": 35,
+    "coordinates": [
+      {
+        "lat": 37.270134,
+        "lon": -76.710099,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
     "imagerepository": "local",
     "imageinfo": [
       {
@@ -4688,14 +4696,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270134,
-        "lon": -76.710099,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -4703,6 +4703,14 @@
     "ns": 6,
     "title": "File:Queen Elizabeth II at William and Mary (3452182367).jpg",
     "index": 36,
+    "coordinates": [
+      {
+        "lat": 37.270799,
+        "lon": -76.709155,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
     "imagerepository": "local",
     "imageinfo": [
       {
@@ -4815,14 +4823,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270799,
-        "lon": -76.709155,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -4830,6 +4830,14 @@
     "ns": 6,
     "title": "File:Queen Elizabeth II at William and Mary (3452179469).jpg",
     "index": 37,
+    "coordinates": [
+      {
+        "lat": 37.270799,
+        "lon": -76.709155,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
     "imagerepository": "local",
     "imageinfo": [
       {
@@ -4942,14 +4950,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270799,
-        "lon": -76.709155,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -4957,6 +4957,14 @@
     "ns": 6,
     "title": "File:Queen Elizabeth II at William and Mary (3452993732).jpg",
     "index": 38,
+    "coordinates": [
+      {
+        "lat": 37.270799,
+        "lon": -76.709155,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
     "imagerepository": "local",
     "imageinfo": [
       {
@@ -5068,14 +5076,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270799,
-        "lon": -76.709155,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -5196,14 +5196,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270799,
-        "lon": -76.709155,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -5322,14 +5314,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270799,
-        "lon": -76.709155,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -5450,14 +5434,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270799,
-        "lon": -76.709155,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -5576,14 +5552,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270799,
-        "lon": -76.709155,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -5704,14 +5672,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270799,
-        "lon": -76.709155,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -5830,14 +5790,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270799,
-        "lon": -76.709155,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -5958,14 +5910,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270799,
-        "lon": -76.709155,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -6084,14 +6028,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270799,
-        "lon": -76.709155,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -6212,14 +6148,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270799,
-        "lon": -76.709155,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -6338,14 +6266,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270799,
-        "lon": -76.709155,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -6466,14 +6386,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270799,
-        "lon": -76.709155,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -6592,14 +6504,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270799,
-        "lon": -76.709155,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -6720,14 +6624,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270799,
-        "lon": -76.709155,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -6846,14 +6742,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270799,
-        "lon": -76.709155,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -6974,14 +6862,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270799,
-        "lon": -76.709155,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -7100,14 +6980,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270799,
-        "lon": -76.709155,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -7228,14 +7100,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270799,
-        "lon": -76.709155,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -7354,14 +7218,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270799,
-        "lon": -76.709155,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -7482,14 +7338,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.267778,
-        "lon": -76.71,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -7608,14 +7456,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270833,
-        "lon": -76.709167,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -7746,14 +7586,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.271031,
-        "lon": -76.713928,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -7883,14 +7715,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.271311,
-        "lon": -76.711233,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -8009,14 +7833,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270789,
-        "lon": -76.706772,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -8137,14 +7953,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270789,
-        "lon": -76.706772,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -8263,14 +8071,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.273501,
-        "lon": -76.707984,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -8391,14 +8191,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.273501,
-        "lon": -76.707984,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -8517,14 +8309,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.273501,
-        "lon": -76.707984,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -8645,14 +8429,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.273481,
-        "lon": -76.709733,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -8771,14 +8547,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270818,
-        "lon": -76.708353,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -8909,14 +8677,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270702,
-        "lon": -76.707457,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -9035,14 +8795,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.27083,
-        "lon": -76.711312,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -9173,14 +8925,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270926,
-        "lon": -76.708332,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -9309,14 +9053,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270828,
-        "lon": -76.708496,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -9447,14 +9183,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270858,
-        "lon": -76.70823,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -9583,14 +9311,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270905,
-        "lon": -76.707994,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -9721,14 +9441,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270776,
-        "lon": -76.70797,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -9858,14 +9570,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.271045,
-        "lon": -76.706827,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -9984,14 +9688,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.2707022,
-        "lon": -76.7074571,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -10112,14 +9808,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.271679,
-        "lon": -76.714353,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -10238,14 +9926,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.271679,
-        "lon": -76.714353,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -10366,14 +10046,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.271679,
-        "lon": -76.714353,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -10488,14 +10160,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.27305556,
-        "lon": -76.71138889,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -10621,14 +10285,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.2707022,
-        "lon": -76.7074571,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -10753,14 +10409,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.2707022,
-        "lon": -76.7074571,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -10879,14 +10527,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.272222,
-        "lon": -76.710556,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -11007,14 +10647,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.272222,
-        "lon": -76.71,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -11133,14 +10765,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.273333,
-        "lon": -76.712778,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -11261,14 +10885,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.272222,
-        "lon": -76.7075,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -11387,14 +11003,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.272222,
-        "lon": -76.7075,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -11515,14 +11123,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.2725,
-        "lon": -76.711111,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -11641,14 +11241,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.271944,
-        "lon": -76.710278,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -11769,14 +11361,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.272778,
-        "lon": -76.711389,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -11895,14 +11479,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.271111,
-        "lon": -76.711111,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -12023,14 +11599,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.272222,
-        "lon": -76.710278,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -12149,14 +11717,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.271111,
-        "lon": -76.7125,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -12277,14 +11837,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.272222,
-        "lon": -76.709444,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -12403,14 +11955,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.271944,
-        "lon": -76.710556,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -12531,14 +12075,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.272778,
-        "lon": -76.711667,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -12657,14 +12193,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.271944,
-        "lon": -76.710556,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -12785,14 +12313,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.272222,
-        "lon": -76.706944,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -12911,14 +12431,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.272222,
-        "lon": -76.706944,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -13039,14 +12551,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.271944,
-        "lon": -76.710556,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -13165,14 +12669,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270833,
-        "lon": -76.711111,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -13293,14 +12789,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.2725,
-        "lon": -76.710833,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -13419,14 +12907,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.272778,
-        "lon": -76.711667,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -13547,14 +13027,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.273056,
-        "lon": -76.711111,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -13673,14 +13145,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.272222,
-        "lon": -76.708333,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -13801,14 +13265,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.271944,
-        "lon": -76.708333,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -13927,14 +13383,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.271667,
-        "lon": -76.711111,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -14055,14 +13503,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.271667,
-        "lon": -76.711944,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -14181,14 +13621,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.269722,
-        "lon": -76.711111,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -14309,14 +13741,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270833,
-        "lon": -76.710833,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -14435,14 +13859,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.271944,
-        "lon": -76.708333,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -14563,14 +13979,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.271111,
-        "lon": -76.711944,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -14689,14 +14097,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.271944,
-        "lon": -76.708333,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -14817,14 +14217,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.271944,
-        "lon": -76.710556,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -14943,14 +14335,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.271111,
-        "lon": -76.711111,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -15071,14 +14455,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.271667,
-        "lon": -76.710556,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -15197,14 +14573,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.272778,
-        "lon": -76.711667,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -15325,14 +14693,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.271944,
-        "lon": -76.710556,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -15448,14 +14808,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.27064896,
-        "lon": -76.7075119,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -15573,14 +14925,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.27064896,
-        "lon": -76.7075119,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -15696,14 +15040,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.27064896,
-        "lon": -76.7075119,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -15821,14 +15157,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.27064896,
-        "lon": -76.7075119,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -15944,14 +15272,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.27064896,
-        "lon": -76.7075119,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -16069,14 +15389,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.27064896,
-        "lon": -76.7075119,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -16192,14 +15504,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.27064896,
-        "lon": -76.7075119,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -16317,14 +15621,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.27064896,
-        "lon": -76.7075119,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -16440,14 +15736,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.27064896,
-        "lon": -76.7075119,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -16565,14 +15853,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.27064896,
-        "lon": -76.7075119,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -16688,14 +15968,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.27064896,
-        "lon": -76.7075119,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -16813,14 +16085,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.27064896,
-        "lon": -76.7075119,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -16936,14 +16200,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.27064896,
-        "lon": -76.7075119,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -17061,14 +16317,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.27064896,
-        "lon": -76.7075119,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -17184,14 +16432,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.27064896,
-        "lon": -76.7075119,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -17312,14 +16552,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.273285,
-        "lon": -76.711686,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -17438,14 +16670,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.271058,
-        "lon": -76.708855,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },
@@ -17566,14 +16790,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.270808,
-        "lon": -76.709618,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -17693,14 +16909,6 @@
           }
         }
       }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.27240278,
-        "lon": -76.71231944,
-        "primary": "",
-        "globe": "earth"
-      }
     ]
   },
   {
@@ -17819,14 +17027,6 @@
             "hidden": ""
           }
         }
-      }
-    ],
-    "coordinates": [
-      {
-        "lat": 37.271397,
-        "lon": -76.707886,
-        "primary": "",
-        "globe": "earth"
       }
     ]
   },

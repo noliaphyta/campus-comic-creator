@@ -190,25 +190,50 @@ async function main() {
   );
 
   // Geosearch is the only paged phase. It returns file titles and coordinates;
-  // continuation advances through actual nearby matches.
+  // continuation advances through actual nearby matches. NOTE: per MediaWiki's
+  // own continuation docs, a generator+prop query can emit `continue` again
+  // for the SAME page set while it's still resolving `prop` for pages already
+  // returned, not just when there are new pages - so `continue` truthy is not
+  // by itself proof of forward progress. Track how many *new* pageids each
+  // response actually added and bail out once that stops happening, instead
+  // of trusting continueToken alone (which is what caused this to spin
+  // forever on page 2 previously).
   const pagesById = new Map();
   let continueToken = null;
   let searchPage = 0;
+  let stallCount = 0;
+  const MAX_STALLS = 3; // a couple of "same size" pages can be legitimate metadata-only continuation; more than that is a stuck loop
 
   do {
     searchPage += 1;
     const data = await fetchGeosearchPage(lat, lon, radius, limit, continueToken);
+    const sizeBefore = pagesById.size;
     for (const p of Object.values(data.query?.pages || {})) {
       pagesById.set(p.pageid, { ...pagesById.get(p.pageid), ...p });
     }
+    const added = pagesById.size - sizeBefore;
     continueToken = data.continue || null;
-    console.log(`  geosearch page ${searchPage}: ${pagesById.size} unique files so far`);
+    console.log(`  geosearch page ${searchPage}: ${pagesById.size} unique files so far (+${added})`);
 
     if (pagesById.size >= max) {
       console.log(`  hit cap of ${max}, stopping (radius=${radius}m may be too wide for this cap)`);
       continueToken = null;
       break;
     }
+
+    if (added === 0 && continueToken) {
+      stallCount += 1;
+      console.log(`  no new files this page (stall ${stallCount}/${MAX_STALLS})`);
+      if (stallCount >= MAX_STALLS) {
+        console.log(`  geosearch stopped returning new files but kept sending a continue token - stopping here rather than looping forever.`);
+        console.log(`  (this can happen when the API is still resolving properties for already-seen pages; if you expected more results, try a smaller --limit per page.)`);
+        continueToken = null;
+        break;
+      }
+    } else {
+      stallCount = 0;
+    }
+
     if (continueToken) await sleep(RATE_LIMIT_MS);
   } while (continueToken);
 
@@ -217,11 +242,21 @@ async function main() {
   const batchCount = Math.ceil(candidates.length / METADATA_BATCH_SIZE);
   for (let offset = 0; offset < candidates.length; offset += METADATA_BATCH_SIZE) {
     const batch = candidates.slice(offset, offset + METADATA_BATCH_SIZE);
-    const data = await fetchImageMetadata(batch.map((p) => p.title));
-    for (const p of Object.values(data.query?.pages || {})) {
-      metadataByTitle.set(p.title, p);
+    const batchNum = Math.floor(offset / METADATA_BATCH_SIZE) + 1;
+    try {
+      const data = await fetchImageMetadata(batch.map((p) => p.title));
+      for (const p of Object.values(data.query?.pages || {})) {
+        metadataByTitle.set(p.title, p);
+      }
+      console.log(`  metadata batch ${batchNum}/${batchCount}`);
+    } catch (err) {
+      // Don't let one bad batch throw away every metadata fetch that already
+      // succeeded (and the geosearch paging that got us here) - log it, skip
+      // the batch, keep going. Missing titles just fall back to
+      // "UNKNOWN - verify on file page" / null author fields in the scaffold,
+      // same as any other partial-data case toScaffoldEntry() already handles.
+      console.warn(`  metadata batch ${batchNum}/${batchCount} failed, skipping: ${err.message}`);
     }
-    console.log(`  metadata batch ${Math.floor(offset / METADATA_BATCH_SIZE) + 1}/${batchCount}`);
     if (offset + METADATA_BATCH_SIZE < candidates.length) await sleep(RATE_LIMIT_MS);
   }
 

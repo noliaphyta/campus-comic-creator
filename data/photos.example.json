@@ -10,6 +10,7 @@
     "styled": "assets/photos/styled/wren_building_1931.png",
     "license": "Public Domain",
     "source": "https://commons.wikimedia.org/wiki/File:Example.jpg",
-    "creator": "Jane Doe (optional - Commons 'Artist' field; omit if unknown, credits panel falls back gracefully)"
+    "creator": "Jane Doe (optional - Commons 'Artist' field; omit if unknown, credits panel falls back gracefully)",
+    "creatorUrl": "https://www.flickr.com/people/example (optional - link for the creator's name, e.g. their Flickr/Commons profile; not yet linked in the UI, just carried through for later)"
   }
 ]
