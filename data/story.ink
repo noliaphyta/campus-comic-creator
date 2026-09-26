@@ -30,25 +30,77 @@ VAR knowledge = 0
 -> DONE
 
 
-// ---- EXAMPLE BUILDING KNOT (copy this shape per building) ----------------
-// Delete this comment block once real knots replace it.
-//
-// === wren_building ===
-// # bg: wren_building
-// # sprite: mara_walk_neutral
-// {mood > 0: You feel steadier here than you expected.|You keep your guard up.}
-// The {photo_year} light falls the same way it did when this was drawn.
-// * [Ask about the fire]
-//     ~ knowledge += 1
-//     # feel: (you learn something you didn't expect to)
-//     -> wren_building_fire
-// * [Keep walking]
-//     -> DONE
-//
-// === wren_building_fire ===
-// The Wren Building burned twice, in 1705 and 1859, and was rebuilt after both.
-// -> DONE
-// ---------------------------------------------------------------------------
+// ---- THREE-STOP DEMO SLICE -----------------------------------------------
+
+=== james_blair_hall_college_of_william_and_mary_3859960606 ===
+# bg: james_blair_hall_college_of_william_and_mary_3859960606
+The first stop feels solid and deliberate, as if the campus has been waiting
+for someone to notice the lines in its oldest walls.
+{mood > 0:
+    You arrive with more confidence than you expected.
+- else:
+    You take a moment before stepping closer.
+}
+* [Look for the detail that has changed]
+    ~ knowledge += 1
+    # feel: You notice one more layer of the place.
+    -> DONE
+* [Let the building set the pace]
+    ~ mood += 1
+    # feel: Your shoulders loosen as you keep looking.
+    -> DONE
+
+=== tucker_hall_at_the_college_of_william_and_mary_3859188517 ===
+# bg: tucker_hall_at_the_college_of_william_and_mary_3859188517
+At Tucker Hall, the route becomes a conversation between movement and memory.
+The present-day path is busy, but the photograph leaves room for quieter
+versions of the same walk.
+{knowledge > 0:
+    You recognize how much a familiar place can still withhold.
+- else:
+    You wonder what stories are hidden just outside the frame.
+}
+* [Ask what the photograph leaves out]
+    ~ knowledge += 1
+    # feel: A question can be its own kind of map.
+    -> DONE
+* [Follow the liveliest path through the grounds]
+    ~ mood += 1
+    # feel: The route feels less like a line and more like an invitation.
+    -> DONE
+
+=== taliaferro_hall_in_the_snow_at_the_college_of_william_and_mary_3502133038 ===
+# bg: taliaferro_hall_in_the_snow_at_the_college_of_william_and_mary_3502133038
+Snow changes the scale of Taliaferro Hall. Edges sharpen, footsteps become
+evidence, and the building seems briefly separated from every season around
+it.
+{mood > 0:
+    You are ready to let the strange weather become part of the story.
+- else:
+    You keep searching for the ordinary day beneath the snow.
+}
+* [Remember the scene as it is]
+    ~ knowledge += 1
+    # feel: The image becomes a small piece of evidence you can carry.
+    -> DONE
+* [Imagine who crossed this ground next]
+    ~ mood += 1
+    # feel: The past feels closer when you give it room to continue.
+    -> DONE
+
+// Photos in the larger test dataset do not yet have authored building knots.
+// Keep them playable while the curated narrative grows.
+=== transit_generic ===
+The route carries you onward. Even without a named scene, the map has made
+this place part of the walk.
+* [Keep noticing]
+    ~ knowledge += 1
+    # feel: You make a note of what the archive does not yet explain.
+    -> DONE
+* [Keep moving]
+    ~ mood += 1
+    # feel: Momentum gives the walk its own kind of meaning.
+    -> DONE
 
 
 // ---- EPILOGUES -------------------------------------------------------
@@ -57,13 +109,19 @@ VAR knowledge = 0
 // after a playtest — writer's job is the prose, not the cutoffs.
 
 === epilogue_guarded ===
-// WRITER: 100-150 words. Low mood / low knowledge ending.
+The map folds closed, but you are not quite ready to call the walk finished.
+You leave with more questions than answers, which may be the honest shape of
+an archive. The buildings remain larger than the story you found in them.
 -> END
 
 === epilogue_open ===
-// WRITER: 100-150 words. High mood ending.
+By the final turn, the campus feels less like a collection of destinations
+and more like a place that knows how to keep a conversation going. You leave
+with an urge to take the long way back and look again.
 -> END
 
 === epilogue_informed ===
-// WRITER: 100-150 words. High knowledge ending.
+You cannot carry every date or detail with you, but you can recognize the
+work of remembering: someone chose what to preserve, and someone else chose
+to look. The next time you cross campus, the layers will be harder to miss.
 -> END

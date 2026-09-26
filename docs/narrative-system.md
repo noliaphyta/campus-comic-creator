@@ -15,7 +15,8 @@ The branching comes from **geography, not prose**. The player's map route (which
 - [x] `js/story.js` — inkjs driver: loads `data/story.ink.json`, `jumpToBuilding()`, tag parsing (`bg`/`sprite`/`feel`), choice rendering, `renderEpilogue()` threshold logic.
 - [x] `js/app.js` — `plotRoute()` (OSRM multi-waypoint), `onPhotoSelected()` calling into `window.jumpToBuilding()`, `renderCredits()`.
 - [x] `data/story.ink` — tag schema documented, `waiting_room` entry knot, epilogue knot stubs.
-- [ ] **Still to do:** wire `runStylizeAndStory()` in `js/app.js` to actually call `stylizePhoto()` and set `#story-bg`'s image before invoking `jumpToBuilding()` (currently a TODO). Decide the "is this the last leg" condition and call `renderEpilogue()` at the right time. Compile `data/story.ink` → `data/story.ink.json` (via [Inky](https://github.com/inkle/inky) or the `inklecate` CLI) once the writer's content is in and commit the compiled JSON — the deployed site should not need a compile step.
+- [x] `js/app.js` wires `runStylizeAndStory()` to live-stylize the selected photo before invoking `jumpToBuilding()`. The player explicitly ends the open-ended walk with `Finish walk`, which calls `renderEpilogue()`.
+- [x] `data/story.ink` contains the first three building knots, a `transit_generic` test-dataset fallback, and three epilogues; the compiled runtime is committed as `data/story.ink.json`.
 - [ ] QA: confirm every knot ends cleanly (`-> DONE` / `-> END`, no dead ends) and that `transit_generic` fallback actually exists and is reachable before demo day.
 
 ## Track 2 — Writer (fill in `data/story.ink`)
