@@ -4,6 +4,27 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Campus Comic Creator</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/meta/icon-16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/meta/icon-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/meta/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/meta/icon-512.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/meta/apple-touch-icon.png">
+
+  <!-- Open Graph / social preview -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Campus Comic Creator">
+  <meta property="og:description" content="Turn campus photos into a walkable comic of William & Mary.">
+  <meta property="og:url" content="https://noliaphyta.github.io/campus-comic-creator/">
+  <meta property="og:image" content="https://noliaphyta.github.io/campus-comic-creator/assets/meta/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Campus Comic Creator">
+  <meta name="twitter:description" content="Turn campus photos into a walkable comic of William & Mary.">
+  <meta name="twitter:image" content="https://noliaphyta.github.io/campus-comic-creator/assets/meta/og-image.png">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
@@ -41,8 +62,7 @@
     <div id="timeline-controls"></div>
 
     <div id="story-panel" hidden>
-      <div id="story-bg-wrap"><img id="story-bg" alt="" hidden></div>
-      <img id="story-sprite" alt="" hidden>
+      <div id="story-bg-wrap"><img id="story-bg" alt="" hidden><img id="story-sprite" alt="" hidden></div>
       <p id="story-text"></p>
       <p id="story-feel" hidden></p>
       <div id="story-choices"></div>

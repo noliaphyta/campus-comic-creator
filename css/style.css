@@ -483,6 +483,7 @@ footer a:hover {
 
 #story-bg-wrap {
   display: block;
+  position: relative;
 }
 
 #story-bg {
@@ -493,8 +494,21 @@ footer a:hover {
   background: #000;
 }
 
+/* Character art (thatch.png, kathy0-9.png, ...) composites over the
+   background rectangle above: same box via position:absolute + inset:0,
+   scaled down to fit inside it without cropping (object-fit: contain) and
+   anchored to the bottom edge rather than centered (object-position:
+   bottom), so every sprite - regardless of its own art's aspect ratio or
+   how much headroom/transparent padding it has above the character -
+   visually stands on the floor of the frame instead of floating mid-panel. */
 #story-sprite {
-  max-height: 30vh;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom;
+  pointer-events: none;
 }
 
 #story-feel {

@@ -93,12 +93,16 @@ function lightingTint(meta = {}) {
  * Seeded from evenly spaced samples rather than random for deterministic
  * results across runs of the same photo.
  */
-function kMeansPalette(imageData, k = 5) {
+function samplesFromImageData(imageData) {
   const { data } = imageData;
   const samples = [];
   for (let i = 0; i < data.length; i += 4 * 8) {
     samples.push([data[i], data[i + 1], data[i + 2]]);
   }
+  return samples;
+}
+
+function kMeansFromSamples(samples, k = 5) {
   if (samples.length === 0) return [];
 
   let centroids = Array.from({ length: k }, (_, i) =>
@@ -130,6 +134,37 @@ function kMeansPalette(imageData, k = 5) {
   }
 
   return centroids.map(([r, g, b]) => ({ r: Math.round(r), g: Math.round(g), b: Math.round(b) }));
+}
+
+function kMeansPalette(imageData, k = 5) {
+  return kMeansFromSamples(samplesFromImageData(imageData), k);
+}
+
+/**
+ * sharedPaletteFromImages(imgElements, k=5) -> [{r,g,b}, ...]
+ * Pools downsampled pixels from EVERY photo in a comic into one k-means run,
+ * instead of each panel getting its own independent 5-color palette from
+ * only its own pixels. That per-photo independence was the main reason a
+ * generated comic's "duotone"/"dither" panels didn't read as one consistent
+ * art style - a warm brick-heavy shot and a cool sky-heavy shot each pick
+ * their own dark/light pair, so the same style option produces visibly
+ * different color stories panel to panel. Call once per comic, pass the
+ * result as opts.palette to every stylizePhoto() call for that comic.
+ */
+function sharedPaletteFromImages(imgElements, k = 5) {
+  const pooled = [];
+  for (const img of imgElements) {
+    const w = img.naturalWidth || img.width;
+    const h = img.naturalHeight || img.height;
+    if (!w || !h) continue;
+    const c = document.createElement("canvas");
+    c.width = w;
+    c.height = h;
+    const ctx = c.getContext("2d");
+    ctx.drawImage(img, 0, 0, w, h);
+    pooled.push(...samplesFromImageData(ctx.getImageData(0, 0, w, h)));
+  }
+  return kMeansFromSamples(pooled, k);
 }
 
 /**
@@ -212,6 +247,16 @@ function applyHalftoneCSS(targetEl, on = true) {
  * meta: { year, lat, lon, date? } — feeds lightingTint().
  * opts.ditherStyle: "halftone" (default, colorHalftone) | "dither" (ordered
  * dither) | "duotone" | "none".
+ * opts.palette: pass a pre-computed palette (e.g. from
+ * sharedPaletteFromImages()) to use the SAME palette across every photo in
+ * a comic, instead of each photo deriving its own from only its own
+ * pixels. Recommended for "duotone"/"dither" whenever you want one
+ * consistent color story across a multi-panel comic rather than each
+ * panel's dark/light pair following that panel's own content.
+ * opts.tint: pass a fixed { r, g, b, alpha } to use instead of
+ * lightingTint(meta)'s per-photo, sun-position-driven wash - useful for the
+ * same reason: physically-accurate per-photo lighting is more "realistic"
+ * but reads as inconsistent mood across one comic's panels.
  *
  * ditherStyle in the return value is normally an echo of opts.ditherStyle,
  * EXCEPT it comes back as "css-fallback" if WebGL isn't available at all —
@@ -226,12 +271,14 @@ function stylizePhoto(imgElement, meta = {}, opts = {}) {
 
   // Palette from the RAW image, before any filtering — needed by "dither"
   // and "duotone", and also now varies "halftone"'s dot size per photo.
+  // opts.palette (see doc comment above) skips this per-photo derivation
+  // entirely so every panel in a comic shares one palette.
   const rawCanvas = document.createElement("canvas");
   rawCanvas.width = w;
   rawCanvas.height = h;
   const rawCtx = rawCanvas.getContext("2d");
   rawCtx.drawImage(imgElement, 0, 0, w, h);
-  const palette = kMeansPalette(rawCtx.getImageData(0, 0, w, h));
+  const palette = opts.palette && opts.palette.length ? opts.palette : kMeansPalette(rawCtx.getImageData(0, 0, w, h));
 
   let glCanvas;
   try {
@@ -279,7 +326,7 @@ function stylizePhoto(imgElement, meta = {}, opts = {}) {
     ctx.putImageData(duotoneMap(imageData, dark, light), 0, 0);
   }
 
-  const tint = lightingTint(meta);
+  const tint = opts.tint || lightingTint(meta);
   if (tint.alpha > 0) {
     ctx.globalCompositeOperation = "overlay";
     ctx.fillStyle = `rgba(${tint.r}, ${tint.g}, ${tint.b}, ${tint.alpha})`;

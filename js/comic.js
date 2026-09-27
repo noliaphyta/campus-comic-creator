@@ -348,7 +348,7 @@ async function captionsForPath(photos) {
  * (what's visible/how you advance) is layered on by the two callers below,
  * not by this function.
  */
-async function buildPanel(photo, i, total, aspect, settings) {
+async function buildPanel(photo, i, total, aspect, settings, preloadedImg) {
   const panel = document.createElement("div");
   panel.className = "comic-panel";
   panel.style.aspectRatio = aspect.css;
@@ -364,12 +364,16 @@ async function buildPanel(photo, i, total, aspect, settings) {
 
   let panelCanvas = null; // set below on success; stays null if load/crop/filter failed
   try {
-    const srcImg = await loadImage(photo.web || photo.file);
+    const srcImg = preloadedImg || (await loadImage(photo.web || photo.file));
     const cropped = cropToAspect(srcImg, aspect.w, aspect.h);
     if (settings.filterStyle === "none" || typeof stylizePhoto !== "function") {
       panelCanvas = cropped;
     } else {
-      const { canvas, ditherStyle } = stylizePhoto(cropped, { year: photo.year, lat: photo.lat, lon: photo.lon }, { ditherStyle: settings.filterStyle });
+      const { canvas, ditherStyle } = stylizePhoto(
+        cropped,
+        { year: photo.year, lat: photo.lat, lon: photo.lon },
+        { ditherStyle: settings.filterStyle, palette: settings.sharedPalette, tint: settings.sharedTint }
+      );
       panelCanvas = canvas;
       // stylizePhoto() falls back to "css-fallback" uniformly when WebGL
       // isn't available this session (see js/stylize.js changelog) - flag
@@ -383,7 +387,22 @@ async function buildPanel(photo, i, total, aspect, settings) {
     }
     img.src = panelCanvas.toDataURL("image/png");
   } catch (err) {
-    console.warn(`Could not load/crop/filter "${photo.id}" - falling back to the unfiltered image.`, err);
+    // A crossOrigin="anonymous" image load that fails CORS (server not
+    // sending Access-Control-Allow-Origin - see loadImage()'s doc comment)
+    // throws a generic network-style error with no CORS-specific code the
+    // JS layer can check for. Naming it explicitly here, rather than one
+    // generic message for both "never loaded" and "loaded fine but crop/
+    // stylize crashed", is the difference between noticing 40% of a
+    // library is silently unstyled and not noticing at all.
+    const likelyCors = err?.message === undefined || err?.type === "error";
+    console.warn(
+      `Could not load/crop/filter "${photo.id}" - falling back to the unfiltered image.` +
+        (likelyCors
+          ? " Likely a CORS-blocked image load (see data/photos.json's `file` URL for this id - " +
+            "run scripts/fix-image-refs.mjs if it's still a commons.wikimedia.org/wiki/Special:FilePath/ URL)."
+          : ""),
+      err
+    );
     img.src = photo.styled || photo.web || photo.file;
   }
   panel.appendChild(img);
@@ -406,7 +425,7 @@ async function buildPanel(photo, i, total, aspect, settings) {
   return { panel, caption, canvas: panelCanvas };
 }
 
-function resolvedSettings(photos, perPanel, i) {
+function resolvedSettings(photos, perPanel, i, comicWide) {
   // Shared links and older recipes may omit a panel entry. Keep rendering
   // usable with safe defaults instead of crashing on settings.filterStyle.
   return {
@@ -415,7 +434,57 @@ function resolvedSettings(photos, perPanel, i) {
     feel: null,
     charSide: "left",
     ...(perPanel?.[i] || {}),
+    // comicWide (sharedPalette/sharedTint) always wins over anything a
+    // per-panel recipe might carry - these two are, by design, a
+    // whole-comic decision, not a per-panel one (see
+    // buildComicWideStylizeInputs() above renderPanels()/
+    // presentVisualNovel() for why per-photo palettes/tints undermined a
+    // "one consistent art style" comic).
+    ...(comicWide || {}),
   };
+}
+
+/**
+ * buildComicWideStylizeInputs(photos, filterStyle, statusEl) ->
+ *   { images: Map(photoId -> HTMLImageElement), sharedPalette, sharedTint }
+ *
+ * Loads every photo once up front and pools their pixels into ONE k-means
+ * palette (sharedPaletteFromImages() in js/stylize.js) instead of letting
+ * each panel derive its own from only its own content - that per-photo
+ * independence was the main reason "duotone"/"dither" comics didn't read
+ * as one consistent art style (see that function's doc comment). Also
+ * picks one fixed lighting tint (the middle photo's, as a reasonable
+ * stand-in for "this comic's overall mood") instead of each panel getting
+ * its own sun-position-driven wash from its own year/lat/lon.
+ *
+ * Returns the loaded <img> elements too so callers don't fetch/decode each
+ * photo twice (once here, once in buildPanel()/buildVNPanel()).
+ * Skipped entirely (returns nulls) when filterStyle is "none" - there's no
+ * color story to unify if nothing is being stylized.
+ */
+async function buildComicWideStylizeInputs(photos, filterStyle, statusEl) {
+  if (filterStyle === "none" || typeof stylizePhoto !== "function" || typeof sharedPaletteFromImages !== "function") {
+    return { images: new Map(), sharedPalette: null, sharedTint: null };
+  }
+  const images = new Map();
+  for (let i = 0; i < photos.length; i++) {
+    if (statusEl) statusEl.textContent = `Loading photo ${i + 1} of ${photos.length}…`;
+    try {
+      images.set(photos[i].id, await loadImage(photos[i].web || photos[i].file));
+    } catch {
+      // Missing/broken image for this one - buildPanel()/buildVNPanel()
+      // will hit the same load and report it the same way it always did;
+      // just don't let one bad photo break the shared-palette pass.
+    }
+  }
+  const loaded = [...images.values()];
+  const sharedPalette = loaded.length ? sharedPaletteFromImages(loaded) : null;
+  const midPhoto = photos[Math.floor(photos.length / 2)];
+  const sharedTint =
+    typeof lightingTint === "function" && midPhoto
+      ? lightingTint({ year: midPhoto.year, lat: midPhoto.lat, lon: midPhoto.lon })
+      : null;
+  return { images, sharedPalette, sharedTint };
 }
 
 /**
@@ -500,12 +569,20 @@ async function renderPanels(photos, aspectValue, perPanel, statusEl, mode = "aut
   panelsEl.classList.remove("comic-panels--vn");
   renderedPanels = [];
 
+  // One global filterStyle drives every panel already (autogenerate's
+  // single dropdown, or manual mode's per-panel editors defaulting to the
+  // same choice) - but each panel used to derive its OWN color palette and
+  // lighting tint from only its own pixels, which is what actually broke
+  // "one consistent art style" across the comic. Compute those once here.
+  const globalFilterStyle = perPanel?.[0]?.filterStyle || "halftone";
+  const { images, sharedPalette, sharedTint } = await buildComicWideStylizeInputs(photos, globalFilterStyle, statusEl);
+
   for (let i = 0; i < photos.length; i++) {
     const photo = photos[i];
-    const settings = resolvedSettings(photos, perPanel, i);
+    const settings = resolvedSettings(photos, perPanel, i, { sharedPalette, sharedTint });
     statusEl.textContent = `Rendering panel ${i + 1} of ${photos.length}…`;
 
-    const { panel, caption, canvas: panelCanvas } = await buildPanel(photo, i, photos.length, aspect, settings);
+    const { panel, caption, canvas: panelCanvas } = await buildPanel(photo, i, photos.length, aspect, settings, images.get(photo.id));
 
     renderedPanels.push({
       photo,
@@ -549,7 +626,7 @@ async function renderPanels(photos, aspectValue, perPanel, statusEl, mode = "aut
  * background is set to that photo's sampled median color so any letterbox/
  * pillarbox bars read as an intentional backdrop instead of dead space.
  */
-async function buildVNPanel(photo, i, total, settings) {
+async function buildVNPanel(photo, i, total, settings, preloadedImg) {
   const panel = document.createElement("div");
   panel.className = "comic-panel vn-panel";
 
@@ -559,11 +636,15 @@ async function buildVNPanel(photo, i, total, settings) {
 
   let panelCanvas = null;
   try {
-    const srcImg = await loadImage(photo.web || photo.file);
+    const srcImg = preloadedImg || (await loadImage(photo.web || photo.file));
     if (settings.filterStyle === "none" || typeof stylizePhoto !== "function") {
       panelCanvas = srcImg; // stylizePhoto expects a canvas-like source; the raw <img> works fine as medianColor()'s/drawImage()'s source too
     } else {
-      const { canvas, ditherStyle } = stylizePhoto(srcImg, { year: photo.year, lat: photo.lat, lon: photo.lon }, { ditherStyle: settings.filterStyle });
+      const { canvas, ditherStyle } = stylizePhoto(
+        srcImg,
+        { year: photo.year, lat: photo.lat, lon: photo.lon },
+        { ditherStyle: settings.filterStyle, palette: settings.sharedPalette, tint: settings.sharedTint }
+      );
       panelCanvas = canvas;
       if (ditherStyle === "css-fallback") {
         img.classList.add("style-halftone");
@@ -580,7 +661,15 @@ async function buildVNPanel(photo, i, total, settings) {
     panel.style.setProperty("--vn-ratio", ratio);
     panel.classList.add(ratio >= 1 ? "vn-panel--landscape" : "vn-panel--portrait");
   } catch (err) {
-    console.warn(`Could not load/filter "${photo.id}" - falling back to the unfiltered image.`, err);
+    const likelyCors = err?.message === undefined || err?.type === "error";
+    console.warn(
+      `Could not load/filter "${photo.id}" - falling back to the unfiltered image.` +
+        (likelyCors
+          ? " Likely a CORS-blocked image load (see data/photos.json's `file` URL for this id - " +
+            "run scripts/fix-image-refs.mjs if it's still a commons.wikimedia.org/wiki/Special:FilePath/ URL)."
+          : ""),
+      err
+    );
     img.src = photo.styled || photo.web || photo.file;
     panel.style.background = "rgb(20, 20, 20)";
     panel.style.setProperty("--vn-ratio", 16 / 9);
@@ -676,15 +765,18 @@ async function presentVisualNovel(photos, aspectValue, perPanel, statusEl, mode 
 
   statusEl.textContent = "Generating comic…";
 
+  const globalFilterStyle = perPanel?.[0]?.filterStyle || "halftone";
+  const { images, sharedPalette, sharedTint } = await buildComicWideStylizeInputs(photos, globalFilterStyle, statusEl);
+
   // Build every panel up front (this is the "generate" step) but only one
   // is ever attached/visible at a time (the "show" step), driven by
   // showPanelAt() below.
   const built = [];
   for (let i = 0; i < photos.length; i++) {
     const photo = photos[i];
-    const settings = resolvedSettings(photos, perPanel, i);
+    const settings = resolvedSettings(photos, perPanel, i, { sharedPalette, sharedTint });
     statusEl.textContent = `Generating panel ${i + 1} of ${photos.length}…`;
-    const { panel, caption, canvas: panelCanvas } = await buildVNPanel(photo, i, photos.length, settings);
+    const { panel, caption, canvas: panelCanvas } = await buildVNPanel(photo, i, photos.length, settings, images.get(photo.id));
     built.push({ panel, caption, settings });
     renderedPanels.push({
       photo,
