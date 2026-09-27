@@ -110,6 +110,30 @@ function resolveCastForBuild(personValue, lookValue) {
   return { charName, charLook };
 }
 
+// lookSelectOptionsHTML() — the option list shared by the autogenerate
+// "Character / Look" select (static markup in comic.html) and each manual
+// per-panel look select (built dynamically below). One source of truth so
+// the two dropdowns can't drift apart.
+//   "random"        -> resolveCastForBuild rolls a fresh cast; the caller
+//                      decides whether that's once-for-the-comic
+//                      (autogenerate) or once-per-row (manual, which is
+//                      already per-panel by nature).
+//   "kathy"/"thatch"-> a random look for that person, but resolved ONCE and
+//                      reused everywhere it's requested - "this same look
+//                      per panel".
+//   "kathyN"        -> that exact look, every time it's requested.
+function lookSelectOptionsHTML() {
+  const looks = CHARACTER_LOOKS.kathy
+    .map((look, i) => `<option value="${look}">Kathy — look ${i} (same look every panel)</option>`)
+    .join("");
+  return (
+    `<option value="random" selected>Randomize — different look every panel</option>` +
+    `<option value="kathy">Kathy — random look (same look every panel)</option>` +
+    `<option value="thatch">Thatch</option>` +
+    looks
+  );
+}
+
 function characterBboxRect(side, canvasWidth, canvasHeight) {
   const w = canvasWidth * CHAR_BBOX.width;
   const h = canvasHeight * CHAR_BBOX.height;
@@ -1135,6 +1159,16 @@ async function buildManualEditors(photos, statusEl) {
       <option value="right">Character: right</option>
       <option value="center">Character: center</option>`;
     controlsRow.appendChild(sideSelect);
+
+    // Per-panel character/look select - this is what makes manual mode
+    // "a dropdown for look/character for EACH panel" rather than one
+    // whole-comic choice. Same option list as the autogenerate select
+    // (see lookSelectOptionsHTML()), resolved per-row in
+    // collectManualSettings() below.
+    const lookSelect = document.createElement("select");
+    lookSelect.className = "manual-look-select";
+    lookSelect.innerHTML = lookSelectOptionsHTML();
+    controlsRow.appendChild(lookSelect);
     fields.appendChild(controlsRow);
 
     const textarea = document.createElement("textarea");
@@ -1159,23 +1193,24 @@ async function buildManualEditors(photos, statusEl) {
 }
 
 function collectManualSettings() {
-  // WHO narrates (Kathy or Thatch) AND which specific look stands in for
-  // them are both one choice for the whole comic, rolled exactly once here
-  // (resolveCastForBuild()) - same as filter/aspect. Side (left/right/
-  // center) stays per-panel since that's blocking/composition, not cast.
-  const { charName, charLook } = resolveCastForBuild(
-    document.getElementById("char-select-manual")?.value,
-    document.getElementById("char-look-select-manual")?.value
-  );
+  // Character/look is now chosen PER ROW (see the .manual-look-select added
+  // in buildManualEditors()), so it's resolved once per row here, not once
+  // for the whole comic. "random" naturally rolls independently for each
+  // row since resolveCastForBuild() is called fresh per row; any pinned
+  // value (a person or an exact look) just applies to that one panel.
   const rows = document.querySelectorAll("#manual-panel-editors .manual-editor-row");
-  return Array.from(rows).map((row) => ({
-    filterStyle: row.querySelector(".manual-filter-select").value,
-    charSide: row.querySelector(".manual-side-select").value,
-    charName,
-    charLook,
-    captionText: row.querySelector(".manual-caption-textarea").value.trim(),
-    feel: row.querySelector(".manual-feel-input").value.trim() || null,
-  }));
+  return Array.from(rows).map((row) => {
+    const lookValue = row.querySelector(".manual-look-select").value;
+    const { charName, charLook } = resolveCastForBuild(lookValue, lookValue);
+    return {
+      filterStyle: row.querySelector(".manual-filter-select").value,
+      charSide: row.querySelector(".manual-side-select").value,
+      charName,
+      charLook,
+      captionText: row.querySelector(".manual-caption-textarea").value.trim(),
+      feel: row.querySelector(".manual-feel-input").value.trim() || null,
+    };
+  });
 }
 
 /**
@@ -1302,22 +1337,26 @@ async function downloadFinishedZip() {
  */
 function buildRecipe(photos, mode, aspectValue, perPanel) {
   return {
-    v: 1,
+    v: 2,
     mode,
     aspect: aspectValue,
     ids: photos.map((p) => p.id),
-    // The cast (who + which look) is one whole-comic decision (see
-    // resolveCastForBuild()), so it's stored once here rather than
-    // repeated per panel - this is what makes a "Random" build's shared
-    // link reopen with the EXACT character/look that were on screen when
-    // the link was copied, instead of rolling a fresh random look on load.
-    // `char` is kept on each panel entry too for older code paths/links
-    // that only ever read a per-panel person; `look` is the new field.
-    look: perPanel[0]?.charLook || null,
+    // v2: each panel can now have its OWN character/look (autogenerate's
+    // "randomize per panel" option, and manual mode's per-panel look
+    // select both need this), so `look` is stored per panel, not once for
+    // the whole comic. `char` is kept alongside it for older code paths
+    // that only ever read a per-panel person.
     panels: perPanel.map((s) =>
       mode === "auto"
-        ? { filter: s.filterStyle, char: s.charName }
-        : { filter: s.filterStyle, side: s.charSide, char: s.charName, caption: s.captionText, feel: s.feel }
+        ? { filter: s.filterStyle, char: s.charName, look: s.charLook }
+        : {
+            filter: s.filterStyle,
+            side: s.charSide,
+            char: s.charName,
+            look: s.charLook,
+            caption: s.captionText,
+            feel: s.feel,
+          }
     ),
   };
 }
@@ -1414,41 +1453,53 @@ async function renderFromRecipe(recipe) {
   // (see the credits screen built at the bottom of that function).
   if (!viewerOnly) renderPathCredits(photos);
 
-  // The cast is resolved ONCE per recipe, not per panel: recipe.look (added
-  // alongside the per-panel `char` field - see buildRecipe()) is the exact
-  // look that was on screen when this link was copied. Older links predate
-  // that field, so fall back to rolling one look now for the recipe's
-  // person - still only rolled once, just later than ideal, so a legacy
-  // link is internally consistent even though it can't reproduce the
-  // original "Random" roll from before this fix.
-  const recipeCharName = pickCharacterPerson(recipe.panels[0]?.char);
-  const recipeCharLook =
-    recipe.look && ALL_LOOKS.includes(recipe.look) ? recipe.look : pickCharacterLook(recipeCharName);
+  // Cast is resolved PER PANEL: each recipe.panels[i].look (added in
+  // buildRecipe() v2) is the exact look that was on screen for that panel
+  // when the link was copied - this is what lets "randomize per panel"
+  // links reopen with each panel's own distinct look instead of forcing
+  // one look across the board. Older (v1) links only ever stored one
+  // whole-comic `recipe.look` plus a per-panel `char` (person); those fall
+  // back to that shared look, and links from before either field existed
+  // fall back to rolling one look for the panel's person so playback stays
+  // at least internally consistent.
+  const legacyWholeComicLook = recipe.look && ALL_LOOKS.includes(recipe.look) ? recipe.look : null;
+  function resolvePanelCast(panelChar, panelLook) {
+    const charLook = panelLook && ALL_LOOKS.includes(panelLook) ? panelLook : legacyWholeComicLook;
+    if (charLook) return { charName: LOOK_TO_PERSON[charLook], charLook };
+    const charName = pickCharacterPerson(panelChar);
+    return { charName, charLook: pickCharacterLook(charName) };
+  }
 
   let perPanel;
   if (recipe.mode === "manual") {
     // Manual captions are free text with no Ink knot behind them, so there's
     // no branch data to offer - manual-mode links always play back linearly.
-    perPanel = recipe.panels.map((p) => ({
-      filterStyle: p.filter,
-      charSide: p.side,
-      charName: recipeCharName,
-      charLook: recipeCharLook,
-      captionText: p.caption,
-      feel: p.feel,
-      choices: [],
-    }));
+    perPanel = recipe.panels.map((p) => {
+      const { charName, charLook } = resolvePanelCast(p.char, p.look);
+      return {
+        filterStyle: p.filter,
+        charSide: p.side,
+        charName,
+        charLook,
+        captionText: p.caption,
+        feel: p.feel,
+        choices: [],
+      };
+    });
   } else {
     const captions = await captionsForVN(photos);
-    perPanel = captions.map((c, i) => ({
-      filterStyle: recipe.panels[i]?.filter || "halftone",
-      charSide: "left",
-      charName: recipeCharName,
-      charLook: recipeCharLook,
-      captionText: c.text,
-      feel: c.feel,
-      choices: c.choices,
-    }));
+    perPanel = captions.map((c, i) => {
+      const { charName, charLook } = resolvePanelCast(recipe.panels[i]?.char, recipe.panels[i]?.look);
+      return {
+        filterStyle: recipe.panels[i]?.filter || "halftone",
+        charSide: "left",
+        charName,
+        charLook,
+        captionText: c.text,
+        feel: c.feel,
+        choices: c.choices,
+      };
+    });
   }
 
   // The hash (#c=...) IS this comic's unique id: decode it, generate the
@@ -1530,20 +1581,27 @@ document.addEventListener("DOMContentLoaded", async () => {
       } else {
         const aspectValue = document.getElementById("aspect-ratio").value;
         const filterStyle = document.getElementById("filter-style").value;
-        const { charName, charLook } = resolveCastForBuild(
-          document.getElementById("char-select").value,
-          document.getElementById("char-look-select")?.value
-        );
+        const lookValue = document.getElementById("char-look-select").value;
+        // "random" means "randomize per panel" - roll a fresh cast for
+        // every panel below instead of once. Any other value (a person
+        // like "kathy", or an exact look like "kathy3"/"thatch") means
+        // "this same look every panel", so it's resolved once here and
+        // reused for every panel.
+        const randomizePerPanel = lookValue === "random";
+        const sharedCast = randomizePerPanel ? null : resolveCastForBuild(lookValue, lookValue);
         statusEl.textContent = "Writing captions…";
         const captions = await captionsForPath(photos);
-        const perPanel = captions.map((c) => ({
-          filterStyle,
-          charSide: "left",
-          charName,
-          charLook,
-          captionText: c.text,
-          feel: c.feel,
-        }));
+        const perPanel = captions.map((c) => {
+          const { charName, charLook } = sharedCast || resolveCastForBuild(null, "random");
+          return {
+            filterStyle,
+            charSide: "left",
+            charName,
+            charLook,
+            captionText: c.text,
+            feel: c.feel,
+          };
+        });
         await renderPanels(photos, aspectValue, perPanel, statusEl, "auto");
       }
     } catch (err) {
