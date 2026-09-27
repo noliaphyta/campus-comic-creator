@@ -39,6 +39,14 @@ let lastRenderCtx = null;
 // whole-comic color story instead of each re-filtered panel drifting back
 // to its own independent palette.
 let stylizeGlobals = { sharedPalette: null, sharedTint: null };
+// The path this page is currently building a comic for - synced from
+// localStorage("ccc_comic_path") by syncPathFromStorage() below. A `let`
+// at module scope, not a `const` closed over inside DOMContentLoaded, so
+// bfcache-restore (see the pageshow listener at the bottom of this file)
+// can update it in place without re-registering any button/select
+// listeners - they read this variable at click/change time, not at
+// listener-registration time.
+let activePathPhotos = [];
 
 // Character bounding-box placeholder position, as fractions of the panel.
 // Read by BOTH renderCharacterPlaceholder() (DOM, percentages) and
@@ -882,8 +890,18 @@ async function renderPanels(photos, aspectValue, perPanel, statusEl, mode = "aut
   // same choice) - but each panel used to derive its OWN color palette and
   // lighting tint from only its own pixels, which is what actually broke
   // "one consistent art style" across the comic. Compute those once here.
+  // Gate on whether ANY panel actually needs one, not just perPanel[0]'s
+  // style - manual mode allows a mix, and a first panel set to "none"
+  // used to suppress the shared palette for every other panel too.
   const globalFilterStyle = perPanel?.[0]?.filterStyle || "halftone";
-  const { images, sharedPalette, sharedTint } = await buildComicWideStylizeInputs(photos, globalFilterStyle, statusEl);
+  const needsPalette = perPanel?.length
+    ? perPanel.some((p) => (p?.filterStyle ?? globalFilterStyle) !== "none")
+    : globalFilterStyle !== "none";
+  const { images, sharedPalette, sharedTint } = await buildComicWideStylizeInputs(
+    photos,
+    needsPalette ? globalFilterStyle || "halftone" : "none",
+    statusEl
+  );
   stylizeGlobals = { sharedPalette, sharedTint };
 
   for (let i = 0; i < photos.length; i++) {
@@ -928,17 +946,59 @@ async function renderPanels(photos, aspectValue, perPanel, statusEl, mode = "aut
 }
 
 /**
+ * ensureStylizeGlobals(filterStyle) — lazily (re)computes stylizeGlobals
+ * from the already-rendered panels' cropped canvases when a live style
+ * switch needs a shared palette/tint that the build never computed.
+ *
+ * stylizeGlobals is normally set once, at build time, by renderPanels().
+ * But a live switch (the "#filter-style" listener / manual per-panel
+ * selects, both calling restylizePanel() below) can ask for a shared
+ * palette in a case the build never anticipated - e.g. the comic was
+ * originally built with "None" (buildComicWideStylizeInputs() skips the
+ * palette pass entirely for "none"), then the filter is switched to
+ * Dither/Duotone afterward without a full rebuild. Without this,
+ * restylizePanel() would pass `palette: null` into stylizePhoto(), which
+ * falls back to deriving a palette from EACH photo's own pixels - the
+ * exact "each panel picks its own dark/light pair" bug the shared-palette
+ * pass exists to prevent, reintroduced through this one path.
+ *
+ * No network refetch: reuses croppedCanvas already held on each
+ * renderedPanels entry (sharedPaletteFromImages() works fine against
+ * <canvas> elements, not just <img>). No-ops if a shared palette already
+ * exists (build time or a prior switch already computed one - reused
+ * as-is) or the target style doesn't need one.
+ */
+function ensureStylizeGlobals(filterStyle) {
+  if (filterStyle === "none") return;
+  if (stylizeGlobals.sharedPalette) return;
+  const canvases = renderedPanels.map((p) => p.croppedCanvas).filter(Boolean);
+  if (!canvases.length || typeof sharedPaletteFromImages !== "function") return;
+  const sharedPalette = sharedPaletteFromImages(canvases);
+  const midPhoto = renderedPanels[Math.floor(renderedPanels.length / 2)]?.photo;
+  const sharedTint =
+    midPhoto && typeof lightingTint === "function"
+      ? lightingTint({ year: midPhoto.year, lat: midPhoto.lat, lon: midPhoto.lon })
+      : null;
+  stylizeGlobals = { sharedPalette, sharedTint };
+}
+
+/**
  * restylizePanel(i, filterStyle) — re-runs stylizePhoto() on panel i's
  * already-cropped canvas and swaps the live <img> + renderedPanels/
  * lastRenderCtx entries in place, so switching the visual filter after a
  * comic is built updates on screen (and in the next export/share link)
- * without a full "Build Comic" re-run - no reload, no recrop, same shared
- * palette/tint the original render used. No-ops if panel i was never
- * successfully built (croppedCanvas missing).
+ * without a full "Build Comic" re-run - no reload, no recrop. Uses the
+ * build's shared palette/tint if one exists, otherwise lazily computes
+ * one first (see ensureStylizeGlobals()) so a comic built with "None" and
+ * then switched live still gets one consistent palette instead of each
+ * panel deriving its own. No-ops if panel i was never successfully built
+ * (croppedCanvas missing).
  */
 function restylizePanel(i, filterStyle) {
   const entry = renderedPanels[i];
   if (!entry || !entry.croppedCanvas) return;
+
+  ensureStylizeGlobals(filterStyle);
 
   let canvas = entry.croppedCanvas;
   if (filterStyle !== "none" && typeof stylizePhoto === "function") {
@@ -1710,6 +1770,57 @@ function loadPathFromStorage() {
   }
 }
 
+/**
+ * syncPathFromStorage() -> boolean (true if a usable path was found)
+ * Re-reads localStorage("ccc_comic_path") into activePathPhotos and
+ * updates the "no path selected" vs. "here's the path's credits" UI to
+ * match. Called on the normal DOMContentLoaded creator-page init, AND
+ * again from the pageshow/bfcache listener below - factored out so the
+ * bfcache path can refresh the DATA without re-registering the
+ * button/select listeners that reference activePathPhotos (registering
+ * them twice would double-fire every click).
+ */
+function syncPathFromStorage() {
+  const photos = loadPathFromStorage();
+  activePathPhotos = Array.isArray(photos) ? photos : [];
+  const hasPath = activePathPhotos.length >= 2;
+  document.getElementById("no-path-message").hidden = hasPath;
+  document.getElementById("comic-setup").hidden = !hasPath;
+  document.getElementById("credits-panel").hidden = !hasPath;
+  if (hasPath) renderPathCredits(activePathPhotos);
+  return hasPath;
+}
+
+/**
+ * onPageRestoredFromBfcache(evt) — the browser's back-forward cache can
+ * restore this exact page (DOM + JS state, frozen at the moment the user
+ * navigated away) when they return via the back/forward button, WITHOUT
+ * re-firing DOMContentLoaded. If they visited the map in between and
+ * picked a different path, this page would otherwise keep showing
+ * whatever activePathPhotos/renderedPanels were frozen with - "I
+ * reselected on the map but the comic preview still shows the old
+ * photos." pageshow + event.persisted is the standard signal for "this
+ * came from bfcache, your in-memory state may be stale" - re-sync the
+ * path from localStorage and drop any already-rendered preview so it
+ * can't be mistaken for a comic of the new path.
+ */
+function onPageRestoredFromBfcache(evt) {
+  if (!evt.persisted) return;
+  if (document.body.dataset.page === "viewer" || tryLoadFromHash()) return; // recipe-driven pages don't depend on this localStorage handoff
+  const hadPath = syncPathFromStorage();
+  if (!hadPath) return;
+  renderedPanels = [];
+  lastRenderCtx = null;
+  stylizeGlobals = { sharedPalette: null, sharedTint: null };
+  const panelsEl = document.getElementById("comic-panels");
+  if (panelsEl) panelsEl.innerHTML = "";
+  const statusEl = document.getElementById("generate-status");
+  if (statusEl) statusEl.textContent = "Path changed since this page was last open - click \"Build Comic\" to regenerate.";
+  const saveBar = document.getElementById("save-share-bar");
+  if (saveBar) saveBar.hidden = true;
+}
+window.addEventListener("pageshow", onPageRestoredFromBfcache);
+
 document.addEventListener("DOMContentLoaded", async () => {
   wireDarkMode();
   wireAppBadge();
@@ -1726,15 +1837,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  const photos = loadPathFromStorage();
-  if (!Array.isArray(photos) || photos.length < 2) {
-    document.getElementById("no-path-message").hidden = false;
-    document.getElementById("comic-setup").hidden = true;
-    document.getElementById("credits-panel").hidden = true;
-    return;
-  }
-
-  renderPathCredits(photos);
+  if (!syncPathFromStorage()) return;
 
   const statusEl = document.getElementById("generate-status");
   const autogenOptions = document.getElementById("autogen-options");
@@ -1747,7 +1850,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       autogenOptions.hidden = manual;
       manualOptions.hidden = !manual;
       statusEl.textContent = "";
-      if (manual) buildManualEditors(photos, statusEl);
+      if (manual) buildManualEditors(activePathPhotos, statusEl);
     });
   });
 
@@ -1769,7 +1872,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (manual) {
         const aspectValue = document.getElementById("aspect-ratio").value;
         const perPanel = collectManualSettings();
-        await renderPanels(photos, aspectValue, perPanel, statusEl, "manual");
+        await renderPanels(activePathPhotos, aspectValue, perPanel, statusEl, "manual");
       } else {
         const aspectValue = document.getElementById("aspect-ratio").value;
         const filterStyle = document.getElementById("filter-style").value;
@@ -1782,7 +1885,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const randomizePerPanel = lookValue === "random";
         const sharedCast = randomizePerPanel ? null : resolveCastForBuild(lookValue, lookValue);
         statusEl.textContent = "Writing captions…";
-        const captions = await captionsForPath(photos);
+        const captions = await captionsForPath(activePathPhotos);
         const perPanel = captions.map((c) => {
           const { charName, charLook } = sharedCast || resolveCastForBuild(null, "random");
           return {
@@ -1794,7 +1897,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             feel: c.feel,
           };
         });
-        await renderPanels(photos, aspectValue, perPanel, statusEl, "auto");
+        await renderPanels(activePathPhotos, aspectValue, perPanel, statusEl, "auto");
       }
     } catch (err) {
       console.error("Comic generation failed.", err);
