@@ -242,10 +242,28 @@
   to { opacity: 1; }
 }
 
+/* Outgoing panel's character, applied by showPanelAt() in js/comic.js
+   just before the panel is removed on "next" - see CHARACTER_TRANSITION_MS
+   there, which is how long this animation is given to finish before the
+   removal actually happens, so the fade-out is visible instead of the
+   panel just vanishing. */
+.character-sprite.leaving {
+  animation: character-fade-out 0.35s ease-in forwards;
+}
+
+@keyframes character-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .character-sprite {
     animation: none;
     opacity: 1;
+  }
+  .character-sprite.leaving {
+    animation: none;
+    opacity: 0;
   }
 }
 
