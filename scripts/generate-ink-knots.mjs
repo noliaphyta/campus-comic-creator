@@ -90,61 +90,61 @@ function pick(list, seed) {
 // are placeholders for a human editing pass, not finished prose.
 
 const OPENERS = [
-  (name) => `${name} meets the route at an angle you didn't expect, and the photograph asks you to slow down and actually look.`,
-  (name) => `The path brings you level with ${name} before you're quite ready for it - one more stop the archive has kept waiting.`,
-  (name) => `${name} sits at the edge of the frame the way it's probably sat at the edge of a thousand ordinary days.`,
-  (name) => `Something about ${name} holds the light differently than the buildings around it, or maybe that's just the photograph.`,
-  (name) => `You reach ${name} mid-thought, the kind of stop that only afterward turns out to have mattered.`,
+  (name) => `${name} meets the route at an angle you didn't expect, and the photograph asks you to slow down and consider who kept this place standing.`,
+  (name) => `The path brings you level with ${name} before you're quite ready for it - one more stop this community's archive has kept waiting for someone to notice.`,
+  (name) => `${name} sits at the edge of the frame the way it's probably sat at the edge of a thousand ordinary civic days, unremarked but never unattended.`,
+  (name) => `Something about ${name} holds the light differently than the buildings around it - or maybe that's just what stewardship over time looks like.`,
+  (name) => `You reach ${name} mid-thought, the kind of stop that only afterward turns out to have been part of the record someone chose to keep.`,
 ];
 
 const YEAR_CLAUSES = [
-  (year) => ` The image dates to ${year}, close enough to now that the gap feels almost companionable.`,
-  (year) => ` Whatever's changed since ${year}, the outline in front of you hasn't moved much.`,
-  (year) => ` ${year} isn't so far back, but campus keeps its own sense of time.`,
+  (year) => ` The image dates to ${year}, close enough to now that the people who preserved it feel almost like neighbors.`,
+  (year) => ` Whatever's changed since ${year}, someone made the choice to hold onto this outline instead of letting it disappear.`,
+  (year) => ` ${year} isn't so far back, but a campus community only keeps a memory this specific on purpose.`,
 ];
 
 const REACTIVE_LINES = [
   {
-    mood: (name) => `You've been loosening into this walk for a while, and ${name} doesn't ask you to tighten back up.`,
-    else: (name) => `You're still finding your footing here, and ${name} gives you a reasonable place to do it.`,
+    mood: (name) => `You've been noticing how much care this walk takes for a while now, and ${name} doesn't ask you to stop looking.`,
+    else: (name) => `You're still learning to see the deliberate choices in a place like this, and ${name} gives you a reasonable stop to start.`,
   },
   {
-    mood: (name) => `Whatever you noticed a few stops back is still with you, coloring how ${name} reads.`,
-    else: (name) => `Nothing yet has told you how to feel about ${name} - so you decide for yourself.`,
+    mood: (name) => `Whatever you learned a few stops back is still with you, coloring how ${name} reads as part of a shared record.`,
+    else: (name) => `Nothing yet has told you who this place has served - so you decide to find out at ${name}.`,
   },
   {
-    mood: (name) => `${name} doesn't need explaining right now; you're content to just be near it.`,
-    else: (name) => `${name} feels like it's waiting on you to bring more attention than you've spent so far.`,
+    mood: (name) => `${name} doesn't need explaining right now; you're content to trust that someone already did that work.`,
+    else: (name) => `${name} feels like it's waiting on you to ask whose history it actually represents.`,
   },
 ];
 
 const KNOWLEDGE_CHOICES = [
   {
-    label: "Look for what the photograph doesn't explain",
-    feel: "You file away one more thing the archive leaves unanswered.",
+    label: "Ask what the photograph leaves out of the record",
+    feel: "You file away one more thing this community hasn't fully archived.",
   },
   {
-    label: "Try to place this moment in the building's longer history",
-    feel: "You notice one more layer of the place.",
+    label: "Try to place this moment in the building's civic history",
+    feel: "You notice one more layer of who this place has served.",
   },
   {
-    label: "Read the scene like it's evidence of something",
-    feel: "A small detail sticks with you.",
+    label: "Read the scene like evidence someone chose to preserve",
+    feel: "A small detail about the work of remembering sticks with you.",
   },
 ];
 
 const MOOD_CHOICES = [
   {
-    label: "Let the building set the pace instead of the map",
-    feel: "Your shoulders loosen as you keep looking.",
+    label: "Let the building's history set the pace instead of the map",
+    feel: "Your shoulders loosen as you keep looking for what was kept.",
   },
   {
-    label: "Just take the place in without a plan",
-    feel: "The walk feels less like an itinerary and more like a walk.",
+    label: "Just take the place in as part of a shared inheritance",
+    feel: "The walk feels less like an itinerary and more like a trust passed along.",
   },
   {
-    label: "Keep moving and let the impression settle later",
-    feel: "Momentum gives the stop its own kind of meaning.",
+    label: "Keep moving and let the record catch up with you later",
+    feel: "Momentum gives the stop its own kind of civic patience.",
   },
 ];
 

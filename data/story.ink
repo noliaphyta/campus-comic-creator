@@ -34,72 +34,81 @@ VAR knowledge = 0
 
 === james_blair_hall_college_of_william_and_mary_3859960606 ===
 # bg: james_blair_hall_college_of_william_and_mary_3859960606
-The first stop feels solid and deliberate, as if the campus has been waiting
-for someone to notice the lines in its oldest walls.
+The first stop feels solid and deliberate, like a place someone once decided
+was worth keeping. Nothing about that survival was automatic - a building
+this old stands because generations of people chose, over and over, to
+maintain it rather than let it go.
 {mood > 0:
-    You arrive with more confidence than you expected.
+    You arrive already thinking about who gets to make that choice.
 - else:
-    You take a moment before stepping closer.
+    You take a moment to notice it was a choice at all.
 }
-* [Look for the detail that has changed]
+* [Ask what was preserved here, and by whom]
     ~ knowledge += 1
-    # feel: You notice one more layer of the place.
+    # feel: You notice the quiet work of stewardship behind the walls.
     -> DONE
-* [Let the building set the pace]
+* [Let the weight of that history set the pace]
     ~ mood += 1
-    # feel: Your shoulders loosen as you keep looking.
+    # feel: Your shoulders loosen as the place settles into you.
     -> DONE
 
 === tucker_hall_at_the_college_of_william_and_mary_3859188517 ===
 # bg: tucker_hall_at_the_college_of_william_and_mary_3859188517
 At Tucker Hall, the route becomes a conversation between movement and memory.
-The present-day path is busy, but the photograph leaves room for quieter
-versions of the same walk.
+The present-day path is busy with people who never asked to be part of an
+archive, but the photograph leaves room for the quieter version of this walk
+someone else once took.
 {knowledge > 0:
-    You recognize how much a familiar place can still withhold.
+    You recognize how much a shared place can still withhold from the people
+    who pass through it every day.
 - else:
-    You wonder what stories are hidden just outside the frame.
+    You wonder what this community knows about its own ground that never made
+    it into a caption.
 }
 * [Ask what the photograph leaves out]
     ~ knowledge += 1
-    # feel: A question can be its own kind of map.
+    # feel: A question can be its own kind of civic record.
     -> DONE
 * [Follow the liveliest path through the grounds]
     ~ mood += 1
-    # feel: The route feels less like a line and more like an invitation.
+    # feel: The route feels less like a line and more like a shared invitation.
     -> DONE
 
 === taliaferro_hall_in_the_snow_at_the_college_of_william_and_mary_3502133038 ===
 # bg: taliaferro_hall_in_the_snow_at_the_college_of_william_and_mary_3502133038
 Snow changes the scale of Taliaferro Hall. Edges sharpen, footsteps become
-evidence, and the building seems briefly separated from every season around
-it.
+evidence of who was here, and the building seems briefly separated from
+every season - and every steward - that came before this one.
 {mood > 0:
-    You are ready to let the strange weather become part of the story.
+    You are ready to let this moment take its place alongside the ones that
+    came before it.
 - else:
-    You keep searching for the ordinary day beneath the snow.
+    You keep looking for the ordinary day someone thought was worth saving
+    beneath the snow.
 }
-* [Remember the scene as it is]
+* [Remember the scene as evidence worth keeping]
     ~ knowledge += 1
-    # feel: The image becomes a small piece of evidence you can carry.
+    # feel: The image becomes a small piece of the record you now carry.
     -> DONE
-* [Imagine who crossed this ground next]
+* [Imagine who will be trusted with this ground next]
     ~ mood += 1
-    # feel: The past feels closer when you give it room to continue.
+    # feel: The past feels closer when you plan to pass it on.
     -> DONE
 
 // Photos in the larger test dataset do not yet have authored building knots.
 // Keep them playable while the curated narrative grows.
 === transit_generic ===
-The route carries you onward. Even without a named scene, the map has made
-this place part of the walk.
-* [Keep noticing]
+The route carries you onward, past a place with no named scene yet - not
+because it doesn't matter, but because no one has finished the work of
+remembering it. The map has made it part of the walk anyway; the archive
+is still catching up.
+* [Notice what hasn't been recorded here yet]
     ~ knowledge += 1
-    # feel: You make a note of what the archive does not yet explain.
+    # feel: You make a note of what this community hasn't archived for itself.
     -> DONE
-* [Keep moving]
+* [Keep moving, and trust it will be someone's turn to fill this in]
     ~ mood += 1
-    # feel: Momentum gives the walk its own kind of meaning.
+    # feel: Momentum gives the walk its own kind of civic patience.
     -> DONE
 
 
@@ -110,18 +119,23 @@ this place part of the walk.
 
 === epilogue_guarded ===
 The map folds closed, but you are not quite ready to call the walk finished.
-You leave with more questions than answers, which may be the honest shape of
-an archive. The buildings remain larger than the story you found in them.
+You leave with more questions than answers about who this ground has served
+and who it hasn't, which may be the honest shape of a civic archive. The
+buildings remain larger than the story you found in them - and larger than
+any one walk could account for.
 -> END
 
 === epilogue_open ===
 By the final turn, the campus feels less like a collection of destinations
-and more like a place that knows how to keep a conversation going. You leave
-with an urge to take the long way back and look again.
+and more like a community still in the middle of deciding what it wants to
+remember. You leave with an urge to take the long way back, look again, and
+maybe say something to the next person you see about what you noticed.
 -> END
 
 === epilogue_informed ===
 You cannot carry every date or detail with you, but you can recognize the
-work of remembering: someone chose what to preserve, and someone else chose
-to look. The next time you cross campus, the layers will be harder to miss.
+civic work underneath the archive: someone chose what to preserve, someone
+else chose to look, and now you have chosen to pass it on. The next time you
+cross this campus, the layers - and the people who kept them - will be
+harder to miss.
 -> END
