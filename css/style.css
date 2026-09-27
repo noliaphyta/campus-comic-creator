@@ -1,7 +1,8 @@
 :root {
   --ink: #1a1a1a;
   --paper: #faf7f0;
-  --accent: #8a3324;
+  --accent: #004e38;      /* W&M green - buttons */
+  --accent-2: #fdb714;    /* W&M gold - timeline/year slider */
   --panel-border: rgba(0, 0, 0, 0.1);
   --muted: #555;
 }
@@ -13,7 +14,8 @@
 :root[data-theme="dark"] {
   --ink: #f0ebe0;
   --paper: #1c1a17;
-  --accent: #e08a63;
+  --accent: #fdb714;
+  --accent-2: #b8ddb1;
   --panel-border: rgba(255, 255, 255, 0.12);
   --muted: #b7b0a2;
 }
@@ -22,7 +24,8 @@
   :root:not([data-theme="light"]) {
     --ink: #f0ebe0;
     --paper: #1c1a17;
-    --accent: #e08a63;
+    --accent: #fdb714;
+    --accent-2: #b8ddb1;
     --panel-border: rgba(255, 255, 255, 0.12);
     --muted: #b7b0a2;
   }
@@ -182,7 +185,7 @@ main {
 }
 
 .year-histogram-col.in-range .year-histogram-bar {
-  background: var(--accent);
+  background: var(--accent-2);
 }
 
 .year-axis {
@@ -233,7 +236,7 @@ main {
   transform: translateY(-50%);
   height: 2px;
   border-radius: 2px;
-  background: var(--accent);
+  background: var(--accent-2);
 }
 
 /* The visible handle: a pill showing the selected year. Purely decorative
@@ -248,8 +251,8 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--accent);
-  color: var(--paper);
+  background: var(--accent-2);
+  color: var(--ink);
   font-size: 0.72rem;
   font-weight: 700;
   border-radius: 999px;
@@ -549,25 +552,6 @@ footer a:hover {
   cursor: pointer;
 }
 
-/* ---- About / responsible-AI disclosure panel ---- */
-#about-panel {
-  padding: 10px 20px;
-  font-size: 0.8rem;
-  color: var(--muted);
-}
-
-#about-panel summary {
-  cursor: pointer;
-  color: var(--accent);
-  font-weight: 600;
-}
-
-#about-panel ul {
-  margin: 8px 0 0;
-  padding-left: 18px;
-  line-height: 1.5;
-}
-
 /* ---- Credits / license panel ---- */
 #credits-panel {
   padding: 12px 20px;
@@ -583,6 +567,25 @@ footer a:hover {
 
 #credits-panel a {
   color: var(--accent);
+}
+
+#credits-panel summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--accent);
+  list-style: none;
+}
+
+#credits-panel summary::-webkit-details-marker { display: none; }
+
+#credits-panel summary::before {
+  content: "▸ ";
+  display: inline-block;
+  transition: transform 0.15s ease;
+}
+
+#credits-panel[open] summary::before {
+  transform: rotate(90deg);
 }
 
 /* ---- Copy-pastable plain-text attribution block, under the linked list.

@@ -75,7 +75,7 @@
   font-size: 0.85rem;
 }
 
-#generate-btn {
+#build-comic-btn {
   background: var(--accent);
   color: var(--paper);
   border: none;
@@ -83,7 +83,7 @@
   padding: 8px 18px;
   font-size: 0.9rem;
   cursor: pointer;
-  align-self: flex-end;
+  margin: 4px 0 0;
 }
 
 #generate-status {
@@ -163,17 +163,6 @@
   color: var(--ink);
 }
 
-#build-manual-btn {
-  background: var(--accent);
-  color: var(--paper);
-  border: none;
-  border-radius: 999px;
-  padding: 8px 18px;
-  font-size: 0.9rem;
-  cursor: pointer;
-  align-self: flex-end;
-}
-
 /* ---- Panels: each one is a fixed-aspect-ratio "page" - background image
    (cropped + filtered), a character bounding-box placeholder, and a
    typewriter textbox, stacked with CSS position rather than canvas
@@ -249,14 +238,21 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
 }
 
+/* Kitsch sticker caption card: a floating rounded card instead of the old
+   full-width dark gradient scrim, in W&M green/gold, per request - applies
+   only to the comic caption, not the rest of the app's chrome. */
 .comic-textbox {
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 14px 16px 18px;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0));
-  color: #fdfaf3;
+  left: 14px;
+  right: 14px;
+  bottom: 14px;
+  padding: 12px 16px 14px;
+  background: #fdfaf3;
+  color: #183028;
+  border: 3px solid #004e38;
+  border-radius: 18px;
+  box-shadow: 4px 4px 0 #fdb714;
+  font-family: "Lilita One", -apple-system, sans-serif;
   font-size: 0.95rem;
   line-height: 1.4;
   min-height: 3.2em;
@@ -265,9 +261,11 @@
 .comic-textbox .feel-line {
   display: block;
   margin-top: 4px;
+  font-family: -apple-system, sans-serif;
   font-style: italic;
-  font-size: 0.8rem;
-  opacity: 0.85;
+  font-size: 0.78rem;
+  color: #4b5f57;
+  opacity: 0.9;
 }
 
 .comic-textbox .caption-cursor {
@@ -426,7 +424,7 @@ body[data-page="viewer"] #save-share-bar { display: none; }
 
 .vn-choice-btn {
   text-align: left;
-  border: 1px solid rgba(253, 250, 243, 0.6);
+  border: 1px solid rgba(253, 183, 20, 0.7);
   background: rgba(0, 0, 0, 0.55);
   color: #fdfaf3;
   border-radius: 6px;
@@ -438,7 +436,7 @@ body[data-page="viewer"] #save-share-bar { display: none; }
 .vn-choice-btn:hover,
 .vn-choice-btn:focus-visible {
   background: rgba(0, 0, 0, 0.8);
-  border-color: #fdfaf3;
+  border-color: #fdb714;
 }
 
 /* ---- End-of-story credits screen: the VN's final "page" (see
@@ -475,7 +473,7 @@ body[data-page="viewer"] #save-share-bar { display: none; }
   line-height: 1.6;
 }
 
-.vn-credits-inner a { color: #e08a63; }
+.vn-credits-inner a { color: #fdb714; }
 
 .vn-credits-inner .attribution-copy-block {
   margin-top: 16px;

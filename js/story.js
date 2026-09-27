@@ -107,7 +107,12 @@ function playVoiceover(id) {
 }
 
 function renderPassage({ text, bg, sprite, feel, choices, done }) {
+  // The map page no longer shows an inline narrative/choice panel - Ink
+  // still advances (mood/knowledge variables keep updating for the comic),
+  // it just has nothing to render into here. Bail out early instead of
+  // throwing on the missing elements.
   const panel = document.getElementById("story-panel");
+  if (!panel) return;
   panel.hidden = false;
   playVoiceover(bg);
 

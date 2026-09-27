@@ -121,7 +121,7 @@ function renderPathCredits(photos, target) {
   const plainText = photos.map(attributionLine).join("\n");
 
   el.innerHTML =
-    `<strong>Credits for this comic</strong><ul>${items}</ul>` +
+    `<summary>Credits for this comic (${photos.length})</summary><ul>${items}</ul>` +
     `<div class="attribution-copy-block">` +
     `<div class="attribution-copy-header"><span>Copy-pastable attribution</span>` +
     `<button type="button" id="copy-credits-btn">Copy</button></div>` +
@@ -1271,30 +1271,30 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
-  document.getElementById("generate-btn").addEventListener("click", async () => {
-    const aspectValue = document.getElementById("aspect-ratio").value;
-    const filterStyle = document.getElementById("filter-style").value;
-    statusEl.textContent = "Writing captions…";
+  // One shared "Build Comic" button for both modes (previously two
+  // identically-labelled buttons, one per mode-panel - confusing even
+  // though only one was ever visible at a time). It reads which radio is
+  // checked at click time instead of needing its own per-mode listener.
+  document.getElementById("build-comic-btn").addEventListener("click", async () => {
+    const manual = document.querySelector('input[name="comic-mode"]:checked')?.value === "manual";
     try {
-      const captions = await captionsForPath(photos);
-      const perPanel = captions.map((c) => ({
-        filterStyle,
-        charSide: "left",
-        captionText: c.text,
-        feel: c.feel,
-      }));
-      await renderPanels(photos, aspectValue, perPanel, statusEl, "auto");
-    } catch (err) {
-      console.error("Comic generation failed.", err);
-      statusEl.textContent = "Something went wrong generating the comic - check the console.";
-    }
-  });
-
-  document.getElementById("build-manual-btn").addEventListener("click", async () => {
-    const aspectValue = document.getElementById("aspect-ratio-manual").value;
-    const perPanel = collectManualSettings();
-    try {
-      await renderPanels(photos, aspectValue, perPanel, statusEl, "manual");
+      if (manual) {
+        const aspectValue = document.getElementById("aspect-ratio-manual").value;
+        const perPanel = collectManualSettings();
+        await renderPanels(photos, aspectValue, perPanel, statusEl, "manual");
+      } else {
+        const aspectValue = document.getElementById("aspect-ratio").value;
+        const filterStyle = document.getElementById("filter-style").value;
+        statusEl.textContent = "Writing captions…";
+        const captions = await captionsForPath(photos);
+        const perPanel = captions.map((c) => ({
+          filterStyle,
+          charSide: "left",
+          captionText: c.text,
+          feel: c.feel,
+        }));
+        await renderPanels(photos, aspectValue, perPanel, statusEl, "auto");
+      }
     } catch (err) {
       console.error("Comic generation failed.", err);
       statusEl.textContent = "Something went wrong generating the comic - check the console.";

@@ -554,19 +554,10 @@ function renderWaypointChips() {
   });
   if (selectedWaypoints.length > 0) {
     const clear = document.createElement("button");
+    clear.className = "btn-secondary";
     clear.textContent = "Clear path";
     clear.addEventListener("click", resetPath);
     el.appendChild(clear);
-
-    // The route is open-ended (the player can keep clicking pins), so
-    // there's no way to infer "last leg" from the map alone - the player
-    // says when they're done, and that's what picks the epilogue variant.
-    const finish = document.createElement("button");
-    finish.textContent = "Finish walk";
-    finish.addEventListener("click", () => {
-      if (window.renderEpilogue) window.renderEpilogue();
-    });
-    el.appendChild(finish);
   }
 
   if (selectedWaypoints.length >= 2) {
@@ -827,7 +818,7 @@ function renderCredits(photos) {
   const plainText = photos.map(attributionLine).join("\n");
 
   el.innerHTML =
-    `<strong>Credits</strong><ul>${items}</ul>` +
+    `<summary>Credits (${photos.length})</summary><ul>${items}</ul>` +
     `<div class="attribution-copy-block">` +
     `<div class="attribution-copy-header"><span>Copy-pastable attribution</span>` +
     `<button type="button" id="copy-credits-btn">Copy</button></div>` +

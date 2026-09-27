@@ -162,7 +162,9 @@ function sharedPaletteFromImages(imgElements, k = 5) {
     c.height = h;
     const ctx = c.getContext("2d");
     ctx.drawImage(img, 0, 0, w, h);
-    pooled.push(...samplesFromImageData(ctx.getImageData(0, 0, w, h)));
+    for (const s of samplesFromImageData(ctx.getImageData(0, 0, w, h))) {
+      pooled.push(s);
+    }
   }
   return kMeansFromSamples(pooled, k);
 }
