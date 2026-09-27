@@ -91,6 +91,25 @@ function resolveCharacterLook(value) {
   return pickCharacterLook(pickCharacterPerson(value));
 }
 
+// resolveCastForBuild(personValue, lookValue) — the ONE place a comic's
+// cast is rolled. Called exactly once per "Build Comic" click (auto and
+// manual alike), never per panel - this is what actually fixes
+// "character looks different every panel": every panel's settings.charLook
+// downstream is this same resolved string, not a fresh random pick.
+//
+// A pinned look (from the new look selector) wins outright and implies its
+// person via LOOK_TO_PERSON, so the "Who" dropdown can't produce a
+// mismatched pair. Otherwise falls back to the "Who" dropdown
+// (random/kathy/thatch) and rolls ONE look for that person.
+function resolveCastForBuild(personValue, lookValue) {
+  if (lookValue && lookValue !== "random" && ALL_LOOKS.includes(lookValue)) {
+    return { charName: LOOK_TO_PERSON[lookValue], charLook: lookValue };
+  }
+  const charName = pickCharacterPerson(personValue);
+  const charLook = pickCharacterLook(charName);
+  return { charName, charLook };
+}
+
 function characterBboxRect(side, canvasWidth, canvasHeight) {
   const w = canvasWidth * CHAR_BBOX.width;
   const h = canvasHeight * CHAR_BBOX.height;
@@ -116,6 +135,10 @@ function characterBboxRect(side, canvasWidth, canvasHeight) {
 async function bakeOverlaysOntoCanvas(canvas, side, look) {
   if (canvas.dataset.baked === "true") return;
   const { x, y, w, h } = characterBboxRect(side, canvas.width, canvas.height);
+  // `look` is now always the one concrete basename resolved once for the
+  // whole comic (see resolveCastForBuild()) - resolveCharacterLook() here
+  // is just a defensive pass-through (it returns a valid look unchanged)
+  // in case an old shared-link path still hands in a bare person string.
   const sprite = await loadImage(`assets/characters/${resolveCharacterLook(look)}.png`);
   const ctx = canvas.getContext("2d");
   ctx.save();
@@ -297,17 +320,16 @@ function medianColor(source) {
  * (assets/characters/) over the panel, sized/positioned as a fraction of
  * the panel so it scales with any aspect ratio (same box math as
  * characterBboxRect()/bakeOverlaysOntoCanvas() so the live page and the
- * exported PNG can't drift apart). `person` ("kathy"/"thatch") identifies
- * WHO's in the strip; WHICH look represents them is re-rolled here on every
- * call via resolveCharacterLook(), so Kathy's 10 looks get spread across a
- * comic's panels instead of the whole strip sharing one. Returns the look
- * that was picked so callers can remember it (for the "Download finished
- * comic" export - see bakeOverlaysOntoCanvas()). The .character-sprite
- * class (comic.css) drives the fade in/out animation - CSS only, nothing
- * here to keep in sync with it.
+ * exported PNG can't drift apart). `look` is the one concrete PNG basename
+ * (e.g. "kathy4") already resolved once for the whole comic by
+ * resolveCastForBuild() - NOT re-rolled per panel, so every panel shows the
+ * same look. Returns the look that was drawn so callers can remember it
+ * (for the "Download finished comic" export - see bakeOverlaysOntoCanvas()).
+ * The .character-sprite class (comic.css) drives the fade in/out animation
+ * - CSS only, nothing here to keep in sync with it.
  */
-function renderCharacterPlaceholder(panelEl, side = "left", person) {
-  const look = resolveCharacterLook(person);
+function renderCharacterPlaceholder(panelEl, side = "left", look) {
+  look = resolveCharacterLook(look); // defensive pass-through; see bakeOverlaysOntoCanvas() comment
   const img = document.createElement("img");
   img.className = "character-sprite";
   img.alt = "";
@@ -472,7 +494,7 @@ async function buildPanel(photo, i, total, aspect, settings, preloadedImg) {
   }
   panel.appendChild(img);
 
-  const charLook = renderCharacterPlaceholder(panel, settings.charSide, settings.charName);
+  const charLook = renderCharacterPlaceholder(panel, settings.charSide, settings.charLook);
 
   const textbox = document.createElement("div");
   textbox.className = "comic-textbox";
@@ -493,12 +515,21 @@ async function buildPanel(photo, i, total, aspect, settings, preloadedImg) {
 function resolvedSettings(photos, perPanel, i, comicWide) {
   // Shared links and older recipes may omit a panel entry. Keep rendering
   // usable with safe defaults instead of crashing on settings.filterStyle.
+  // These two are only a fallback for that missing-entry case - every real
+  // caller now resolves charName/charLook ONCE per comic (via
+  // resolveCastForBuild()) and puts the SAME pair on every perPanel entry,
+  // which is what keeps the character's look consistent panel to panel.
+  // Rolling them independently here (rather than deriving the fallback
+  // look from the fallback person) would re-introduce a mismatch even in
+  // this rare legacy path, so pick the person first and derive its look.
+  const fallbackCharName = pickCharacterPerson();
   return {
     filterStyle: "halftone",
     captionText: `${buildingLabel(photos[i])}${photos[i].year ? ` — ${photos[i].year}` : ""}`,
     feel: null,
     charSide: "left",
-    charName: pickCharacterPerson(),
+    charName: fallbackCharName,
+    charLook: pickCharacterLook(fallbackCharName),
     ...(perPanel?.[i] || {}),
     // comicWide (sharedPalette/sharedTint) always wins over anything a
     // per-panel recipe might carry - these two are, by design, a
@@ -780,7 +811,7 @@ async function buildVNPanel(photo, i, total, settings, preloadedImg) {
   }
   panel.appendChild(img);
 
-  const charLook = renderCharacterPlaceholder(panel, settings.charSide, settings.charName);
+  const charLook = renderCharacterPlaceholder(panel, settings.charSide, settings.charLook);
 
   const textbox = document.createElement("div");
   textbox.className = "comic-textbox";
@@ -926,6 +957,7 @@ async function presentVisualNovel(photos, aspectValue, perPanel, statusEl, mode 
       feel: settings.feel,
       charSide: settings.charSide,
       charName: settings.charName,
+      charLook: settings.charLook,
     });
   }
   // The credits screen is the (built.length)-th "panel" - past the last
@@ -1127,18 +1159,20 @@ async function buildManualEditors(photos, statusEl) {
 }
 
 function collectManualSettings() {
-  // WHO narrates (Kathy or Thatch) is one choice for the whole comic, same
-  // as filter/aspect in auto mode - it's the strip's recurring narrator,
-  // not something that should change panel to panel. WHICH look stands in
-  // for them is re-rolled per panel instead (see resolveCharacterLook()),
-  // so a multi-look person's art gets spread across the strip. Side
-  // (left/right/center) stays per-panel since that's blocking/composition.
-  const charName = pickCharacterPerson(document.getElementById("char-select-manual")?.value);
+  // WHO narrates (Kathy or Thatch) AND which specific look stands in for
+  // them are both one choice for the whole comic, rolled exactly once here
+  // (resolveCastForBuild()) - same as filter/aspect. Side (left/right/
+  // center) stays per-panel since that's blocking/composition, not cast.
+  const { charName, charLook } = resolveCastForBuild(
+    document.getElementById("char-select-manual")?.value,
+    document.getElementById("char-look-select-manual")?.value
+  );
   const rows = document.querySelectorAll("#manual-panel-editors .manual-editor-row");
   return Array.from(rows).map((row) => ({
     filterStyle: row.querySelector(".manual-filter-select").value,
     charSide: row.querySelector(".manual-side-select").value,
     charName,
+    charLook,
     captionText: row.querySelector(".manual-caption-textarea").value.trim(),
     feel: row.querySelector(".manual-feel-input").value.trim() || null,
   }));
@@ -1272,6 +1306,14 @@ function buildRecipe(photos, mode, aspectValue, perPanel) {
     mode,
     aspect: aspectValue,
     ids: photos.map((p) => p.id),
+    // The cast (who + which look) is one whole-comic decision (see
+    // resolveCastForBuild()), so it's stored once here rather than
+    // repeated per panel - this is what makes a "Random" build's shared
+    // link reopen with the EXACT character/look that were on screen when
+    // the link was copied, instead of rolling a fresh random look on load.
+    // `char` is kept on each panel entry too for older code paths/links
+    // that only ever read a per-panel person; `look` is the new field.
+    look: perPanel[0]?.charLook || null,
     panels: perPanel.map((s) =>
       mode === "auto"
         ? { filter: s.filterStyle, char: s.charName }
@@ -1372,6 +1414,17 @@ async function renderFromRecipe(recipe) {
   // (see the credits screen built at the bottom of that function).
   if (!viewerOnly) renderPathCredits(photos);
 
+  // The cast is resolved ONCE per recipe, not per panel: recipe.look (added
+  // alongside the per-panel `char` field - see buildRecipe()) is the exact
+  // look that was on screen when this link was copied. Older links predate
+  // that field, so fall back to rolling one look now for the recipe's
+  // person - still only rolled once, just later than ideal, so a legacy
+  // link is internally consistent even though it can't reproduce the
+  // original "Random" roll from before this fix.
+  const recipeCharName = pickCharacterPerson(recipe.panels[0]?.char);
+  const recipeCharLook =
+    recipe.look && ALL_LOOKS.includes(recipe.look) ? recipe.look : pickCharacterLook(recipeCharName);
+
   let perPanel;
   if (recipe.mode === "manual") {
     // Manual captions are free text with no Ink knot behind them, so there's
@@ -1379,18 +1432,19 @@ async function renderFromRecipe(recipe) {
     perPanel = recipe.panels.map((p) => ({
       filterStyle: p.filter,
       charSide: p.side,
-      charName: pickCharacterPerson(p.char),
+      charName: recipeCharName,
+      charLook: recipeCharLook,
       captionText: p.caption,
       feel: p.feel,
       choices: [],
     }));
   } else {
     const captions = await captionsForVN(photos);
-    const charName = pickCharacterPerson(recipe.panels[0]?.char);
     perPanel = captions.map((c, i) => ({
       filterStyle: recipe.panels[i]?.filter || "halftone",
       charSide: "left",
-      charName,
+      charName: recipeCharName,
+      charLook: recipeCharLook,
       captionText: c.text,
       feel: c.feel,
       choices: c.choices,
@@ -1475,13 +1529,17 @@ document.addEventListener("DOMContentLoaded", async () => {
       } else {
         const aspectValue = document.getElementById("aspect-ratio").value;
         const filterStyle = document.getElementById("filter-style").value;
-        const charName = pickCharacterPerson(document.getElementById("char-select").value);
+        const { charName, charLook } = resolveCastForBuild(
+          document.getElementById("char-select").value,
+          document.getElementById("char-look-select")?.value
+        );
         statusEl.textContent = "Writing captions…";
         const captions = await captionsForPath(photos);
         const perPanel = captions.map((c) => ({
           filterStyle,
           charSide: "left",
           charName,
+          charLook,
           captionText: c.text,
           feel: c.feel,
         }));
