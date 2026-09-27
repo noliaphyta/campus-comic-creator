@@ -119,13 +119,64 @@ function isHttpUrl(value) {
 
 const COMMONS_FILE_RE = /^https:\/\/commons\.wikimedia\.org\/wiki\/File:(.+)$/;
 
-// Builds the Special:FilePath base for a Commons File: page URL, or null if
-// `source` isn't a Commons file page (e.g. a Flickr page URL).
-function commonsFilePathBase(sourceUrl) {
+// Extracts the bare "File:X.jpg" title from a Commons file-page source URL,
+// or null if `source` isn't a Commons file page (e.g. a Flickr page URL).
+function commonsFileTitle(sourceUrl) {
   if (typeof sourceUrl !== "string") return null;
   const m = sourceUrl.match(COMMONS_FILE_RE);
   if (!m) return null;
-  return `https://commons.wikimedia.org/wiki/Special:FilePath/${m[1]}`;
+  return decodeURIComponent(m[1]);
+}
+
+// Resolves a Commons file title to its DIRECT upload.wikimedia.org URLs via
+// the imageinfo API, instead of using a commons.wikimedia.org/.../
+// Special:FilePath link. Special:FilePath 302-redirects to the real file on
+// upload.wikimedia.org; the redirect response itself carries no
+// Access-Control-Allow-Origin header, which Firefox (and increasingly
+// Chromium) treats as a CORS failure on the whole request even though the
+// final upload.wikimedia.org response *does* send ACAO: * - that's the
+// "CORS header 'Access-Control-Allow-Origin' missing... Status code: 302"
+// error stylize.js's canvas read hits. Going straight to the imageinfo API
+// sidesteps the redirect entirely: both `url` (original) and `thumburl`
+// (server-scaled, via iiurlwidth) it returns are already-direct
+// upload.wikimedia.org links.
+const commonsUrlCache = new Map();
+async function resolveCommonsUrls(title, thumbWidth, webWidth) {
+  const cacheKey = `${title}|${thumbWidth}|${webWidth}`;
+  if (commonsUrlCache.has(cacheKey)) return commonsUrlCache.get(cacheKey);
+
+  const api = new URL("https://commons.wikimedia.org/w/api.php");
+  api.searchParams.set("action", "query");
+  api.searchParams.set("titles", `File:${title}`);
+  api.searchParams.set("prop", "imageinfo");
+  api.searchParams.set("iiprop", "url");
+  api.searchParams.set("iiurlwidth", String(webWidth));
+  api.searchParams.set("format", "json");
+  api.searchParams.set("formatversion", "2");
+
+  let result = null;
+  try {
+    const res = await fetch(api.toString());
+    const json = await res.json();
+    const info = json?.query?.pages?.[0]?.imageinfo?.[0];
+    if (info?.url) {
+      // A second call at thumbWidth gives the small thumb; reuse `url` for
+      // full-res. Skip a second round trip when the widths are equal.
+      let thumbUrl = info.thumburl;
+      if (thumbWidth !== webWidth) {
+        const api2 = new URL(api.toString());
+        api2.searchParams.set("iiurlwidth", String(thumbWidth));
+        const res2 = await fetch(api2.toString());
+        const json2 = await res2.json();
+        thumbUrl = json2?.query?.pages?.[0]?.imageinfo?.[0]?.thumburl || thumbUrl;
+      }
+      result = { file: info.url, web: info.thumburl || info.url, thumb: thumbUrl || info.url };
+    }
+  } catch {
+    result = null;
+  }
+  commonsUrlCache.set(cacheKey, result);
+  return result;
 }
 
 async function headOk(url) {
@@ -176,16 +227,22 @@ async function main() {
       const hadLocalRef =
         isLocalRawPath(entry.file) || isLocalRawPath(entry.thumb) || isLocalRawPath(entry.web);
 
-      if (isHttpUrl(entry.file) && !hadLocalRef) {
+      const isBrokenSpecialFilePath =
+        typeof entry.file === "string" && entry.file.includes("/wiki/Special:FilePath/");
+
+      if (isHttpUrl(entry.file) && !hadLocalRef && !isBrokenSpecialFilePath) {
         alreadyRemote++;
         continue; // already points somewhere real and non-local - leave it
       }
 
-      const base = commonsFilePathBase(entry.source);
-      if (base) {
-        entry.file = base;
-        entry.thumb = `${base}?width=330`;
-        entry.web = `${base}?width=${opts.webWidth}`;
+      const commonsTitle = commonsFileTitle(entry.source);
+      const resolved = commonsTitle
+        ? await resolveCommonsUrls(commonsTitle, 330, opts.webWidth)
+        : null;
+      if (resolved) {
+        entry.file = resolved.file;
+        entry.thumb = resolved.thumb;
+        entry.web = resolved.web;
         delete entry.image_missing;
         repointed++;
         continue;

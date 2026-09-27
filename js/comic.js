@@ -150,8 +150,13 @@ function renderPathCredits(photos, target) {
 function loadImage(src) {
   return new Promise((resolve, reject) => {
     const img = new Image();
-    img.crossOrigin = "anonymous"; // Commons images are served with CORS headers on
-    img.onload = () => resolve(img); // -> upload.wikimedia.org; needed so canvas isn't tainted.
+    img.crossOrigin = "anonymous"; // upload.wikimedia.org direct URLs send real
+    img.onload = () => resolve(img); // ACAO headers (needed so canvas isn't tainted).
+    // NB: this only works because fix-image-refs.mjs now points Commons
+    // entries at upload.wikimedia.org directly. The old commons.wikimedia.org
+    // /wiki/Special:FilePath/... redirect looked like a normal https URL but
+    // its 302 response carries no Access-Control-Allow-Origin header, which
+    // fails CORS even though the file it redirects to does have one.
     img.onerror = reject;
     img.src = src;
   });
