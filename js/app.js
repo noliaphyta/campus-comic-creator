@@ -397,9 +397,19 @@ function renderYearRangeSlider(photos) {
 
   // Per-year counts feed the histogram bars. Years with zero photos still
   // get an (empty) column so the bar spacing lines up with the axis below.
+  // Only tally years INSIDE [minYear, maxYear]: a few photos in this
+  // dataset predate TIMELINE_EARLIEST_YEAR (1960/1979/1986), so `years`
+  // itself can contain years the slider doesn't cover. Incrementing
+  // counts[y] for one of those hits an unset key -> NaN, and
+  // Math.max(...) below returns NaN the moment ANY value in the list is
+  // NaN - which poisoned maxCount and made every bar's height compute to
+  // "NaN%" (invalid CSS - renders as zero height), not just the
+  // out-of-range years' bars. Those older photos still exist and still
+  // show up on the map; they just can't be represented by a bar on a
+  // slider that doesn't scroll back that far.
   const counts = {};
   for (let y = minYear; y <= maxYear; y++) counts[y] = 0;
-  years.forEach((y) => { counts[y] += 1; });
+  years.forEach((y) => { if (y in counts) counts[y] += 1; });
   const maxCount = Math.max(1, ...Object.values(counts));
 
   const wrap = document.createElement("div");
@@ -820,7 +830,8 @@ async function runStylizeAndStory(photo) {
  * source/license/creator metadata already captured per photo at ingest
  * time. Don't discard those fields when curating photos.json - this is
  * where they're used, not just provenance bookkeeping. Renders both a
- * clickable list (source links to the actual Commons file page) and a
+ * clickable list (source links to the photo's actual page on whichever
+ * platform it came from) and a
  * plain-text block the whole thing can be copy-pasted from in one go, for
  * anyone reusing these images/credits elsewhere.
  */
@@ -833,14 +844,7 @@ function renderCredits(photos) {
   el.hidden = false;
 
   const items = photos
-    .map((p) => {
-      const label = p.building || buildingLabel(p);
-      const creator = p.creator ? ` — photo by ${p.creator}` : "";
-      return (
-        `<li>${label}, ${p.year ?? "?"}${creator} — ${p.license ?? "license unknown"} — ` +
-        `<a href="${p.source ?? "#"}" target="_blank" rel="noopener">Wikimedia Commons file page</a></li>`
-      );
-    })
+    .map((p) => creditListItemHTML(p, p.building || buildingLabel(p)))
     .join("");
 
   const plainText = photos.map(attributionLine).join("\n");

@@ -404,13 +404,7 @@ function renderPathCredits(photos, target) {
   }
   el.hidden = false;
   const items = photos
-    .map((p) => {
-      const creator = p.creator ? ` — photo by ${p.creator}` : "";
-      return (
-        `<li>${buildingLabel(p)}, ${p.year ?? "?"}${creator} — ${p.license ?? "license unknown"} — ` +
-        `<a href="${p.source ?? "#"}" target="_blank" rel="noopener">Wikimedia Commons file page</a></li>`
-      );
-    })
+    .map((p) => creditListItemHTML(p, buildingLabel(p)))
     .join("");
   const plainText = photos.map(attributionLine).join("\n");
 

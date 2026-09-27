@@ -32,20 +32,67 @@ function buildingLabel(photo) {
 }
 
 /**
+ * attributionSource(photo) -> { name, host } — derives the source platform
+ * from photo.source's own host instead of assuming Wikimedia Commons.
+ * ~half this dataset (see scripts/unify-photos.mjs) is Flickr-sourced, not
+ * Commons, and every attribution site below used to hardcode "Wikimedia
+ * Commons" regardless - this is the one place that mapping lives now, so
+ * a third platform (or a photo.source that isn't a full URL at all) only
+ * needs a change here, not at every render site.
+ * Falls back to the bare host, or "the source" if photo.source is missing/
+ * unparseable, rather than claiming a platform the link doesn't back up.
+ */
+function attributionSource(photo) {
+  if (!photo.source) return { name: "the source", host: null };
+  try {
+    const host = new URL(photo.source).host.replace(/^www\./, "");
+    if (host === "commons.wikimedia.org") return { name: "Wikimedia Commons", host };
+    if (host === "flickr.com") return { name: "Flickr", host };
+    return { name: host, host };
+  } catch {
+    return { name: "the source", host: null };
+  }
+}
+
+/**
  * attributionLine(photo) -> plain-text CC-style attribution, e.g.
  * `"James Blair Hall, College of William and Mary (3859960606)" by Jane
  * Doe, CC BY-SA 2.0, via Wikimedia Commons -
- * https://commons.wikimedia.org/wiki/File:...`
- * `photo.source` is the Wikimedia Commons File: description page (not a
- * redirect/thumbnail/raw-upload URL), which is what the license actually
- * requires linking to.
+ * https://commons.wikimedia.org/wiki/File:...` for a Commons photo, or
+ * `..., via Flickr - https://www.flickr.com/photos/...` for a Flickr one.
+ * `photo.source` is the platform's own description/detail page for the
+ * photo (not a redirect/thumbnail/raw-upload URL), which is what the
+ * license actually requires linking to, on either platform.
  */
 function attributionLine(photo) {
   const title = photo.title || buildingLabel(photo);
   const creator = photo.creator ? ` by ${photo.creator}` : "";
   const license = photo.license || "license unknown";
   const link = photo.source || "#";
-  return `"${title}"${creator}, ${license}, via Wikimedia Commons - ${link}`;
+  const { name: platform } = attributionSource(photo);
+  return `"${title}"${creator}, ${license}, via ${platform} - ${link}`;
+}
+
+/**
+ * creditListItemHTML(photo) -> one <li> for the clickable credits list -
+ * shared by js/app.js's renderCredits() and js/comic.js's
+ * renderPathCredits() so the Commons-vs-Flickr link text (and the
+ * creator-name-links-to-creatorUrl touch) only has to be right in one
+ * place. `label` lets callers pick building-name-first (comic) vs.
+ * buildingLabel()-with-building-fallback (map) without duplicating the
+ * rest of the row.
+ */
+function creditListItemHTML(photo, label) {
+  const creatorText = photo.creator
+    ? photo.creatorUrl
+      ? ` — photo by <a href="${photo.creatorUrl}" target="_blank" rel="noopener">${photo.creator}</a>`
+      : ` — photo by ${photo.creator}`
+    : "";
+  const { name: platform } = attributionSource(photo);
+  return (
+    `<li>${label}, ${photo.year ?? "?"}${creatorText} — ${photo.license ?? "license unknown"} — ` +
+    `<a href="${photo.source ?? "#"}" target="_blank" rel="noopener">${platform} file page</a></li>`
+  );
 }
 
 /**
