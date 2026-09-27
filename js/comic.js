@@ -19,7 +19,7 @@
  *      docs/narrative-system.md).
  *
  * "Manually select styles & story" is left as a disabled radio for now -
- * autogenerate is the first target (see request.txt).
+ * autogenerate is the first target.
  */
 
 // buildingLabel() and attributionLine() now live in js/shared.js (loaded

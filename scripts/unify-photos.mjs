@@ -29,8 +29,9 @@
  * nothing is silently broken.
  *
  * Backs up the current data/photos.json to data/photos.pre-unify.bak.json
- * before overwriting (does not touch the existing, separate
- * data/photos.json.bak.json).
+ * before overwriting. That backup is regenerated fresh each run - it's
+ * gitignored-in-spirit scratch, not something to keep committed between
+ * runs, so don't treat an old copy sitting in the repo as meaningful.
  *
  * Usage:
  *   node scripts/unify-photos.mjs
