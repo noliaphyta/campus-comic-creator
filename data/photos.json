@@ -11883,8 +11883,8 @@
   },
   {
     "id": "dorm_door_3859961778",
-    "file": "assets/photos/raw/dorm_door_3859961778.jpg",
-    "thumb": "assets/photos/thumbs/dorm_door_3859961778.jpg",
+    "file": null,
+    "thumb": null,
     "year": 2004,
     "building": null,
     "lat": 37.27018,
@@ -11897,7 +11897,9 @@
     "description": "Dorm door",
     "dateOriginal": "2004-09-20 18:04",
     "width": 1536,
-    "height": 2048
+    "height": 2048,
+    "web": null,
+    "image_missing": true
   },
   {
     "id": "preston_hall_on_fire_at_the_college_of_william_and_mary_3501318153",
@@ -11918,8 +11920,8 @@
   },
   {
     "id": "preston_hall_on_fire_at_the_college_of_william_and_mary_3502130036",
-    "file": "assets/photos/raw/preston_hall_on_fire_at_the_college_of_william_and_mary_3502130036.jpg",
-    "thumb": "assets/photos/thumbs/preston_hall_on_fire_at_the_college_of_william_and_mary_3502130036.jpg",
+    "file": null,
+    "thumb": null,
     "year": 2005,
     "building": null,
     "lat": 37.270428,
@@ -11932,12 +11934,14 @@
     "description": "Preston Hall on fire at the College of William and Mary",
     "dateOriginal": "2005-05-03 12:40",
     "width": 2048,
-    "height": 1536
+    "height": 1536,
+    "web": null,
+    "image_missing": true
   },
   {
     "id": "preston_hall_on_fire_at_the_college_of_william_and_mary_3501315235",
-    "file": "assets/photos/raw/preston_hall_on_fire_at_the_college_of_william_and_mary_3501315235.jpg",
-    "thumb": "assets/photos/thumbs/preston_hall_on_fire_at_the_college_of_william_and_mary_3501315235.jpg",
+    "file": null,
+    "thumb": null,
     "year": 2005,
     "building": null,
     "lat": 37.270428,
@@ -11950,12 +11954,14 @@
     "description": "Preston Hall on fire at the College of William and Mary",
     "dateOriginal": "2005-05-03 12:39",
     "width": 2048,
-    "height": 1536
+    "height": 1536,
+    "web": null,
+    "image_missing": true
   },
   {
     "id": "preston_hall_on_a_bad_day_may_3_2005_panoramio",
-    "file": "assets/photos/raw/preston_hall_on_a_bad_day_may_3_2005_panoramio.jpg",
-    "thumb": "assets/photos/thumbs/preston_hall_on_a_bad_day_may_3_2005_panoramio.jpg",
+    "file": null,
+    "thumb": null,
     "year": 2007,
     "building": null,
     "lat": 37.270786,
@@ -11968,12 +11974,14 @@
     "description": "Preston Hall on a bad day:  May 3, 2005",
     "dateOriginal": "23 March 2007 (original upload date)",
     "width": 1182,
-    "height": 846
+    "height": 846,
+    "web": null,
+    "image_missing": true
   },
   {
     "id": "williamsburg_va_usa_panoramio_19",
-    "file": "assets/photos/raw/williamsburg_va_usa_panoramio_19.jpg",
-    "thumb": "assets/photos/thumbs/williamsburg_va_usa_panoramio_19.jpg",
+    "file": null,
+    "thumb": null,
     "year": 2013,
     "building": null,
     "lat": 37.27379,
@@ -11986,12 +11994,14 @@
     "description": "Williamsburg, VA, USA",
     "dateOriginal": "Taken on 2 December 2013",
     "width": 2123,
-    "height": 2123
+    "height": 2123,
+    "web": null,
+    "image_missing": true
   },
   {
     "id": "anheuser_busch_field_entrance",
-    "file": "assets/photos/raw/anheuser_busch_field_entrance.jpg",
-    "thumb": "assets/photos/thumbs/anheuser_busch_field_entrance.jpg",
+    "file": null,
+    "thumb": null,
     "year": 2018,
     "building": null,
     "lat": 37.273611,
@@ -12004,12 +12014,14 @@
     "description": "College of William & Mary, Field Hockey Williamsburg, Virginia",
     "dateOriginal": "2018-07-09 15:17:29",
     "width": 3264,
-    "height": 2448
+    "height": 2448,
+    "web": null,
+    "image_missing": true
   },
   {
     "id": "campus_rec_center_w_m",
-    "file": "assets/photos/raw/campus_rec_center_w_m.jpg",
-    "thumb": "assets/photos/thumbs/campus_rec_center_w_m.jpg",
+    "file": null,
+    "thumb": null,
     "year": 2018,
     "building": null,
     "lat": 37.273611,
@@ -12022,12 +12034,14 @@
     "description": "College of William & Mary, Williamsburg, Virginia",
     "dateOriginal": "2018-07-09 15:18:19",
     "width": 3264,
-    "height": 2448
+    "height": 2448,
+    "web": null,
+    "image_missing": true
   },
   {
     "id": "dinwiddie_complex_dorms_w_m_3",
-    "file": "assets/photos/raw/dinwiddie_complex_dorms_w_m_3.jpg",
-    "thumb": "assets/photos/thumbs/dinwiddie_complex_dorms_w_m_3.jpg",
+    "file": null,
+    "thumb": null,
     "year": 2018,
     "building": null,
     "lat": 37.27,
@@ -12040,12 +12054,14 @@
     "description": "College of William & Mary, Williamsburg, Virginia",
     "dateOriginal": "2018-07-09 15:22:10",
     "width": 3264,
-    "height": 2448
+    "height": 2448,
+    "web": null,
+    "image_missing": true
   },
   {
     "id": "dinwiddie_complex_dorms_w_m_4",
-    "file": "assets/photos/raw/dinwiddie_complex_dorms_w_m_4.jpg",
-    "thumb": "assets/photos/thumbs/dinwiddie_complex_dorms_w_m_4.jpg",
+    "file": null,
+    "thumb": null,
     "year": 2018,
     "building": null,
     "lat": 37.27,
@@ -12058,12 +12074,14 @@
     "description": "College of William & Mary, Williamsburg, Virginia",
     "dateOriginal": "2018-07-09 15:22:20",
     "width": 3264,
-    "height": 2448
+    "height": 2448,
+    "web": null,
+    "image_missing": true
   },
   {
     "id": "entrance_millie_west_tennis_facility",
-    "file": "assets/photos/raw/entrance_millie_west_tennis_facility.jpg",
-    "thumb": "assets/photos/thumbs/entrance_millie_west_tennis_facility.jpg",
+    "file": null,
+    "thumb": null,
     "year": 2018,
     "building": null,
     "lat": 37.273611,
@@ -12076,12 +12094,14 @@
     "description": "College of William & Mary, Williamsburg, Virginia",
     "dateOriginal": "2018-07-09 15:18:00",
     "width": 3264,
-    "height": 2448
+    "height": 2448,
+    "web": null,
+    "image_missing": true
   },
   {
     "id": "new_greek_life_buildings_w_m",
-    "file": "assets/photos/raw/new_greek_life_buildings_w_m.jpg",
-    "thumb": "assets/photos/thumbs/new_greek_life_buildings_w_m.jpg",
+    "file": null,
+    "thumb": null,
     "year": 2018,
     "building": null,
     "lat": 37.274444,
@@ -12094,12 +12114,14 @@
     "description": "College of William & Mary, Williamsburg, Virginia",
     "dateOriginal": "2018-07-09 15:19:29",
     "width": 3264,
-    "height": 2448
+    "height": 2448,
+    "web": null,
+    "image_missing": true
   },
   {
     "id": "williamsburg_va_historic_district_governor_s_palace_1",
-    "file": "assets/photos/raw/williamsburg_va_historic_district_governor_s_palace_1.jpg",
-    "thumb": "assets/photos/thumbs/williamsburg_va_historic_district_governor_s_palace_1.jpg",
+    "file": null,
+    "thumb": null,
     "year": 2019,
     "building": null,
     "lat": 37.274167,
@@ -12112,12 +12134,14 @@
     "description": "This is an image of a place or building that is listed on the National Register of Historic Places in the United States of America. Its reference number is 66000925 (Wikidata).",
     "dateOriginal": "2019-09-23",
     "width": 682,
-    "height": 1024
+    "height": 1024,
+    "web": null,
+    "image_missing": true
   },
   {
     "id": "williamsburg_va_historic_district_governor_s_palace_3",
-    "file": "assets/photos/raw/williamsburg_va_historic_district_governor_s_palace_3.jpg",
-    "thumb": "assets/photos/thumbs/williamsburg_va_historic_district_governor_s_palace_3.jpg",
+    "file": null,
+    "thumb": null,
     "year": 2019,
     "building": null,
     "lat": 37.274167,
@@ -12130,12 +12154,14 @@
     "description": "This is an image of a place or building that is listed on the National Register of Historic Places in the United States of America. Its reference number is 66000925 (Wikidata).",
     "dateOriginal": "2019-09-23",
     "width": 683,
-    "height": 1024
+    "height": 1024,
+    "web": null,
+    "image_missing": true
   },
   {
     "id": "williamsburg_va_historic_district_governor_s_palace_2",
-    "file": "assets/photos/raw/williamsburg_va_historic_district_governor_s_palace_2.jpg",
-    "thumb": "assets/photos/thumbs/williamsburg_va_historic_district_governor_s_palace_2.jpg",
+    "file": null,
+    "thumb": null,
     "year": 2019,
     "building": null,
     "lat": 37.274167,
@@ -12148,12 +12174,14 @@
     "description": "This is an image of a place or building that is listed on the National Register of Historic Places in the United States of America. Its reference number is 66000925 (Wikidata).",
     "dateOriginal": "2019-09-23",
     "width": 1024,
-    "height": 684
+    "height": 684,
+    "web": null,
+    "image_missing": true
   },
   {
     "id": "williamsburg_va_historic_district_magazine",
-    "file": "assets/photos/raw/williamsburg_va_historic_district_magazine.jpg",
-    "thumb": "assets/photos/thumbs/williamsburg_va_historic_district_magazine.jpg",
+    "file": null,
+    "thumb": null,
     "year": 2019,
     "building": null,
     "lat": 37.274167,
@@ -12166,12 +12194,14 @@
     "description": "This is an image of a place or building that is listed on the National Register of Historic Places in the United States of America. Its reference number is 66000925 (Wikidata).",
     "dateOriginal": "2019-09-23",
     "width": 1024,
-    "height": 683
+    "height": 683,
+    "web": null,
+    "image_missing": true
   },
   {
     "id": "williamsburg_va_historic_district_2",
-    "file": "assets/photos/raw/williamsburg_va_historic_district_2.jpg",
-    "thumb": "assets/photos/thumbs/williamsburg_va_historic_district_2.jpg",
+    "file": null,
+    "thumb": null,
     "year": 2019,
     "building": null,
     "lat": 37.274167,
@@ -12184,12 +12214,14 @@
     "description": "This is an image of a place or building that is listed on the National Register of Historic Places in the United States of America. Its reference number is 66000925 (Wikidata).",
     "dateOriginal": "2019-09-23",
     "width": 683,
-    "height": 1024
+    "height": 1024,
+    "web": null,
+    "image_missing": true
   },
   {
     "id": "williamsburg_va_historic_district",
-    "file": "assets/photos/raw/williamsburg_va_historic_district.jpg",
-    "thumb": "assets/photos/thumbs/williamsburg_va_historic_district.jpg",
+    "file": null,
+    "thumb": null,
     "year": 2019,
     "building": null,
     "lat": 37.274167,
@@ -12202,12 +12234,14 @@
     "description": "This is an image of a place or building that is listed on the National Register of Historic Places in the United States of America. Its reference number is 66000925 (Wikidata).",
     "dateOriginal": "2019-09-23",
     "width": 1024,
-    "height": 684
+    "height": 684,
+    "web": null,
+    "image_missing": true
   },
   {
     "id": "williamsburg_va_4",
-    "file": "assets/photos/raw/williamsburg_va_4.jpg",
-    "thumb": "assets/photos/thumbs/williamsburg_va_4.jpg",
+    "file": null,
+    "thumb": null,
     "year": 2019,
     "building": null,
     "lat": 37.274167,
@@ -12220,12 +12254,14 @@
     "description": "This is an image of a place or building that is listed on the National Register of Historic Places in the United States of America. Its reference number is 66000925 (Wikidata).",
     "dateOriginal": "2019-09-23",
     "width": 1024,
-    "height": 683
+    "height": 683,
+    "web": null,
+    "image_missing": true
   },
   {
     "id": "yates_hall_600_ukrop_way",
-    "file": "assets/photos/raw/yates_hall_600_ukrop_way.jpg",
-    "thumb": "assets/photos/thumbs/yates_hall_600_ukrop_way.jpg",
+    "file": null,
+    "thumb": null,
     "year": 2023,
     "building": null,
     "lat": 37.272728,
@@ -12238,12 +12274,14 @@
     "description": "Yates Hall, 600 Ukrop Way",
     "dateOriginal": "2023-04-28 14:15:34",
     "width": 4032,
-    "height": 2103
+    "height": 2103,
+    "web": null,
+    "image_missing": true
   },
   {
     "id": "dupont_hall_101_wake_drive",
-    "file": "assets/photos/raw/dupont_hall_101_wake_drive.jpg",
-    "thumb": "assets/photos/thumbs/dupont_hall_101_wake_drive.jpg",
+    "file": null,
+    "thumb": null,
     "year": 2023,
     "building": null,
     "lat": 37.270267,
@@ -12256,12 +12294,14 @@
     "description": "Dupont Hall, 101 Wake Drive",
     "dateOriginal": "2023-04-28 14:20:39",
     "width": 4032,
-    "height": 1540
+    "height": 1540,
+    "web": null,
+    "image_missing": true
   },
   {
     "id": "colin_trevor_smith_memorial_plaque",
-    "file": "assets/photos/raw/colin_trevor_smith_memorial_plaque.jpg",
-    "thumb": "assets/photos/thumbs/colin_trevor_smith_memorial_plaque.jpg",
+    "file": null,
+    "thumb": null,
     "year": 2023,
     "building": null,
     "lat": 37.270833,
@@ -12274,12 +12314,14 @@
     "description": "Memorial to Colin Trevor Smith, William and Mary Class of 2006",
     "dateOriginal": "2023-10-22 14:38:06",
     "width": 3264,
-    "height": 2448
+    "height": 2448,
+    "web": null,
+    "image_missing": true
   },
   {
     "id": "colin_s_bench_from_farther_away",
-    "file": "assets/photos/raw/colin_s_bench_from_farther_away.jpg",
-    "thumb": "assets/photos/thumbs/colin_s_bench_from_farther_away.jpg",
+    "file": null,
+    "thumb": null,
     "year": 2023,
     "building": null,
     "lat": 37.270556,
@@ -12292,12 +12334,14 @@
     "description": "Memorial to Colin Trevor Smith, William and Mary Class of 2006",
     "dateOriginal": "2023-10-22 14:39:34",
     "width": 3264,
-    "height": 2448
+    "height": 2448,
+    "web": null,
+    "image_missing": true
   },
   {
     "id": "colin_s_bench_homecoming_2023",
-    "file": "assets/photos/raw/colin_s_bench_homecoming_2023.jpg",
-    "thumb": "assets/photos/thumbs/colin_s_bench_homecoming_2023.jpg",
+    "file": null,
+    "thumb": null,
     "year": 2023,
     "building": null,
     "lat": 37.270833,
@@ -12310,12 +12354,14 @@
     "description": "Memorial to Colin Trevor Smith, William and Mary Class of 2006",
     "dateOriginal": "2023-10-22 14:39:01",
     "width": 3264,
-    "height": 2448
+    "height": 2448,
+    "web": null,
+    "image_missing": true
   },
   {
     "id": "lake_matoaka_from_atop_an_amphitheatre_tower_march_2005_panoramio",
-    "file": "assets/photos/raw/lake_matoaka_from_atop_an_amphitheatre_tower_march_2005_panoramio.jpg",
-    "thumb": "assets/photos/thumbs/lake_matoaka_from_atop_an_amphitheatre_tower_march_2005_panoramio.jpg",
+    "file": null,
+    "thumb": null,
     "year": 2005,
     "building": null,
     "lat": 37.266047,
@@ -12328,12 +12374,14 @@
     "description": "Lake Matoaka from atop an amphitheatre tower (March 2005)",
     "dateOriginal": "Taken on 19 March 2005",
     "width": 1600,
-    "height": 1200
+    "height": 1200,
+    "web": null,
+    "image_missing": true
   },
   {
     "id": "william_and_mary_lake_matoaka_ampitheater_september_2011",
-    "file": "assets/photos/raw/william_and_mary_lake_matoaka_ampitheater_september_2011.jpeg",
-    "thumb": "assets/photos/thumbs/william_and_mary_lake_matoaka_ampitheater_september_2011.jpeg",
+    "file": null,
+    "thumb": null,
     "year": 2012,
     "building": null,
     "lat": 37.26616667,
@@ -12346,12 +12394,14 @@
     "description": "This photo was self-taken by user Kjst.wm.tribe.2015 of the Lake Matoaka Amphitheater located on the campus of William and Mary immediately adjacent to the aforementioned lake on September 5, 2011. The photo was taken looking down on to the stage and canopy with the rows of permanent seats in view.",
     "dateOriginal": "29 September 2012 (original upload date)",
     "width": 2592,
-    "height": 1936
+    "height": 1936,
+    "web": null,
+    "image_missing": true
   },
   {
     "id": "lake_matoaka_2020",
-    "file": "assets/photos/raw/lake_matoaka_2020.jpg",
-    "thumb": "assets/photos/thumbs/lake_matoaka_2020.jpg",
+    "file": null,
+    "thumb": null,
     "year": 2020,
     "building": null,
     "lat": 37.2654,
@@ -12364,7 +12414,9 @@
     "description": "Paddleboarding and kayaking on Lake Matoaka, College of William & Mary, in 2020. A rainbow is also visible",
     "dateOriginal": "2020-10-19 18:12",
     "width": 4032,
-    "height": 3024
+    "height": 3024,
+    "web": null,
+    "image_missing": true
   },
   {
     "id": "the_wren_building_5170250013",

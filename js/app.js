@@ -212,7 +212,13 @@ async function init() {
  */
 function renderMarkers(photos) {
   currentFilteredPhotos = photos;
-  shuffleQueue = shuffledDiverse(photos);
+  // image_missing photos (no working file/thumb/web - see
+  // scripts/fix-image-refs.mjs) have nothing to put in a 44x44 thumbnail
+  // marker; picking them for Tier A just paints an empty #ccc grey square
+  // (.photo-marker's fallback background, css/style.css). They still show
+  // up as ordinary dots via currentFilteredPhotos, so they're not hidden,
+  // just never given a thumbnail slot they can't fill.
+  shuffleQueue = shuffledDiverse(photos.filter((p) => !p.image_missing));
   shuffleBatches = [];
   batchIndex = -1;
   drawNextBatch();
