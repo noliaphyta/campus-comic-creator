@@ -34,12 +34,28 @@
 // what's on screen right now).
 let renderedPanels = [];
 let lastRenderCtx = null;
+// Palette/tint from the most recent renderPanels() call, kept so a live
+// filter switch (see restylizePanel() below) can re-stylize with the same
+// whole-comic color story instead of each re-filtered panel drifting back
+// to its own independent palette.
+let stylizeGlobals = { sharedPalette: null, sharedTint: null };
 
 // Character bounding-box placeholder position, as fractions of the panel.
 // Read by BOTH renderCharacterPlaceholder() (DOM, percentages) and
 // characterBboxRect() (canvas, pixels) so the two can't drift apart - swap
 // these numbers once and both the live page and the exported PNG follow.
 const CHAR_BBOX = { width: 0.26, height: 0.55, bottom: 0.14, left: 0.08, right: 0.08, center: 0.37 };
+
+// Real character art (see assets/characters/) - one basename per PNG,
+// no extension. pickCharacter() falls back to a random one whenever the
+// caller didn't pin a specific choice (no selection made, or an older
+// shared link/recipe predating this field).
+const CHARACTERS = ["kathy0", "kathy1", "kathy2", "kathy3", "kathy4", "kathy5", "kathy6", "kathy7", "kathy8", "kathy9", "thatch"];
+
+function pickCharacter(value) {
+  if (value && CHARACTERS.includes(value)) return value;
+  return CHARACTERS[Math.floor(Math.random() * CHARACTERS.length)];
+}
 
 function characterBboxRect(side, canvasWidth, canvasHeight) {
   const w = canvasWidth * CHAR_BBOX.width;
@@ -53,22 +69,23 @@ function characterBboxRect(side, canvasWidth, canvasHeight) {
 }
 
 /**
- * bakeOverlaysOntoCanvas(canvas, side) — draws the character bounding-box
- * rectangle (same math as the DOM version) directly onto the panel's
- * pixels, for the "Download finished comic" export. No caption/feel text
- * baked in - those stay a page-only overlay (see comicpublishplan.txt
- * step 3's revision). Idempotent: guarded so re-exporting the same canvas
- * doesn't double-stroke the rectangle.
+ * bakeOverlaysOntoCanvas(canvas, side, charName) — draws the chosen
+ * character PNG (same box math as the DOM version) directly onto the
+ * panel's pixels, for the "Download finished comic" export. No caption/
+ * feel text baked in - those stay a page-only overlay (see
+ * comicpublishplan.txt step 3's revision). Idempotent: guarded so
+ * re-exporting the same canvas doesn't double-draw the sprite.
  */
-function bakeOverlaysOntoCanvas(canvas, side) {
+async function bakeOverlaysOntoCanvas(canvas, side, charName) {
   if (canvas.dataset.baked === "true") return;
-  const ctx = canvas.getContext("2d");
   const { x, y, w, h } = characterBboxRect(side, canvas.width, canvas.height);
+  const sprite = await loadImage(`assets/characters/${pickCharacter(charName)}.png`);
+  const ctx = canvas.getContext("2d");
   ctx.save();
-  ctx.strokeStyle = "rgba(255, 255, 255, 0.85)";
-  ctx.lineWidth = Math.max(2, canvas.width * 0.004);
-  ctx.setLineDash([canvas.width * 0.012, canvas.width * 0.012]);
-  ctx.strokeRect(x, y, w, h);
+  const scale = Math.min(w / sprite.width, h / sprite.height);
+  const dw = sprite.width * scale;
+  const dh = sprite.height * scale;
+  ctx.drawImage(sprite, x + (w - dw) / 2, y + h - dh, dw, dh);
   ctx.restore();
   canvas.dataset.baked = "true";
 }
@@ -239,23 +256,26 @@ function medianColor(source) {
 }
 
 /**
- * renderCharacterPlaceholder(panelEl, aspect) — a plain rectangle standing
- * in for the character sprite's bounding box (see js/story.js /
- * assets/characters/ for the real art this will become). Sized/positioned
- * as a fraction of the panel so it scales with any aspect ratio; swap this
- * function's box math out once real character art with known proportions
- * exists, nothing else in the pipeline needs to change.
+ * renderCharacterPlaceholder(panelEl, side, charName) — lays the chosen
+ * character PNG (assets/characters/) over the panel, sized/positioned as a
+ * fraction of the panel so it scales with any aspect ratio (same box math
+ * as characterBboxRect()/bakeOverlaysOntoCanvas() so the live page and the
+ * exported PNG can't drift apart). Falls back to a random character if
+ * charName is missing (older recipe) or unrecognized. The .character-sprite
+ * class (comic.css) drives the fade in/out animation - CSS only, nothing
+ * here to keep in sync with it.
  */
-function renderCharacterPlaceholder(panelEl, side = "left") {
-  const box = document.createElement("div");
-  box.className = "character-bbox";
-  box.style.width = `${CHAR_BBOX.width * 100}%`;
-  box.style.height = `${CHAR_BBOX.height * 100}%`;
-  if (side === "right") box.style.right = `${CHAR_BBOX.right * 100}%`;
-  else if (side === "center") box.style.left = `${CHAR_BBOX.center * 100}%`;
-  else box.style.left = `${CHAR_BBOX.left * 100}%`;
-  box.textContent = "Character";
-  panelEl.appendChild(box);
+function renderCharacterPlaceholder(panelEl, side = "left", charName) {
+  const img = document.createElement("img");
+  img.className = "character-sprite";
+  img.alt = "";
+  img.src = `assets/characters/${pickCharacter(charName)}.png`;
+  img.style.width = `${CHAR_BBOX.width * 100}%`;
+  img.style.height = `${CHAR_BBOX.height * 100}%`;
+  if (side === "right") img.style.right = `${CHAR_BBOX.right * 100}%`;
+  else if (side === "center") img.style.left = `${CHAR_BBOX.center * 100}%`;
+  else img.style.left = `${CHAR_BBOX.left * 100}%`;
+  panelEl.appendChild(img);
 }
 
 /**
@@ -363,9 +383,11 @@ async function buildPanel(photo, i, total, aspect, settings, preloadedImg) {
   img.alt = buildingLabel(photo);
 
   let panelCanvas = null; // set below on success; stays null if load/crop/filter failed
+  let croppedCanvas = null; // the pre-stylize crop, kept so a filter switch can re-run stylizePhoto without reloading/recropping the source photo
   try {
     const srcImg = preloadedImg || (await loadImage(photo.web || photo.file));
     const cropped = cropToAspect(srcImg, aspect.w, aspect.h);
+    croppedCanvas = cropped;
     if (settings.filterStyle === "none" || typeof stylizePhoto !== "function") {
       panelCanvas = cropped;
     } else {
@@ -407,7 +429,7 @@ async function buildPanel(photo, i, total, aspect, settings, preloadedImg) {
   }
   panel.appendChild(img);
 
-  renderCharacterPlaceholder(panel, settings.charSide);
+  renderCharacterPlaceholder(panel, settings.charSide, settings.charName);
 
   const textbox = document.createElement("div");
   textbox.className = "comic-textbox";
@@ -422,7 +444,7 @@ async function buildPanel(photo, i, total, aspect, settings, preloadedImg) {
   }
   panel.appendChild(textbox);
 
-  return { panel, caption, canvas: panelCanvas };
+  return { panel, caption, canvas: panelCanvas, croppedCanvas };
 }
 
 function resolvedSettings(photos, perPanel, i, comicWide) {
@@ -433,6 +455,7 @@ function resolvedSettings(photos, perPanel, i, comicWide) {
     captionText: `${buildingLabel(photos[i])}${photos[i].year ? ` — ${photos[i].year}` : ""}`,
     feel: null,
     charSide: "left",
+    charName: pickCharacter(),
     ...(perPanel?.[i] || {}),
     // comicWide (sharedPalette/sharedTint) always wins over anything a
     // per-panel recipe might carry - these two are, by design, a
@@ -576,21 +599,25 @@ async function renderPanels(photos, aspectValue, perPanel, statusEl, mode = "aut
   // "one consistent art style" across the comic. Compute those once here.
   const globalFilterStyle = perPanel?.[0]?.filterStyle || "halftone";
   const { images, sharedPalette, sharedTint } = await buildComicWideStylizeInputs(photos, globalFilterStyle, statusEl);
+  stylizeGlobals = { sharedPalette, sharedTint };
 
   for (let i = 0; i < photos.length; i++) {
     const photo = photos[i];
     const settings = resolvedSettings(photos, perPanel, i, { sharedPalette, sharedTint });
     statusEl.textContent = `Rendering panel ${i + 1} of ${photos.length}…`;
 
-    const { panel, caption, canvas: panelCanvas } = await buildPanel(photo, i, photos.length, aspect, settings, images.get(photo.id));
+    const { panel, caption, canvas: panelCanvas, croppedCanvas } = await buildPanel(photo, i, photos.length, aspect, settings, images.get(photo.id));
 
     renderedPanels.push({
       photo,
       canvas: panelCanvas,
+      croppedCanvas,
+      img: panel.querySelector(".panel-bg"),
       filterStyle: settings.filterStyle,
       captionText: settings.captionText,
       feel: settings.feel,
       charSide: settings.charSide,
+      charName: settings.charName,
     });
 
     panelsEl.appendChild(panel);
@@ -612,6 +639,38 @@ async function renderPanels(photos, aspectValue, perPanel, statusEl, mode = "aut
   statusEl.textContent = `Done — ${photos.length} panels.`;
   lastRenderCtx = { photos, aspectValue, mode, perPanel };
   showSaveBar();
+}
+
+/**
+ * restylizePanel(i, filterStyle) — re-runs stylizePhoto() on panel i's
+ * already-cropped canvas and swaps the live <img> + renderedPanels/
+ * lastRenderCtx entries in place, so switching the visual filter after a
+ * comic is built updates on screen (and in the next export/share link)
+ * without a full "Build Comic" re-run - no reload, no recrop, same shared
+ * palette/tint the original render used. No-ops if panel i was never
+ * successfully built (croppedCanvas missing).
+ */
+function restylizePanel(i, filterStyle) {
+  const entry = renderedPanels[i];
+  if (!entry || !entry.croppedCanvas) return;
+
+  let canvas = entry.croppedCanvas;
+  if (filterStyle !== "none" && typeof stylizePhoto === "function") {
+    const { canvas: styled, ditherStyle } = stylizePhoto(
+      entry.croppedCanvas,
+      { year: entry.photo.year, lat: entry.photo.lat, lon: entry.photo.lon },
+      { ditherStyle: filterStyle, palette: stylizeGlobals.sharedPalette, tint: stylizeGlobals.sharedTint }
+    );
+    canvas = styled;
+    entry.img?.classList.toggle("style-halftone", ditherStyle === "css-fallback");
+  } else {
+    entry.img?.classList.remove("style-halftone");
+  }
+
+  entry.canvas = canvas; // fresh canvas, dataset.baked unset - next export/bake picks it up automatically
+  entry.filterStyle = filterStyle;
+  if (entry.img) entry.img.src = canvas.toDataURL("image/png");
+  if (lastRenderCtx?.perPanel?.[i]) lastRenderCtx.perPanel[i].filterStyle = filterStyle;
 }
 
 /**
@@ -677,7 +736,7 @@ async function buildVNPanel(photo, i, total, settings, preloadedImg) {
   }
   panel.appendChild(img);
 
-  renderCharacterPlaceholder(panel, settings.charSide);
+  renderCharacterPlaceholder(panel, settings.charSide, settings.charName);
 
   const textbox = document.createElement("div");
   textbox.className = "comic-textbox";
@@ -696,19 +755,56 @@ async function buildVNPanel(photo, i, total, settings, preloadedImg) {
 }
 
 /**
- * buildCreditsScreen(photos) -> HTMLElement
+ * buildCreditsScreen(photos, shareUrl) -> HTMLElement
  * The VN's final "page" - shown only once the story is finished (see
- * showPanelAt()/showAdvanceUI() below), reusing renderPathCredits()'s
- * markup/copy-button behavior but inside a VN-styled panel instead of the
- * creator page's always-visible strip.
+ * presentVisualNovel() below). Besides the photo credits, gives the reader
+ * a way back into the app (index.html, to plot a new path/comic) and
+ * redisplays this comic's own shareable link (the same one copyShareLink()
+ * would produce) since a comic-view.html reader has no "Save & Share" bar
+ * of their own to copy it from.
  */
-function buildCreditsScreen(photos) {
+function buildCreditsScreen(photos, shareUrl) {
   const panel = document.createElement("div");
   panel.className = "comic-panel vn-panel vn-credits-screen";
   const inner = document.createElement("div");
   inner.className = "vn-credits-inner";
   panel.appendChild(inner);
+
+  // renderPathCredits() replaces `inner`'s entire innerHTML, so it has to
+  // run first - anything appended before it would be wiped out.
   renderPathCredits(photos, inner);
+
+  const nav = document.createElement("p");
+  nav.className = "vn-credits-nav";
+  nav.innerHTML = `<a href="index.html">&larr; Back to the map — start a new comic</a>`;
+  inner.insertBefore(nav, inner.firstChild);
+
+  if (shareUrl) {
+    const shareBlock = document.createElement("div");
+    shareBlock.className = "attribution-copy-block";
+    shareBlock.innerHTML =
+      `<div class="attribution-copy-header"><span>Link to this comic</span>` +
+      `<button type="button" id="copy-sharelink-btn">Copy</button></div>` +
+      `<pre id="sharelink-plaintext" tabindex="0"></pre>`;
+    inner.appendChild(shareBlock);
+    shareBlock.querySelector("#sharelink-plaintext").textContent = shareUrl;
+    const copyBtn = shareBlock.querySelector("#copy-sharelink-btn");
+    copyBtn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(shareUrl);
+        copyBtn.textContent = "Copied!";
+      } catch (err) {
+        const range = document.createRange();
+        range.selectNodeContents(shareBlock.querySelector("#sharelink-plaintext"));
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+        copyBtn.textContent = "Select-all applied";
+        console.warn("navigator.clipboard.writeText failed for the share link - selected the text instead.", err);
+      }
+    });
+  }
+
   return panel;
 }
 
@@ -785,12 +881,19 @@ async function presentVisualNovel(photos, aspectValue, perPanel, statusEl, mode 
       captionText: settings.captionText,
       feel: settings.feel,
       charSide: settings.charSide,
+      charName: settings.charName,
     });
   }
   // The credits screen is the (built.length)-th "panel" - past the last
   // real photo - so it slots into the exact same showPanelAt()/click-to-
   // advance flow as everything else, with no separate end-state branch.
-  const creditsPanel = buildCreditsScreen(photos);
+  // Same URL copyShareLink() would produce for this exact comic (this
+  // whole flow only runs once a #c=... recipe has been decoded from
+  // location.hash - see tryLoadFromHash()/renderFromRecipe() - so the hash
+  // is already right there, no need to re-encode the recipe).
+  const viewerUrl = new URL("comic-view.html", location.href);
+  viewerUrl.hash = location.hash.replace(/^#/, "");
+  const creditsPanel = buildCreditsScreen(photos, viewerUrl.href);
   built.push({ panel: creditsPanel, caption: null, settings: { captionText: "", choices: [] } });
 
   statusEl.textContent = "";
@@ -840,6 +943,7 @@ async function presentVisualNovel(photos, aspectValue, perPanel, statusEl, mode 
   function showAdvanceUI(settings) {
     const existing = built[current].panel.querySelector(".vn-choices, .vn-advance-hint");
     if (existing) return; // already shown for this panel
+    const textbox = built[current].panel.querySelector(".comic-textbox");
     if (settings.choices && settings.choices.length) {
       const box = document.createElement("div");
       box.className = "vn-choices";
@@ -859,11 +963,13 @@ async function presentVisualNovel(photos, aspectValue, perPanel, statusEl, mode 
     } else {
       // current + 1 always exists now - the credits screen is the last
       // entry in built[], so "next" from the final photo lands there
-      // instead of a dead-end "The end" hint.
+      // instead of a dead-end "The end" hint. Inset into the textbox
+      // itself (see .vn-advance-hint in comic.css) rather than floating
+      // over the panel image.
       const hint = document.createElement("div");
       hint.className = "vn-advance-hint";
       hint.textContent = current < built.length - 2 ? "Click to continue ▸" : "Click for credits ▸";
-      built[current].panel.appendChild(hint);
+      (textbox || built[current].panel).appendChild(hint);
     }
   }
 
@@ -923,6 +1029,7 @@ async function buildManualEditors(photos, statusEl) {
       <option value="dither">Ordered Dither</option>
       <option value="duotone">Duotone</option>
       <option value="none">None (cropped only)</option>`;
+    filterSelect.addEventListener("change", () => restylizePanel(i, filterSelect.value));
     controlsRow.appendChild(filterSelect);
 
     const sideSelect = document.createElement("select");
@@ -956,10 +1063,16 @@ async function buildManualEditors(photos, statusEl) {
 }
 
 function collectManualSettings() {
+  // Character identity (which PNG) is one choice for the whole comic, same
+  // as filter/aspect in auto mode - it's the strip's recurring narrator,
+  // not something that should change panel to panel. Side (left/right/
+  // center) stays per-panel since that's blocking/composition, not identity.
+  const charName = pickCharacter(document.getElementById("char-select-manual")?.value);
   const rows = document.querySelectorAll("#manual-panel-editors .manual-editor-row");
   return Array.from(rows).map((row) => ({
     filterStyle: row.querySelector(".manual-filter-select").value,
     charSide: row.querySelector(".manual-side-select").value,
+    charName,
     captionText: row.querySelector(".manual-caption-textarea").value.trim(),
     feel: row.querySelector(".manual-feel-input").value.trim() || null,
   }));
@@ -1069,8 +1182,8 @@ async function downloadFinishedZip() {
   statusEl.textContent = "Zipping finished panels…";
   const zip = new JSZip();
   for (let i = 0; i < entries.length; i++) {
-    const { photo, canvas, charSide } = entries[i];
-    bakeOverlaysOntoCanvas(canvas, charSide);
+    const { photo, canvas, charSide, charName } = entries[i];
+    await bakeOverlaysOntoCanvas(canvas, charSide, charName);
     const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
     if (blob) zip.file(`${String(i + 1).padStart(2, "0")}-${photo.id}.png`, blob);
   }
@@ -1095,8 +1208,8 @@ function buildRecipe(photos, mode, aspectValue, perPanel) {
     ids: photos.map((p) => p.id),
     panels: perPanel.map((s) =>
       mode === "auto"
-        ? { filter: s.filterStyle }
-        : { filter: s.filterStyle, side: s.charSide, caption: s.captionText, feel: s.feel }
+        ? { filter: s.filterStyle, char: s.charName }
+        : { filter: s.filterStyle, side: s.charSide, char: s.charName, caption: s.captionText, feel: s.feel }
     ),
   };
 }
@@ -1200,15 +1313,18 @@ async function renderFromRecipe(recipe) {
     perPanel = recipe.panels.map((p) => ({
       filterStyle: p.filter,
       charSide: p.side,
+      charName: pickCharacter(p.char),
       captionText: p.caption,
       feel: p.feel,
       choices: [],
     }));
   } else {
     const captions = await captionsForVN(photos);
+    const charName = pickCharacter(recipe.panels[0]?.char);
     perPanel = captions.map((c, i) => ({
       filterStyle: recipe.panels[i]?.filter || "halftone",
       charSide: "left",
+      charName,
       captionText: c.text,
       feel: c.feel,
       choices: c.choices,
@@ -1271,6 +1387,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
+  // Switching the filter after the comic is already built re-stylizes every
+  // rendered panel in place (see restylizePanel()) instead of requiring
+  // another "Build Comic" click. No-op before anything's been built -
+  // renderedPanels is empty, restylizePanel() just returns.
+  document.getElementById("filter-style").addEventListener("change", (evt) => {
+    renderedPanels.forEach((_, i) => restylizePanel(i, evt.target.value));
+  });
+
   // One shared "Build Comic" button for both modes (previously two
   // identically-labelled buttons, one per mode-panel - confusing even
   // though only one was ever visible at a time). It reads which radio is
@@ -1279,17 +1403,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     const manual = document.querySelector('input[name="comic-mode"]:checked')?.value === "manual";
     try {
       if (manual) {
-        const aspectValue = document.getElementById("aspect-ratio-manual").value;
+        const aspectValue = document.getElementById("aspect-ratio").value;
         const perPanel = collectManualSettings();
         await renderPanels(photos, aspectValue, perPanel, statusEl, "manual");
       } else {
         const aspectValue = document.getElementById("aspect-ratio").value;
         const filterStyle = document.getElementById("filter-style").value;
+        const charName = pickCharacter(document.getElementById("char-select").value);
         statusEl.textContent = "Writing captions…";
         const captions = await captionsForPath(photos);
         const perPanel = captions.map((c) => ({
           filterStyle,
           charSide: "left",
+          charName,
           captionText: c.text,
           feel: c.feel,
         }));

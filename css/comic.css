@@ -223,19 +223,26 @@
 /* Character bounding-box placeholder - swap this out for real character
    art later; positioning/sizing logic lives in js/comic.js's
    renderCharacterPlaceholder() so it's one place to change. */
-.character-bbox {
+.character-sprite {
   position: absolute;
   bottom: 14%;
-  border: 2px dashed rgba(255, 255, 255, 0.85);
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  object-fit: contain;
+  object-position: bottom;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.35));
+  pointer-events: none;
+  animation: character-fade 4s ease-in-out infinite;
+}
+
+@keyframes character-fade {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .character-sprite {
+    animation: none;
+    opacity: 1;
+  }
 }
 
 /* Kitsch sticker caption card: a floating rounded card instead of the old
@@ -393,17 +400,20 @@ body[data-page="viewer"] #save-share-bar { display: none; }
   max-height: 34%;
   overflow-y: auto;
   padding: 16px 18px 20px;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.88), rgba(0, 0, 0, 0.75) 55%, rgba(0, 0, 0, 0));
+  background: rgba(253, 250, 243, 0.97);
 }
 
+/* Nested inside .comic-textbox (see showAdvanceUI() in js/comic.js) rather
+   than floating over the panel image, so it reads as part of the textbox
+   instead of a separate overlay. position: absolute here is relative to
+   .comic-textbox (itself position: absolute), not the panel. */
 .vn-advance-hint {
   position: absolute;
-  right: 16px;
-  bottom: 16px;
+  right: 12px;
+  bottom: 8px;
   font-size: 0.8rem;
-  color: #fdfaf3;
+  color: #4b5f57;
   opacity: 0.85;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
   animation: vn-hint-pulse 1.4s ease-in-out infinite;
   pointer-events: none;
 }
@@ -474,6 +484,11 @@ body[data-page="viewer"] #save-share-bar { display: none; }
 }
 
 .vn-credits-inner a { color: #fdb714; }
+
+.vn-credits-nav {
+  margin: 0 0 16px;
+  font-weight: bold;
+}
 
 .vn-credits-inner .attribution-copy-block {
   margin-top: 16px;

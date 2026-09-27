@@ -60,15 +60,16 @@
         </label>
       </fieldset>
 
+      <label for="aspect-ratio">Panel aspect ratio
+        <select id="aspect-ratio">
+          <option value="16:9">Widescreen (16:9)</option>
+          <option value="4:3" selected>Classic panel (4:3)</option>
+          <option value="1:1">Square (1:1)</option>
+          <option value="9:16">Portrait / phone (9:16)</option>
+        </select>
+      </label>
+
       <div id="autogen-options">
-        <label for="aspect-ratio">Panel aspect ratio
-          <select id="aspect-ratio">
-            <option value="16:9">Widescreen (16:9)</option>
-            <option value="4:3" selected>Classic panel (4:3)</option>
-            <option value="1:1">Square (1:1)</option>
-            <option value="9:16">Portrait / phone (9:16)</option>
-          </select>
-        </label>
         <label for="filter-style">Visual filter
           <select id="filter-style">
             <option value="halftone" selected>Halftone (ink dots)</option>
@@ -77,15 +78,21 @@
             <option value="none">None (cropped only)</option>
           </select>
         </label>
+        <label for="char-select">Character
+          <select id="char-select">
+            <option value="random" selected>Random</option>
+            <option value="kathy0">Kathy</option>
+            <option value="thatch">Thatch</option>
+          </select>
+        </label>
       </div>
 
       <div id="manual-options" hidden>
-        <label for="aspect-ratio-manual">Panel aspect ratio (applies to every panel)
-          <select id="aspect-ratio-manual">
-            <option value="16:9">Widescreen (16:9)</option>
-            <option value="4:3" selected>Classic panel (4:3)</option>
-            <option value="1:1">Square (1:1)</option>
-            <option value="9:16">Portrait / phone (9:16)</option>
+        <label for="char-select-manual">Character (applies to every panel)
+          <select id="char-select-manual">
+            <option value="random" selected>Random</option>
+            <option value="kathy0">Kathy</option>
+            <option value="thatch">Thatch</option>
           </select>
         </label>
         <div id="manual-panel-editors"></div>
