@@ -47,6 +47,16 @@ let stylizeGlobals = { sharedPalette: null, sharedTint: null };
 // listeners - they read this variable at click/change time, not at
 // listener-registration time.
 let activePathPhotos = [];
+// A key identifying which path the currently-rendered panels (if any) were
+// actually built from - set by renderPanels() whenever a comic is built,
+// compared against the freshly-reloaded localStorage path in
+// onPageRestoredFromBfcache() below so a bfcache restore only clears/
+// invalidates the on-screen comic when the path genuinely changed, not on
+// every back-navigation regardless of whether anything actually changed.
+let renderedPathKey = null;
+function pathKey(photos) {
+  return (photos || []).map((p) => p.id).join("|");
+}
 
 // Character bounding-box placeholder position, as fractions of the panel.
 // Read by BOTH renderCharacterPlaceholder() (DOM, percentages) and
@@ -942,6 +952,7 @@ async function renderPanels(photos, aspectValue, perPanel, statusEl, mode = "aut
 
   statusEl.textContent = `Done — ${photos.length} panels.`;
   lastRenderCtx = { photos, aspectValue, mode, perPanel };
+  renderedPathKey = pathKey(photos);
   showSaveBar();
 }
 
@@ -1020,18 +1031,17 @@ function restylizePanel(i, filterStyle) {
 }
 
 /**
- * buildVNPanel(photo, i, total, settings) -> Promise<{panel, caption, canvas}>
- * The viewer-only counterpart to buildPanel(): unlike the creator's strip
- * view, the VN viewer does NOT force-crop every photo to one shared aspect
- * ratio (recipe.aspect from the creator's dropdown is intentionally IGNORED
- * here). Instead each photo keeps its own natural aspect ratio - landscape
- * photos get a landscape frame, portrait photos get a portrait frame (see
- * "portrait or landscape depending on aspect ratio" in the brief) - shown
- * with object-fit: contain so nothing is cropped out, and the panel's own
- * background is set to that photo's sampled median color so any letterbox/
- * pillarbox bars read as an intentional backdrop instead of dead space.
+ * buildVNPanel(photo, i, total, aspect, settings) -> Promise<{panel, caption, canvas}>
+ * The viewer-only counterpart to buildPanel(): now follows the SAME crop
+ * as the creator's strip-view preview (cropToAspect() to `aspect`, the
+ * recipe's chosen ratio) instead of each photo's own natural aspect, so
+ * what you picked in the "Panel aspect ratio" dropdown is what the
+ * shareable viewer actually shows - previously that setting was silently
+ * ignored here, which is exactly the "aspect ratio doesn't match" bug.
+ * --vn-ratio is now the fixed selected ratio (aspect.w/aspect.h), not the
+ * source photo's own w/h, so every panel's frame is the same shape.
  */
-async function buildVNPanel(photo, i, total, settings, preloadedImg) {
+async function buildVNPanel(photo, i, total, aspect, settings, preloadedImg) {
   const panel = document.createElement("div");
   panel.className = "comic-panel vn-panel";
 
@@ -1039,14 +1049,19 @@ async function buildVNPanel(photo, i, total, settings, preloadedImg) {
   img.className = "panel-bg";
   img.alt = buildingLabel(photo);
 
+  const vnRatio = aspect.w / aspect.h;
+  panel.style.setProperty("--vn-ratio", vnRatio);
+  panel.classList.add(vnRatio >= 1 ? "vn-panel--landscape" : "vn-panel--portrait");
+
   let panelCanvas = null;
   try {
     const srcImg = preloadedImg || (await loadImage(photo.web || photo.file));
+    const cropped = cropToAspect(srcImg, aspect.w, aspect.h);
     if (settings.filterStyle === "none" || typeof stylizePhoto !== "function") {
-      panelCanvas = srcImg; // stylizePhoto expects a canvas-like source; the raw <img> works fine as medianColor()'s/drawImage()'s source too
+      panelCanvas = cropped;
     } else {
       const { canvas, ditherStyle } = stylizePhoto(
-        srcImg,
+        cropped,
         { year: photo.year, lat: photo.lat, lon: photo.lon },
         { ditherStyle: settings.filterStyle, palette: settings.sharedPalette, tint: settings.sharedTint }
       );
@@ -1056,15 +1071,8 @@ async function buildVNPanel(photo, i, total, settings, preloadedImg) {
         panel.dataset.stylizeFallback = "true";
       }
     }
-    img.src = panelCanvas.toDataURL ? panelCanvas.toDataURL("image/png") : (photo.web || photo.file);
+    img.src = panelCanvas.toDataURL("image/png");
     panel.style.background = medianColor(panelCanvas);
-    // --vn-ratio drives the CSS width/height math in .vn-panel--landscape/
-    // --portrait (comic.css) - the photo's own aspect ratio, not a shared
-    // crop ratio, so the frame itself is landscape- or portrait-shaped to
-    // match this specific photo.
-    const ratio = srcImg.width / srcImg.height;
-    panel.style.setProperty("--vn-ratio", ratio);
-    panel.classList.add(ratio >= 1 ? "vn-panel--landscape" : "vn-panel--portrait");
   } catch (err) {
     const likelyCors = err?.message === undefined || err?.type === "error";
     console.warn(
@@ -1077,8 +1085,6 @@ async function buildVNPanel(photo, i, total, settings, preloadedImg) {
     );
     img.src = photo.styled || photo.web || photo.file;
     panel.style.background = "rgb(20, 20, 20)";
-    panel.style.setProperty("--vn-ratio", 16 / 9);
-    panel.classList.add("vn-panel--landscape");
   }
   panel.appendChild(img);
 
@@ -1178,14 +1184,14 @@ function buildCreditsScreen(photos, shareUrl) {
  * The comic-view.html read path: generate the panels (same buildVNPanel()
  * call for every photo - "generate" step), but present them one at a time,
  * full-frame, click-through, instead of dumping the whole strip on screen
- * together. `aspectValue` (the creator's chosen crop ratio) is accepted for
- * signature/call-site compatibility with renderPanels() but NOT applied -
- * see buildVNPanel()'s doc comment for why the VN view uses each photo's
- * own natural aspect instead of one shared crop.
+ * together. `aspectValue` is the creator's chosen crop ratio (the same
+ * "Panel aspect ratio" dropdown renderPanels() reads) and IS applied here,
+ * via the same cropToAspect() buildPanel() uses, so the viewer matches the
+ * editor's preview instead of showing each photo's own natural shape.
  *
  * Per panel:
- *   - the image is shown uncropped (object-fit: contain) inside a frame
- *     shaped to that photo's own aspect ratio, backed by its median color
+ *   - the image is cropped to the recipe's aspect ratio, backed by its
+ *     median color behind any rounding/edge gaps
  *   - the caption typewriter starts immediately (no scroll-into-view gate -
  *     there's nothing else on screen to scroll to), inside a textbox
  *     capped at a fraction of the frame's height so long captions never
@@ -1200,6 +1206,7 @@ function buildCreditsScreen(photos, shareUrl) {
  *     picking one jumps to the chosen photo index rather than i + 1
  */
 async function presentVisualNovel(photos, aspectValue, perPanel, statusEl, mode = "auto") {
+  const aspect = parseAspect(aspectValue);
   const panelsEl = document.getElementById("comic-panels");
   panelsEl.innerHTML = "";
   panelsEl.classList.add("comic-panels--vn");
@@ -1218,7 +1225,7 @@ async function presentVisualNovel(photos, aspectValue, perPanel, statusEl, mode 
     const photo = photos[i];
     const settings = resolvedSettings(photos, perPanel, i, { sharedPalette, sharedTint });
     statusEl.textContent = `Generating panel ${i + 1} of ${photos.length}…`;
-    const { panel, caption, canvas: panelCanvas } = await buildVNPanel(photo, i, photos.length, settings, images.get(photo.id));
+    const { panel, caption, canvas: panelCanvas } = await buildVNPanel(photo, i, photos.length, aspect, settings, images.get(photo.id));
     built.push({ panel, caption, settings });
     renderedPanels.push({
       photo,
@@ -1807,10 +1814,39 @@ function syncPathFromStorage() {
 function onPageRestoredFromBfcache(evt) {
   if (!evt.persisted) return;
   if (document.body.dataset.page === "viewer" || tryLoadFromHash()) return; // recipe-driven pages don't depend on this localStorage handoff
+
+  // syncPathFromStorage() unconditionally overwrites activePathPhotos with
+  // whatever's in localStorage right now - capture the OLD value first so
+  // we can tell "the map still has the same path selected" apart from
+  // "a new path was plotted while this page was frozen in bfcache". Without
+  // this check every single back-navigation (even ones that never touched
+  // the map) forced an unnecessary "please regenerate" + wiped an already-
+  // correct, already-rendered comic still sitting in renderedPanels/DOM.
+  const oldKey = pathKey(activePathPhotos);
   const hadPath = syncPathFromStorage();
-  if (!hadPath) return;
+  if (!hadPath) {
+    // No usable path anymore (cleared on the map, or never had one) -
+    // nothing rendered can be trusted either way; drop any stale in-memory
+    // state so a later valid path doesn't get compared against it.
+    renderedPanels = [];
+    lastRenderCtx = null;
+    renderedPathKey = null;
+    return;
+  }
+
+  const newKey = pathKey(activePathPhotos);
+  // Nothing actually changed on the map while this page was cached - the
+  // comic already on screen (if any) is still correct for this exact path,
+  // so leave it alone instead of forcing a rebuild for no reason.
+  if (newKey === renderedPathKey) return;
+
+  // The path genuinely changed (or this page had never rendered a comic for
+  // it) - the on-screen panels/canvases are for the OLD path's photos, so
+  // they must not be left visible or exportable as if they matched the new
+  // one. Drop every bit of stale render state.
   renderedPanels = [];
   lastRenderCtx = null;
+  renderedPathKey = null;
   stylizeGlobals = { sharedPalette: null, sharedTint: null };
   const panelsEl = document.getElementById("comic-panels");
   if (panelsEl) panelsEl.innerHTML = "";
