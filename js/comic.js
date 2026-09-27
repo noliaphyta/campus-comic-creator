@@ -18,8 +18,8 @@
  *      panel - not a second, drifting content track (see
  *      docs/narrative-system.md).
  *
- * "Manually select styles & story" is left as a disabled radio for now -
- * autogenerate is the first target.
+ * "Manually select styles & story" is fully wired up (see the mode-switch
+ * listener and buildManualEditors() below) alongside autogenerate.
  */
 
 // buildingLabel() and attributionLine() now live in js/shared.js (loaded

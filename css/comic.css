@@ -230,12 +230,16 @@
   object-position: bottom;
   filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.35));
   pointer-events: none;
-  animation: character-fade 4s ease-in-out infinite;
+  opacity: 0;
+  animation: character-fade-in 0.6s ease-out forwards;
 }
 
-@keyframes character-fade {
-  0%, 100% { opacity: 0; }
-  50% { opacity: 1; }
+/* One-shot entrance fade (was an infinite loop that spent most of every
+   cycle at opacity 0 - fine for a placeholder box, but made the real
+   character art read as "not showing up"). */
+@keyframes character-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
