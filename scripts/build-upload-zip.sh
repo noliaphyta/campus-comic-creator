@@ -37,6 +37,7 @@ zip -r -X -q "$OUT" . \
   -x "node_modules/*" \
   -x "*/node_modules/*" \
   -x "*.log" \
+  -x ".git/*" \
   -x "assets/photos/*" \
   -x "$(basename "$OUT")"
 

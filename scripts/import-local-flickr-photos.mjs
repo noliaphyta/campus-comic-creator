@@ -47,6 +47,25 @@
  *   --raw-dir  where images get copied (default: assets/photos/raw)
  *   --force    overwrite already-copied files
  *   --dry-run  preview only, copies/writes nothing
+ *   --bbox     "south,west,north,east" - drop any entry whose GPS falls
+ *              outside this box (default: the project's own campus bbox,
+ *              same one scripts/fetch-footpaths-overpass.mjs/
+ *              fetch-buildings-overpass.mjs use: 37.266,-76.716,37.276,-76.706).
+ *              Entries with no usable GPS are NOT dropped by this - they
+ *              already get needs_geolocation: true and go through manual
+ *              placement instead, same as before.
+ *
+ * On --bbox: this was previously entirely unfiltered - it imported every
+ * photo in the input folder regardless of location, which is how, in
+ * practice, Flickr search-result downloads for "Williamsburg VA" ended up
+ * including a gas station, a farmers market, and unrelated event/exhibit
+ * photos alongside actual campus buildings. The bbox catches the clearly
+ * off-campus stuff. It will NOT separate Colonial Williamsburg (the
+ * historic district) from W&M's Ancient Campus - they're geographically
+ * adjacent/overlapping (the Wren Building sits right on that boundary), so
+ * a photo of a Colonial Williamsburg shop two blocks from the Wren Building
+ * passes this filter just fine. That distinction needs a title/description
+ * read, not coordinates - still a manual step.
  */
 
 import { readdir, readFile, writeFile, mkdir, copyFile, access } from "node:fs/promises";
@@ -54,6 +73,11 @@ import { constants as fsConstants } from "node:fs";
 import path from "node:path";
 
 const MIN_LONG_EDGE = 1500;
+const DEFAULT_BBOX = { south: 37.266, west: -76.716, north: 37.276, east: -76.706 };
+
+function inBbox(lat, lon, bbox) {
+  return lat >= bbox.south && lat <= bbox.north && lon >= bbox.west && lon <= bbox.east;
+}
 
 // Official Flickr API license ids (flickr.photos.licenses.getInfo).
 const LICENSE_MAP = {
@@ -85,7 +109,12 @@ function parseArgs(argv) {
     else if (arg === "--raw-dir") out.rawDir = argv[++i];
     else if (arg === "--force") out.force = true;
     else if (arg === "--dry-run") out.dryRun = true;
+    else if (arg === "--bbox") {
+      const [south, west, north, east] = argv[++i].split(",").map(Number);
+      out.bbox = { south, west, north, east };
+    }
   }
+  if (!out.bbox) out.bbox = DEFAULT_BBOX;
   if (!out.in) {
     console.error("Missing required --in <folder>. Point this at your flickr download root.");
     process.exit(1);
@@ -143,6 +172,7 @@ async function main() {
   const flaggedNoDerivs = [];
   const flaggedNeedsGeolocation = [];
   const flaggedForResolution = [];
+  const skippedOutsideBbox = [];
 
   for (const jsonPath of jsonFiles) {
     const imagePath = jsonPath.replace(/\.json$/i, "");
@@ -167,6 +197,11 @@ async function main() {
     const lat = json.location?.latitude ? parseFloat(json.location.latitude) : null;
     const lon = json.location?.longitude ? parseFloat(json.location.longitude) : null;
     const needsGeolocation = !lat || !lon || (lat === 0 && lon === 0);
+
+    if (!needsGeolocation && !inBbox(lat, lon, opts.bbox)) {
+      skippedOutsideBbox.push({ id: `flickr_${json.id}`, lat, lon, title: json.title || null });
+      continue;
+    }
 
     if (!opts.dryRun) {
       await mkdir(opts.rawDir, { recursive: true });
@@ -226,6 +261,10 @@ async function main() {
   }
   if (skippedAllRightsReserved.length) {
     console.log(`${skippedAllRightsReserved.length} skipped entirely - All Rights Reserved (license 0), not usable: ${skippedAllRightsReserved.join(", ")}`);
+  }
+  if (skippedOutsideBbox.length) {
+    console.log(`${skippedOutsideBbox.length} skipped entirely - GPS falls outside the campus bbox (${JSON.stringify(opts.bbox)}):`);
+    for (const s of skippedOutsideBbox) console.log(`  - ${s.id} (${s.lat}, ${s.lon}) ${s.title || ""}`);
   }
   if (flaggedNoDerivs.length) {
     console.log(`\n${flaggedNoDerivs.length} entr${flaggedNoDerivs.length === 1 ? "y is" : "ies are"} NoDerivs-licensed - do NOT run these through stylize.js, show as-is only or drop them:`);

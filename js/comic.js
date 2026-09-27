@@ -359,7 +359,7 @@ async function buildPanel(photo, i, total, aspect, settings) {
 
   let panelCanvas = null; // set below on success; stays null if load/crop/filter failed
   try {
-    const srcImg = await loadImage(photo.file);
+    const srcImg = await loadImage(photo.web || photo.file);
     const cropped = cropToAspect(srcImg, aspect.w, aspect.h);
     if (settings.filterStyle === "none" || typeof stylizePhoto !== "function") {
       panelCanvas = cropped;
@@ -369,8 +369,8 @@ async function buildPanel(photo, i, total, aspect, settings) {
     }
     img.src = panelCanvas.toDataURL("image/png");
   } catch (err) {
-    console.warn(`Could not load/crop/filter "${photo.id}" - falling back to the raw image untouched.`, err);
-    img.src = photo.styled || photo.file;
+    console.warn(`Could not load/crop/filter "${photo.id}" - falling back to the unfiltered image.`, err);
+    img.src = photo.styled || photo.web || photo.file;
   }
   panel.appendChild(img);
 
@@ -545,14 +545,14 @@ async function buildVNPanel(photo, i, total, settings) {
 
   let panelCanvas = null;
   try {
-    const srcImg = await loadImage(photo.file);
+    const srcImg = await loadImage(photo.web || photo.file);
     if (settings.filterStyle === "none" || typeof stylizePhoto !== "function") {
       panelCanvas = srcImg; // stylizePhoto expects a canvas-like source; the raw <img> works fine as medianColor()'s/drawImage()'s source too
     } else {
       const { canvas } = stylizePhoto(srcImg, { year: photo.year, lat: photo.lat, lon: photo.lon }, { ditherStyle: settings.filterStyle });
       panelCanvas = canvas;
     }
-    img.src = panelCanvas.toDataURL ? panelCanvas.toDataURL("image/png") : photo.file;
+    img.src = panelCanvas.toDataURL ? panelCanvas.toDataURL("image/png") : (photo.web || photo.file);
     panel.style.background = medianColor(panelCanvas);
     // --vn-ratio drives the CSS width/height math in .vn-panel--landscape/
     // --portrait (comic.css) - the photo's own aspect ratio, not a shared
@@ -562,8 +562,8 @@ async function buildVNPanel(photo, i, total, settings) {
     panel.style.setProperty("--vn-ratio", ratio);
     panel.classList.add(ratio >= 1 ? "vn-panel--landscape" : "vn-panel--portrait");
   } catch (err) {
-    console.warn(`Could not load/filter "${photo.id}" - falling back to the raw image untouched.`, err);
-    img.src = photo.styled || photo.file;
+    console.warn(`Could not load/filter "${photo.id}" - falling back to the unfiltered image.`, err);
+    img.src = photo.styled || photo.web || photo.file;
     panel.style.background = "rgb(20, 20, 20)";
     panel.style.setProperty("--vn-ratio", 16 / 9);
     panel.classList.add("vn-panel--landscape");
@@ -792,7 +792,7 @@ async function buildManualEditors(photos, statusEl) {
 
     const thumb = document.createElement("img");
     thumb.className = "manual-editor-thumb";
-    thumb.src = photo.thumb || photo.file;
+    thumb.src = photo.thumb || photo.web || photo.file;
     thumb.alt = buildingLabel(photo);
     row.appendChild(thumb);
 
@@ -906,22 +906,35 @@ function extFromUrl(url) {
 }
 
 /**
- * downloadOriginalsZip(photos) — the untouched, full-resolution Commons
- * originals for this path, plus a credits.txt. `photo.id` is already the
- * slugified Commons title (see scripts/fetch-commons-images.mjs), so it
- * doubles as a clean, collision-free zip filename with no extra slugging.
+ * downloadOriginalsZip(photos) — the best-available image per photo, plus a
+ * credits.txt. `photo.id` is already the slugified Commons title (see
+ * scripts/fetch-commons-images.mjs), so it doubles as a clean,
+ * collision-free zip filename with no extra slugging.
+ *
+ * Prefers photo.file (the true full-resolution raw original) when it's
+ * actually reachable - true locally during prep-day dev, since raw/ is
+ * gitignored and never present on the deployed site. Falls back to
+ * photo.web (the committed, compressed-but-still-sharp tier) so this
+ * doesn't silently zip up nothing but a credits.txt once deployed.
  */
 async function downloadOriginalsZip(photos) {
   const statusEl = document.getElementById("save-share-status");
   statusEl.textContent = "Zipping original photos…";
   const zip = new JSZip();
   for (const photo of photos) {
-    try {
-      const blob = await fetchAsBlob(photo.file);
-      zip.file(`${photo.id}.${extFromUrl(photo.file)}`, blob);
-    } catch (err) {
-      console.warn(`Could not fetch the original for "${photo.id}" - skipping it in the zip.`, err);
+    const candidates = [photo.file, photo.web].filter(Boolean);
+    let added = false;
+    for (const src of candidates) {
+      try {
+        const blob = await fetchAsBlob(src);
+        zip.file(`${photo.id}.${extFromUrl(src)}`, blob);
+        added = true;
+        break;
+      } catch (err) {
+        continue;
+      }
     }
+    if (!added) console.warn(`Could not fetch any image for "${photo.id}" - skipping it in the zip.`);
   }
   zip.file("credits.txt", photos.map(attributionLine).join("\n"));
   const blob = await zip.generateAsync({ type: "blob" });

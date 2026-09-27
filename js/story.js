@@ -118,7 +118,7 @@ function renderPassage({ text, bg, sprite, feel, choices, done }) {
     // lookup so this module doesn't need to know about fetch/loadJSON.
     const photo = window.__photosById?.[bg];
     if (photo) {
-      bgImg.src = photo.styled || photo.file;
+      bgImg.src = photo.styled || photo.web || photo.file;
       bgImg.hidden = false;
     }
   }

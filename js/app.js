@@ -115,11 +115,16 @@ function shuffledDiverse(photos) {
 
 /**
  * photoMarkerIcon(photo) -> L.DivIcon
- * A small square thumbnail marker (photo.styled || photo.file) instead of a
- * generic pin - native Leaflet feature (L.divIcon), no extra dependency.
+ * A small square thumbnail marker (photo.thumb, falling back to styled/web/
+ * file) instead of a generic pin - native Leaflet feature (L.divIcon), no
+ * extra dependency. Thumb first: it's the smallest tier and this is a
+ * 44x44px icon, no reason to pull a bigger image for it. This was the
+ * actual map-thumbnail bug: it never looked at photo.thumb at all before,
+ * only styled/file - so it always tried (and 404'd on) the big/gitignored
+ * image instead of the small committed one.
  */
 function photoMarkerIcon(photo) {
-  const src = photo.styled || photo.file;
+  const src = photo.thumb || photo.styled || photo.web || photo.file;
   return L.divIcon({
     className: "photo-marker",
     html: src ? `<img src="${src}" alt="">` : "",
@@ -742,20 +747,22 @@ function loadImage(src) {
 }
 
 /**
- * runStylizeAndStory(photo) — live-stylizes photo.file via stylize.js's
- * stylizePhoto() and caches the result onto photo.styled, THEN calls
- * jumpToBuilding(). story.js's renderPassage() already reads
- * `photo.styled || photo.file` for the background image, so updating
- * photo.styled here is what "sets #story-bg's image before invoking
- * jumpToBuilding" in practice - story.js doesn't need to know stylize.js
- * exists, keeping the map/content separation clean. If live stylization
- * fails (no WebGL, image didn't load, etc.) photo.styled is left alone and
- * renderPassage() falls back to the precomputed/raw image on its own.
+ * runStylizeAndStory(photo) — live-stylizes photo.web (falling back to
+ * photo.file) via stylize.js's stylizePhoto() and caches the result onto
+ * photo.styled, THEN calls jumpToBuilding(). story.js's renderPassage()
+ * already reads `photo.styled || photo.web || photo.file` for the
+ * background image, so updating photo.styled here is what "sets #story-bg's
+ * image before invoking jumpToBuilding" in practice - story.js doesn't need
+ * to know stylize.js exists, keeping the map/content separation clean. If
+ * live stylization fails (no WebGL, image didn't load, etc.) photo.styled
+ * is left alone and renderPassage() falls back to the precomputed/web/raw
+ * image on its own.
  */
 async function runStylizeAndStory(photo) {
-  if (photo.file && typeof stylizePhoto === "function") {
+  const src = photo.web || photo.file;
+  if (src && typeof stylizePhoto === "function") {
     try {
-      const img = await loadImage(photo.file);
+      const img = await loadImage(src);
       const { canvas, ditherStyle } = stylizePhoto(img, {
         year: photo.year,
         lat: photo.lat,
