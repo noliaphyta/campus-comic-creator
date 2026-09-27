@@ -134,6 +134,199 @@ function lookSelectOptionsHTML() {
   );
 }
 
+// --- Compact share-link encoding -------------------------------------
+//
+// Share links used to be `btoa(JSON.stringify(recipe))` - readable, but
+// wasteful: full photo ids, repeated JSON keys, and free-text manual
+// captions bloat past URL length limits fast (github.com/.../comic-view
+// links need to stay under ~255 chars). This section replaces that with:
+//   1. photo ids hashed down to a short base36 tag (fnv1aBase36) instead
+//      of the full slug - resolved back to a photo by re-hashing every
+//      id in the live data/photos.json at decode time.
+//   2. a delimiter-separated payload instead of JSON, so there's no
+//      per-field quoting/braces overhead - see FIELD_SEP/PANEL_SEP/
+//      SECTION_SEP/ID_SEP below.
+//   3. real DEFLATE compression (CompressionStream, built into every
+//      modern browser - no library) over that payload before
+//      base64url-encoding it.
+// None of this can make an arbitrarily long free-text manual caption
+// fit in 255 characters - that's a hard entropy limit, not an encoding
+// problem - but it gets ordinary comics comfortably under the limit and
+// autogenerate links (which store no caption text at all) very small.
+// A short 3-character header (mode + aspect + compressed-or-not flag) is
+// prepended in the clear, in front of the base64 payload, so decoding
+// doesn't need to inflate anything just to know how to inflate it.
+//
+// Old (v1/v2) links are still readable: they were always
+// `btoa(JSON.stringify(...))` of an object starting with `{"`, which is
+// always base64 "eyJ..." - a prefix the new compact format can never
+// produce (its own first two characters are always one of "a"/"m"
+// followed by a digit) - so decodeHashPayload() tells them apart just by
+// checking that prefix.
+const FILTER_CODES = ["halftone", "dither", "duotone", "none"];
+const SIDE_CODES = ["left", "right", "center"];
+const ASPECT_CODES = ["16:9", "4:3", "1:1", "9:16"];
+// Control characters that will never show up from someone typing a
+// caption in a textarea, used as structural delimiters so the payload
+// needs no JSON-style quoting/escaping.
+const FIELD_SEP = "\x1f"; // between fields within one panel record
+const PANEL_SEP = "\x1e"; // between panel records
+const SECTION_SEP = "\x1d"; // between the id list and the panel list
+const ID_SEP = "\x1c"; // between individual photo-id hashes
+
+// fnv1aBase36(str) — small, fast, dependency-free string hash (FNV-1a,
+// 32-bit) rendered as base36. Used to shrink a ~20-40 char photo id down
+// to ~6-7 chars in the link; decode re-hashes every id in the live photo
+// library and looks up by hash, so nothing has to trust an index into a
+// list that could reorder. Collisions are astronomically unlikely for a
+// library of a few hundred photos (32-bit hash space), and even if one
+// happened it would just show a different (not broken) photo.
+function fnv1aBase36(str) {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < str.length; i++) {
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 0x01000193);
+  }
+  return (h >>> 0).toString(36);
+}
+
+// lookCode()/lookFromCode() - a character look packed to a single
+// character: "0".."9" for Kathy's ten looks, "t" for Thatch.
+function lookCode(look) {
+  const kathyIdx = CHARACTER_LOOKS.kathy.indexOf(look);
+  return kathyIdx >= 0 ? String(kathyIdx) : "t";
+}
+function lookFromCode(code) {
+  if (code === "t") return "thatch";
+  const n = parseInt(code, 10);
+  return CHARACTER_LOOKS.kathy[n] ?? "kathy0";
+}
+
+function bytesToBase64Url(bytes) {
+  let bin = "";
+  bytes.forEach((b) => (bin += String.fromCharCode(b)));
+  return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+function base64UrlToBytes(b64url) {
+  const b64 = b64url.replace(/-/g, "+").replace(/_/g, "/") + "===".slice((b64url.length + 3) % 4);
+  const bin = atob(b64);
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return bytes;
+}
+
+// tryCompress()/tryDecompress() wrap the native Compression Streams API
+// (supported in every current browser, no library needed). tryCompress
+// returns null - rather than throwing - when the API is unavailable, so
+// encodeRecipe() can fall back to an uncompressed (still delimiter-
+// packed, still hashed-id) link instead of failing to share at all.
+async function tryCompress(str) {
+  if (typeof CompressionStream === "undefined") return null;
+  try {
+    const cs = new CompressionStream("deflate-raw");
+    const writer = cs.writable.getWriter();
+    writer.write(new TextEncoder().encode(str));
+    writer.close();
+    const buf = await new Response(cs.readable).arrayBuffer();
+    return bytesToBase64Url(new Uint8Array(buf));
+  } catch (err) {
+    console.warn("Link compression failed - falling back to an uncompressed link.", err);
+    return null;
+  }
+}
+async function tryDecompress(b64url) {
+  const ds = new DecompressionStream("deflate-raw");
+  const writer = ds.writable.getWriter();
+  writer.write(base64UrlToBytes(b64url));
+  writer.close();
+  const buf = await new Response(ds.readable).arrayBuffer();
+  return new TextDecoder().decode(buf);
+}
+
+// encodeRecipe(recipe) -> Promise<string> - the actual `#c=` payload.
+function stripDelims(s) {
+  return (s || "").replace(/[\x1c-\x1f]/g, "");
+}
+async function encodeRecipe(recipe) {
+  const modeChar = recipe.mode === "manual" ? "m" : "a";
+  const aspectIdx = ASPECT_CODES.indexOf(recipe.aspect);
+  const aspectChar = String(aspectIdx >= 0 ? aspectIdx : 1);
+
+  const idPart = recipe.ids.map(fnv1aBase36).join(ID_SEP);
+  const panelPart =
+    recipe.mode === "manual"
+      ? recipe.panels
+          .map((p) =>
+            [
+              String(Math.max(0, FILTER_CODES.indexOf(p.filter))),
+              String(Math.max(0, SIDE_CODES.indexOf(p.side))),
+              lookCode(p.look),
+              stripDelims(p.caption),
+              stripDelims(p.feel),
+            ].join(FIELD_SEP)
+          )
+          .join(PANEL_SEP)
+      : recipe.panels
+          .map((p) => [String(Math.max(0, FILTER_CODES.indexOf(p.filter))), lookCode(p.look)].join(FIELD_SEP))
+          .join(PANEL_SEP);
+
+  const raw = idPart + SECTION_SEP + panelPart;
+  const compressed = await tryCompress(raw);
+  if (compressed !== null) return `${modeChar}${aspectChar}z${compressed}`;
+  return `${modeChar}${aspectChar}p${bytesToBase64Url(new TextEncoder().encode(raw))}`;
+}
+
+// decodeHashPayload(payload, library) -> Promise<{mode,aspect,photos,
+// panels,look} | null>. Dispatches to the compact decoder, or the legacy
+// (v1/v2) JSON-base64 decoder for links made before this change - see the
+// big comment above FILTER_CODES for how the two are told apart.
+async function decodeHashPayload(payload, library) {
+  try {
+    if (payload.startsWith("eyJ")) return decodeLegacyPayload(payload, library);
+    return await decodeCompactPayload(payload, library);
+  } catch (err) {
+    console.warn("Malformed comic link.", err);
+    return null;
+  }
+}
+
+function decodeLegacyPayload(payload, library) {
+  const json = decodeURIComponent(escape(atob(payload)));
+  const recipe = JSON.parse(json);
+  const byId = new Map(library.map((p) => [p.id, p]));
+  const photos = (recipe.ids || []).map((id) => byId.get(id)).filter(Boolean);
+  return { mode: recipe.mode, aspect: recipe.aspect, photos, panels: recipe.panels || [], look: recipe.look || null };
+}
+
+async function decodeCompactPayload(payload, library) {
+  const modeChar = payload[0];
+  const aspectChar = payload[1];
+  const flagChar = payload[2];
+  const rest = payload.slice(3);
+  const raw = flagChar === "z" ? await tryDecompress(rest) : new TextDecoder().decode(base64UrlToBytes(rest));
+
+  const [idPart, panelPart] = raw.split(SECTION_SEP);
+  const byHash = new Map(library.map((p) => [fnv1aBase36(p.id), p]));
+  const photos = (idPart ? idPart.split(ID_SEP) : []).map((h) => byHash.get(h)).filter(Boolean);
+
+  const mode = modeChar === "m" ? "manual" : "auto";
+  const aspect = ASPECT_CODES[parseInt(aspectChar, 10)] || "4:3";
+  const panels = (panelPart ? panelPart.split(PANEL_SEP) : []).map((rec) => {
+    const fields = rec.split(FIELD_SEP);
+    const look = lookFromCode(fields[mode === "manual" ? 2 : 1]);
+    const base = { filter: FILTER_CODES[+fields[0]] || "halftone", char: LOOK_TO_PERSON[look], look };
+    if (mode !== "manual") return base;
+    return {
+      ...base,
+      side: SIDE_CODES[+fields[1]] || "left",
+      caption: fields[3] || "",
+      feel: fields[4] || "",
+    };
+  });
+
+  return { mode, aspect, photos, panels, look: null };
+}
+
 function characterBboxRect(side, canvasWidth, canvasHeight) {
   const w = canvasWidth * CHAR_BBOX.width;
   const h = canvasHeight * CHAR_BBOX.height;
@@ -1363,22 +1556,24 @@ function buildRecipe(photos, mode, aspectValue, perPanel) {
 
 /**
  * copyShareLink() — encodes buildRecipe()'s output into location.hash and
- * copies the full URL. Long manual captions can make this link long; rather
- * than silently truncating (which would corrupt the recipe on decode), it
- * still copies the full link and just warns.
+ * copies the full URL. Manual mode's free-text captions can still make a
+ * link long even after compact-encoding it (see encodeRecipe() above) -
+ * rather than silently truncating (which would corrupt the recipe on
+ * decode), it still copies the full link and warns with the real
+ * character count against the real 255-character limit.
  */
 async function copyShareLink() {
   const statusEl = document.getElementById("save-share-status");
   if (!lastRenderCtx) return;
   const { photos, mode, aspectValue, perPanel } = lastRenderCtx;
   const recipe = buildRecipe(photos, mode, aspectValue, perPanel);
-  const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(recipe))));
+  const encoded = await encodeRecipe(recipe);
   const viewerUrl = new URL("comic-view.html", location.href);
   viewerUrl.hash = `c=${encoded}`;
 
   statusEl.textContent =
-    encoded.length > 2000
-      ? "Long manual captions make this link long — consider shortening captions. Link copied anyway."
+    viewerUrl.href.length > 255
+      ? `This link is ${viewerUrl.href.length} characters (over the 255 limit some places enforce) — shorten the captions/feel lines to bring it down. Link copied anyway.`
       : "Link copied.";
 
   try {
@@ -1389,30 +1584,24 @@ async function copyShareLink() {
   }
 }
 
-function openFinishedComic() {
+async function openFinishedComic() {
   if (!lastRenderCtx) return;
   const { photos, mode, aspectValue, perPanel } = lastRenderCtx;
   const recipe = buildRecipe(photos, mode, aspectValue, perPanel);
-  const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(recipe))));
+  const encoded = await encodeRecipe(recipe);
   location.href = `comic-view.html#c=${encoded}`;
 }
 
 /**
- * tryLoadFromHash() -> recipe object | null
- * Reads a `#c=<base64>` share link written by copyShareLink(). Returns null
- * (not throws) for "no link" and "malformed link" alike - both mean "fall
- * through to the normal localStorage path" to the caller.
+ * tryLoadFromHash() -> raw `#c=` payload string | null
+ * Just extracts the payload; decodeHashPayload() (called from
+ * renderFromRecipe(), which has the photo library it needs to resolve
+ * hashed ids) does the actual parsing. Returns null for "no link" -
+ * malformed links are instead caught inside decodeHashPayload().
  */
 function tryLoadFromHash() {
   const match = location.hash.match(/c=([^&]+)/);
-  if (!match) return null;
-  try {
-    const json = decodeURIComponent(escape(atob(match[1])));
-    return JSON.parse(json);
-  } catch (err) {
-    console.warn("Malformed comic link.", err);
-    return null;
-  }
+  return match ? match[1] : null;
 }
 
 /**
@@ -1422,7 +1611,7 @@ function tryLoadFromHash() {
  * Auto-mode recipes re-run captionsForPath() against the current
  * data/story.ink.json rather than storing caption text.
  */
-async function renderFromRecipe(recipe) {
+async function renderFromRecipe(hashPayload) {
   const statusEl = document.getElementById("generate-status");
   // #comic-setup only exists on comic.html (the creator); comic-view.html
   // (the viewer) never renders it, so guard rather than assume it's there.
@@ -1439,8 +1628,17 @@ async function renderFromRecipe(recipe) {
     return;
   }
 
-  const libraryById = Object.fromEntries(library.map((p) => [p.id, p]));
-  const photos = recipe.ids.map((id) => libraryById[id]).filter(Boolean);
+  // decodeHashPayload() needs the library up front: compact links (see
+  // encodeRecipe()) store each photo as a short hash, not its full id, so
+  // resolving them means re-hashing every id in the live library and
+  // matching - there's no way to do that before the library has loaded.
+  const recipe = await decodeHashPayload(hashPayload, library);
+  if (!recipe) {
+    statusEl.textContent = "This comic link couldn't be read.";
+    return;
+  }
+
+  const photos = recipe.photos;
   if (photos.length < 2) {
     statusEl.textContent = "This link's photos are no longer in the library.";
     return;
@@ -1522,10 +1720,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   wireDarkMode();
   wireAppBadge();
 
-  const recipe = tryLoadFromHash();
+  const hashPayload = tryLoadFromHash();
   const viewerOnly = document.body.dataset.page === "viewer";
-  if (recipe) {
-    await renderFromRecipe(recipe);
+  if (hashPayload) {
+    await renderFromRecipe(hashPayload);
     return;
   }
 
