@@ -14,11 +14,11 @@
  * clobbered by re-running it.
  *
  * Usage:
- *   node scripts/generate-ink-knots.mjs                # confirmed buildings only (the safe default)
- *   node scripts/generate-ink-knots.mjs --all           # also draft knots for photos with only a guessed building
- *   node scripts/generate-ink-knots.mjs --limit 20       # cap how many knots are drafted (handy while testing)
- *   node scripts/generate-ink-knots.mjs --out path.ink   # write somewhere other than data/story.generated.ink
- *   node scripts/generate-ink-knots.mjs --dry-run        # print the summary only, write nothing
+ *   node scripts/generate-ink-knots.mjs                    # all photos with a building, confirmed or guessed (the default)
+ *   node scripts/generate-ink-knots.mjs --confirmed-only    # narrow to confirmed buildings only (the old, more conservative default)
+ *   node scripts/generate-ink-knots.mjs --limit 20          # cap how many knots are drafted (handy while testing)
+ *   node scripts/generate-ink-knots.mjs --out path.ink      # write somewhere other than data/story.generated.ink
+ *   node scripts/generate-ink-knots.mjs --dry-run           # print the summary only, write nothing
  *
  * After reviewing/editing the output:
  *   1. Move the knots you're happy with into data/story.ink (before the
@@ -36,7 +36,13 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 
 const args = process.argv.slice(2);
-const includeUnconfirmed = args.includes("--all");
+// Every photo with a building - confirmed OR guessed - is included by
+// default now; only 7 of this dataset's 432 photos have a *confirmed*
+// building, so the old "confirmed only" default silently drafted knots for
+// a tiny sliver of the library instead of the whole thing. --confirmed-only
+// restores that narrower, more conservative behavior for anyone who wants
+// it (e.g. spot-checking just the high-confidence matches).
+const includeUnconfirmed = !args.includes("--confirmed-only");
 const dryRun = args.includes("--dry-run");
 const limitArg = args.find((a) => a.startsWith("--limit"));
 const limit = limitArg
@@ -209,8 +215,9 @@ async function main() {
       continue;
     }
     if (!confirmed && !photo.building_suggestion) {
-      // --all was passed but there's not even a guessed building to draft
-      // reactive text about - nothing sensible to generate here.
+      // Unconfirmed buildings are included by default, but there's not
+      // even a guessed building to draft reactive text about here -
+      // nothing sensible to generate.
       skippedNoBuilding.push(photo.id);
       continue;
     }
