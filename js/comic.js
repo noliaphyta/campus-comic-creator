@@ -1064,7 +1064,7 @@ async function presentVisualNovel(photos, aspectValue, perPanel, statusEl, mode 
       // over the panel image.
       const hint = document.createElement("div");
       hint.className = "vn-advance-hint";
-      hint.textContent = current < built.length - 2 ? "Click to continue ▸" : "Click for credits ▸";
+      hint.textContent = current < built.length - 2 ? "Continue ▸" : "Credits ▸";
       (textbox || built[current].panel).appendChild(hint);
     }
   }
@@ -1469,6 +1469,7 @@ function loadPathFromStorage() {
 
 document.addEventListener("DOMContentLoaded", async () => {
   wireDarkMode();
+  wireAppBadge();
 
   const recipe = tryLoadFromHash();
   const viewerOnly = document.body.dataset.page === "viewer";

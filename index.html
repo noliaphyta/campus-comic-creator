@@ -31,24 +31,26 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <header>
-    <div class="header-row">
-      <div>
-        <h1>Campus Comic Creator</h1>
-        <p class="tagline">Plot a walk across campus history. Click 2+ pins to build a path.</p>
-      </div>
-      <button id="dark-mode-toggle" type="button" title="Toggle dark mode">🌙</button>
-    </div>
-  </header>
+  <!-- Floating badge replaces the old static <header>: title/tagline float
+       over the map instead of pushing it down, and the badge itself is the
+       dismiss control (click/tap it to hide - see wireAppBadge() in
+       js/shared.js). The dark mode toggle floats independently in the
+       opposite corner so it stays reachable even after the badge is
+       dismissed. -->
+  <div id="app-badge" class="floating-badge" role="button" tabindex="0" title="Dismiss">
+    <strong>Campus Comic Creator</strong>
+    <p class="tagline">Plot a walk across campus history. Click 2+ pins to build a path.</p>
+  </div>
+  <button id="dark-mode-toggle" type="button" class="floating-toggle" title="Toggle dark mode">🌙</button>
 
   <main>
     <div id="map"></div>
-    <div id="map-layer-controls">
-      <label><input type="checkbox" id="toggle-buildings" checked> Buildings</label>
-      <label><input type="checkbox" id="toggle-paths" checked> Footpaths</label>
-    </div>
     <div id="route-profile-controls">
-      <label for="route-profile">Path type
+      <!-- Path type is fixed to "Walking paths" (see routeProfile's default
+           in js/app.js) - the selector itself stays in the DOM (so nothing
+           else has to special-case its absence) but hidden, since there's
+           only ever one useful choice for this campus right now. -->
+      <label for="route-profile" hidden>Path type
         <select id="route-profile">
           <option value="foot" selected>Walking paths</option>
           <option value="bike">Cycling paths</option>

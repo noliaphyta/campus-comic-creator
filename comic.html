@@ -30,16 +30,17 @@
   <link rel="stylesheet" href="css/comic.css" />
 </head>
 <body>
-  <header>
-    <div class="header-row">
-      <div>
-        <h1>Comic Creator</h1>
-        <p class="tagline">Turns the path you plotted on the map into a comic/visual-novel strip.</p>
-      </div>
-      <button id="dark-mode-toggle" type="button" title="Toggle dark mode">🌙</button>
-    </div>
+  <!-- Same floating-badge treatment as index.html (see wireAppBadge() in
+       js/shared.js, loaded by both pages) - clicking the badge dismisses
+       it rather than navigating, so "back to the map" gets its own
+       ordinary link underneath instead of being folded into the badge's
+       click behavior. -->
+  <div id="app-badge" class="floating-badge" role="button" tabindex="0" title="Dismiss">
+    <strong>Comic Creator</strong>
+    <p class="tagline">Turns the path you plotted on the map into a comic/visual-novel strip.</p>
     <a id="back-to-map" href="index.html">&larr; Back to the map</a>
-  </header>
+  </div>
+  <button id="dark-mode-toggle" type="button" class="floating-toggle" title="Toggle dark mode">🌙</button>
 
   <main id="comic-main">
     <div id="no-path-message" hidden>

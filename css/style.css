@@ -71,20 +71,51 @@ body[data-page="viewer"] #no-path-message {
   margin: 20px;
 }
 
-header {
-  padding: 16px 20px 8px;
+/* ---- Floating badge: replaces the old static <header>. Sits over the
+   map/page instead of pushing content down, and doubles as its own
+   dismiss control - the whole badge is clickable (see wireAppBadge() in
+   js/shared.js), not just a small close icon in the corner. Positioned
+   fixed (not absolute) so it stays put over the map on scroll, same as
+   the dark mode toggle. ---- */
+.floating-badge {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 900;
+  max-width: min(320px, calc(100vw - 84px));
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--panel-border);
+  border-radius: 12px;
+  padding: 8px 14px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
 }
 
-.header-row {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
+.floating-badge strong {
+  display: block;
+  font-size: 1rem;
 }
 
-#dark-mode-toggle {
+.floating-badge .tagline {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+/* Hidden (not removed) once dismissed, so wireAppBadge() only needs to
+   toggle one attribute rather than tear down/rebuild the element. */
+.floating-badge[hidden] {
+  display: none;
+}
+
+#dark-mode-toggle.floating-toggle {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 900;
   flex: 0 0 auto;
-  background: transparent;
+  background: var(--paper);
   border: 1px solid var(--accent);
   color: var(--accent);
   border-radius: 999px;
@@ -92,42 +123,30 @@ header {
   height: 36px;
   font-size: 1rem;
   cursor: pointer;
-}
-
-#map-layer-controls {
-  display: flex;
-  gap: 16px;
-  padding: 6px 20px 0;
-  font-size: 0.8rem;
-  color: var(--muted);
-}
-
-#map-layer-controls label {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  cursor: pointer;
-}
-
-header h1 {
-  margin: 0 0 4px;
-  font-size: 1.3rem;
-}
-
-.tagline {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.9rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
 }
 
 main {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  /* Clears the floating badge + dark-mode toggle (both position: fixed
+     over the top of the page - see .floating-badge / #dark-mode-toggle.
+     floating-toggle above), so Leaflet's own top-left zoom control and
+     comic.html's setup panel don't render underneath them (100px clears
+     comic.html's taller badge, which also carries the "back to the map"
+     link). Not wanted on
+     comic-view.html's immersive viewer, which has neither floating
+     element - overridden back to 0 below for that page. */
+  padding-top: 100px;
+}
+
+body[data-page="viewer"] main {
+  padding-top: 0;
 }
 
 #map {
-  height: 60vh;
+  height: 70vh;
   width: 100%;
 }
 

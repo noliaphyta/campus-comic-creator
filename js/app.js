@@ -9,6 +9,10 @@
 const CAMPUS_CENTER = [37.2712, -76.7112];
 const CAMPUS_ZOOM = 16;
 
+// The timeline never scrolls back further than this, regardless of how far
+// back the actual photo data goes - see renderYearRangeSlider() below.
+const TIMELINE_EARLIEST_YEAR = 2001;
+
 // Profile-specific OSRM endpoints from routing.openstreetmap.de. The public
 // router.project-osrm.org endpoint accepted the profile names but returned
 // identical routes for this campus, so the service host must be selected with
@@ -45,8 +49,8 @@ let markersLayer = null; // L.layerGroup holding Tier A (thumbnail) markers
 let dotCluster = null; // L.markerClusterGroup holding Tier B (dot) markers
 let yearRange = { min: null, max: null }; // current slider selection, inclusive
 let footpathFeatures = []; // raw LineString features from data/paths.geojson, [] if not fetched yet
-let buildingsLayer = null; // L.geoJSON layer for data/buildings.geojson, toggled by #toggle-buildings
-let pathsLayer = null; // L.geoJSON layer for data/paths.geojson, toggled by #toggle-paths
+let buildingsLayer = null; // L.geoJSON layer for data/buildings.geojson - always on, no toggle anymore
+let pathsLayer = null; // L.geoJSON layer for data/paths.geojson - always on, no toggle anymore
 let routeRequestSeq = 0; // increments per plotRoute() call; guards against out-of-order/superseded responses
 let lastRouteRequestAt = 0; // Date.now() of the last OSRM fetch actually sent; see throttleRouteRequest()
 
@@ -191,7 +195,7 @@ async function init() {
     });
   }
 
-  wireLayerToggles();
+  wireAppBadge();
   wireDarkMode();
 
   if (photos.length) {
@@ -382,8 +386,12 @@ function renderYearRangeSlider(photos) {
   }
 
   el.hidden = false;
-  const minYear = Math.min(...years);
-  const maxYear = Math.max(...years);
+  // Clamped, not just floored: any photo dated earlier than
+  // TIMELINE_EARLIEST_YEAR still exists in the data (and still shows up if
+  // nothing else filters it out), it's just outside what the slider itself
+  // can scroll back to - the timeline's earliest handle position is 2001.
+  const minYear = Math.max(TIMELINE_EARLIEST_YEAR, Math.min(...years));
+  const maxYear = Math.max(minYear, Math.max(...years));
   const span = maxYear - minYear || 1; // avoid /0 when every photo is the same year
   yearRange = { min: minYear, max: maxYear };
 
@@ -477,6 +485,26 @@ function renderYearRangeSlider(photos) {
   track.appendChild(maxPill);
   wrap.appendChild(track);
   el.appendChild(wrap);
+
+  // ---- Letting both handles land on the SAME year (a single-year
+  // selection, not just a range) ----
+  // minInput and maxInput are two full-width, same-size native thumbs
+  // stacked in the same spot when lo === hi. With no z-index set, the one
+  // later in the DOM (maxInput) always paints on top and eats every click
+  // at that shared pixel - so once merged, minInput becomes permanently
+  // unreachable by mouse/touch (it's still perfectly focusable by Tab,
+  // since only its opacity is 0, but that's not how most people expect to
+  // grab a slider handle). Bringing whichever thumb the user actually
+  // presses to the front means a merged pair can be pulled apart again by
+  // grabbing either one, not just whichever happened to be on top.
+  minInput.addEventListener("pointerdown", () => {
+    minInput.style.zIndex = "2";
+    maxInput.style.zIndex = "1";
+  });
+  maxInput.addEventListener("pointerdown", () => {
+    maxInput.style.zIndex = "2";
+    minInput.style.zIndex = "1";
+  });
 
   // Centers `pill` at the px position the browser would center a
   // YEAR_RANGE_PILL_WIDTH-wide native thumb for this year value.
@@ -850,29 +878,7 @@ function renderCredits(photos) {
   });
 }
 
-/**
- * wireLayerToggles() — #toggle-buildings / #toggle-paths checkboxes just
- * add/remove the already-built Leaflet layers; they don't refetch or
- * rebuild anything, so toggling is instant either direction.
- */
-function wireLayerToggles() {
-  const buildingsCb = document.getElementById("toggle-buildings");
-  if (buildingsCb) {
-    buildingsCb.addEventListener("change", () => {
-      if (!buildingsLayer) return;
-      if (buildingsCb.checked) map.addLayer(buildingsLayer);
-      else map.removeLayer(buildingsLayer);
-    });
-  }
-  const pathsCb = document.getElementById("toggle-paths");
-  if (pathsCb) {
-    pathsCb.addEventListener("change", () => {
-      if (!pathsLayer) return;
-      if (pathsCb.checked) map.addLayer(pathsLayer);
-      else map.removeLayer(pathsLayer);
-    });
-  }
-}
+// wireAppBadge() now lives in js/shared.js (shared with comic.html).
 
 /**
  * wireDarkMode() — toggles a `data-theme="dark"` attribute on <html>; all
