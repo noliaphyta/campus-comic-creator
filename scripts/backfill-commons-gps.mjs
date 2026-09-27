@@ -27,15 +27,6 @@
  *   node scripts/backfill-commons-gps.mjs data/photos.scaffold.json
  *   node scripts/backfill-commons-gps.mjs data/photos.json
  *   node scripts/backfill-commons-gps.mjs data/photos.json --dry-run
- *   node scripts/backfill-commons-gps.mjs data/new-location/photos.scaffold.json \
- *     --raw data/new-location/commons-geosearch-raw.json
- *
- * Flags:
- *   --raw       path to the raw geosearch dump to recover GPS from, default
- *               data/commons-geosearch-raw.json. Point this at a different
- *               fetch's raw dump when backfilling a scaffold from a
- *               separate --out location instead of the default one.
- *   --dry-run   preview only, writes nothing
  */
 
 import { readFile, writeFile } from "node:fs/promises";
@@ -65,16 +56,16 @@ function gpsFromRawEntry(page) {
 async function main() {
   const args = process.argv.slice(2);
   const dryRun = args.includes("--dry-run");
-  const rawFlagIdx = args.indexOf("--raw");
-  const rawPath = rawFlagIdx !== -1 ? args[rawFlagIdx + 1] : "data/commons-geosearch-raw.json";
-  const target = args.find((a, i) => !a.startsWith("--") && args[i - 1] !== "--raw");
+  const target = args.find((a) => !a.startsWith("--"));
 
   if (!target) {
-    console.error("Usage: node scripts/backfill-commons-gps.mjs <path-to-photos-file.json> [--raw <path>] [--dry-run]");
+    console.error("Usage: node scripts/backfill-commons-gps.mjs <path-to-photos-file.json> [--dry-run]");
     process.exit(1);
   }
 
-  const rawDump = JSON.parse(await readFile(path.join(ROOT, rawPath), "utf8"));
+  const rawDump = JSON.parse(
+    await readFile(path.join(ROOT, "data", "commons-geosearch-raw.json"), "utf8")
+  );
   const gpsById = new Map();
   for (const page of rawDump) {
     const gps = gpsFromRawEntry(page);

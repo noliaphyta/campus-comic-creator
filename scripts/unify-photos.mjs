@@ -35,17 +35,6 @@
  * Usage:
  *   node scripts/unify-photos.mjs
  *   node scripts/unify-photos.mjs --dry-run
- *   node scripts/unify-photos.mjs --pool data/new-location/photos.scaffold.json
- *
- * Flags:
- *   --pool     an additional scaffold-shaped candidate file to fold in
- *              (repeatable). Priority is lowest of all: curated > scaffold
- *              > flickr > any --pool files, in the order given. Use this
- *              for a second (or third...) fetch-commons-images.mjs run
- *              written to its own --out directory instead of the default
- *              data/, so it doesn't collide with/overwrite the original
- *              commons-geosearch-raw.json + photos.scaffold.json.
- *   --dry-run  preview only, writes nothing
  */
 
 import { readFile, writeFile } from "node:fs/promises";
@@ -64,22 +53,14 @@ async function loadJSON(rel) {
 }
 
 async function main() {
-  const args = process.argv.slice(2);
-  const dryRun = args.includes("--dry-run");
-  const extraPools = args.flatMap((a, i) => (a === "--pool" ? [args[i + 1]] : []));
+  const dryRun = process.argv.includes("--dry-run");
 
   const curated = await loadJSON("photos.json");
   const scaffold = await loadJSON("photos.scaffold.json");
   const flickr = await loadJSON("photos.flickr.json");
-  const pools = [];
-  for (const p of extraPools) {
-    const rel = path.isAbsolute(p) ? path.relative(DATA, p) : p.replace(/^data\//, "");
-    pools.push(await loadJSON(rel));
-  }
 
   // Lowest priority first, so later Map.set() calls (higher priority) win.
   const byId = new Map();
-  for (const pool of pools) for (const p of pool) byId.set(p.id, p);
   for (const p of flickr) byId.set(p.id, p);
   for (const p of scaffold) byId.set(p.id, p);
   for (const p of curated) byId.set(p.id, p);
@@ -95,12 +76,8 @@ async function main() {
     (p) => p.needs_geolocation || typeof p.lat !== "number" || typeof p.lon !== "number"
   );
 
-  const poolTotal = pools.reduce((sum, p) => sum + p.length, 0);
-  console.log(
-    `Merged: ${curated.length} curated + ${scaffold.length} scaffold + ${flickr.length} flickr` +
-      (pools.length ? ` + ${poolTotal} from ${pools.length} --pool file(s)` : "")
-  );
-  console.log(`  -> ${unified.length} unique entries (${curated.length + scaffold.length + flickr.length + poolTotal - unified.length} collisions resolved by priority)`);
+  console.log(`Merged: ${curated.length} curated + ${scaffold.length} scaffold + ${flickr.length} flickr`);
+  console.log(`  -> ${unified.length} unique entries (${curated.length + scaffold.length + flickr.length - unified.length} collisions resolved by priority)`);
   console.log(`  ${missingLocalFile.length} entries reference a local assets/photos/raw/ path - run the download scripts for any not already fetched`);
   console.log(`  ${missingThumb.length} entries have no thumb - run scripts/generate-photo-sizes.mjs after downloading`);
   console.log(`  ${noDerivatives.length} entries are licensed with derivatives NOT allowed - the stylize.js pipeline produces a derivative work, so these need a license re-check before running through it`);
