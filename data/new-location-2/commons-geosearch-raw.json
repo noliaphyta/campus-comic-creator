@@ -1,13 +1,13 @@
 [
   {
-    "pageid": 37336981,
+    "pageid": 29379989,
     "ns": 6,
-    "title": "File:Lake Matoaka from atop an amphitheatre tower (March 2005) - panoramio.jpg",
+    "title": "File:Dorm door (3859961778).jpg",
     "index": -1,
     "coordinates": [
       {
-        "lat": 37.266047,
-        "lon": -76.722125,
+        "lat": 37.27018,
+        "lon": -76.721402,
         "primary": "",
         "globe": "earth"
       }
@@ -15,34 +15,34 @@
     "imagerepository": "local",
     "imageinfo": [
       {
-        "size": 594018,
-        "width": 1600,
-        "height": 1200,
-        "thumburl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c6/Lake_Matoaka_from_atop_an_amphitheatre_tower_%28March_2005%29_-_panoramio.jpg/330px-Lake_Matoaka_from_atop_an_amphitheatre_tower_%28March_2005%29_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "size": 649240,
+        "width": 1536,
+        "height": 2048,
+        "thumburl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4f/Dorm_door_%283859961778%29.jpg/330px-Dorm_door_%283859961778%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
         "thumbwidth": 330,
-        "thumbheight": 248,
+        "thumbheight": 440,
         "responsiveUrls": {
-          "2": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c6/Lake_Matoaka_from_atop_an_amphitheatre_tower_%28March_2005%29_-_panoramio.jpg/960px-Lake_Matoaka_from_atop_an_amphitheatre_tower_%28March_2005%29_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+          "2": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4f/Dorm_door_%283859961778%29.jpg/960px-Dorm_door_%283859961778%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
         },
         "thumbattribs": {
-          "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c6/Lake_Matoaka_from_atop_an_amphitheatre_tower_%28March_2005%29_-_panoramio.jpg/330px-Lake_Matoaka_from_atop_an_amphitheatre_tower_%28March_2005%29_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4f/Dorm_door_%283859961778%29.jpg/330px-Dorm_door_%283859961778%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
           "decoding": "async",
           "loading": "lazy",
           "width": 330,
-          "height": 248,
-          "srcset": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c6/Lake_Matoaka_from_atop_an_amphitheatre_tower_%28March_2005%29_-_panoramio.jpg/960px-Lake_Matoaka_from_atop_an_amphitheatre_tower_%28March_2005%29_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail 2x"
+          "height": 440,
+          "srcset": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4f/Dorm_door_%283859961778%29.jpg/960px-Dorm_door_%283859961778%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail 2x"
         },
-        "url": "https://upload.wikimedia.org/wikipedia/commons/c/c6/Lake_Matoaka_from_atop_an_amphitheatre_tower_%28March_2005%29_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-        "descriptionurl": "https://commons.wikimedia.org/wiki/File:Lake_Matoaka_from_atop_an_amphitheatre_tower_(March_2005)_-_panoramio.jpg",
-        "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=37336981",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/4/4f/Dorm_door_%283859961778%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "descriptionurl": "https://commons.wikimedia.org/wiki/File:Dorm_door_(3859961778).jpg",
+        "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=29379989",
         "extmetadata": {
           "DateTime": {
-            "value": "2014-12-17 02:57:25",
+            "value": "2013-11-03 09:53:39",
             "source": "mediawiki-metadata",
             "hidden": ""
           },
           "ObjectName": {
-            "value": "Lake Matoaka from atop an amphitheatre tower (March 2005) - panoramio",
+            "value": "Dorm door (3859961778)",
             "source": "mediawiki-metadata"
           },
           "CommonsMetadataExtension": {
@@ -51,7 +51,7 @@
             "hidden": ""
           },
           "Categories": {
-            "value": "Lakes of Virginia|Lake Matoaka Amphitheatre|Panoramio files uploaded by Panoramio upload bot|Panoramio images reviewed by trusted users|Photos from Panoramio|Files with coordinates missing SDC location of creation|United States photographs taken on 2005-03-19",
+            "value": "Taken with Nikon Coolpix 3200|College of William and Mary buildings|Flickr images reviewed by File Upload Bot (Magnus Manske)|Files with coordinates missing SDC location of creation",
             "source": "commons-categories",
             "hidden": ""
           },
@@ -61,11 +61,11 @@
             "hidden": ""
           },
           "GPSLatitude": {
-            "value": "37.266047",
+            "value": "37.270180",
             "source": "commons-desc-page"
           },
           "GPSLongitude": {
-            "value": "-76.722125",
+            "value": "-76.721402",
             "source": "commons-desc-page"
           },
           "GPSMapDatum": {
@@ -74,23 +74,531 @@
             "hidden": ""
           },
           "ImageDescription": {
-            "value": "Lake Matoaka from atop an amphitheatre tower (March 2005)",
+            "value": "Dorm door",
             "source": "commons-desc-page"
           },
           "DateTimeOriginal": {
-            "value": "Taken on 19 March 2005",
+            "value": "2004-09-20 18:04",
             "source": "commons-desc-page"
           },
           "Credit": {
-            "value": "<a rel=\"nofollow\" class=\"external free\" href=\"https://web.archive.org/web/20161112045659/http://www.panoramio.com:80/photo/1453904\">https://web.archive.org/web/20161112045659/http://www.panoramio.com:80/photo/1453904</a>",
+            "value": "<p><a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/photos/benuski/3859961778/\">Dorm door</a>\n</p>\n<ul><li>Uploaded by <a href=\"//commons.wikimedia.org/wiki/User:AlbertHerring\" class=\"mw-redirect\" title=\"User:AlbertHerring\">AlbertHerring</a></li></ul>",
             "source": "commons-desc-page"
           },
           "Artist": {
-            "value": "<a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/20160910234419/http://www.panoramio.com:80/user/305276?with_photo_id=1453904\">KTBowman</a>",
+            "value": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/people/36986477@N05\">benuski</a> from Richmond, VA, USA",
+            "source": "commons-desc-page"
+          },
+          "LicenseShortName": {
+            "value": "CC BY-SA 2.0",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "UsageTerms": {
+            "value": "Creative Commons Attribution-Share Alike 2.0",
+            "source": "commons-desc-page"
+          },
+          "AttributionRequired": {
+            "value": "true",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "LicenseUrl": {
+            "value": "https://creativecommons.org/licenses/by-sa/2.0",
+            "source": "commons-desc-page"
+          },
+          "Copyrighted": {
+            "value": "True",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "Restrictions": {
+            "value": "",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "License": {
+            "value": "cc-by-sa-2.0",
+            "source": "commons-templates",
+            "hidden": ""
+          }
+        }
+      }
+    ]
+  },
+  {
+    "pageid": 29380065,
+    "ns": 6,
+    "title": "File:Preston Hall on fire at the College of William and Mary (3501318153).jpg",
+    "index": 0,
+    "coordinates": [
+      {
+        "lat": 37.270428,
+        "lon": -76.718907,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
+    "imagerepository": "local",
+    "imageinfo": [
+      {
+        "size": 680228,
+        "width": 2048,
+        "height": 1536,
+        "thumburl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2f/Preston_Hall_on_fire_at_the_College_of_William_and_Mary_%283501318153%29.jpg/330px-Preston_Hall_on_fire_at_the_College_of_William_and_Mary_%283501318153%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "thumbwidth": 330,
+        "thumbheight": 248,
+        "responsiveUrls": {
+          "2": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2f/Preston_Hall_on_fire_at_the_College_of_William_and_Mary_%283501318153%29.jpg/960px-Preston_Hall_on_fire_at_the_College_of_William_and_Mary_%283501318153%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        "thumbattribs": {
+          "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2f/Preston_Hall_on_fire_at_the_College_of_William_and_Mary_%283501318153%29.jpg/330px-Preston_Hall_on_fire_at_the_College_of_William_and_Mary_%283501318153%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "decoding": "async",
+          "loading": "lazy",
+          "width": 330,
+          "height": 248,
+          "srcset": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2f/Preston_Hall_on_fire_at_the_College_of_William_and_Mary_%283501318153%29.jpg/960px-Preston_Hall_on_fire_at_the_College_of_William_and_Mary_%283501318153%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail 2x"
+        },
+        "url": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Preston_Hall_on_fire_at_the_College_of_William_and_Mary_%283501318153%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "descriptionurl": "https://commons.wikimedia.org/wiki/File:Preston_Hall_on_fire_at_the_College_of_William_and_Mary_(3501318153).jpg",
+        "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=29380065",
+        "extmetadata": {
+          "DateTime": {
+            "value": "2013-11-03 09:55:16",
+            "source": "mediawiki-metadata",
+            "hidden": ""
+          },
+          "ObjectName": {
+            "value": "Preston Hall on fire at the College of William and Mary (3501318153)",
+            "source": "mediawiki-metadata"
+          },
+          "CommonsMetadataExtension": {
+            "value": 1.2,
+            "source": "extension",
+            "hidden": ""
+          },
+          "Categories": {
+            "value": "Taken with Nikon Coolpix 3200|Flickr images reviewed by File Upload Bot (Magnus Manske)|Files with coordinates missing SDC location of creation|Preston Hall fire",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "Assessments": {
+            "value": "",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "GPSLatitude": {
+            "value": "37.270428",
+            "source": "commons-desc-page"
+          },
+          "GPSLongitude": {
+            "value": "-76.718907",
+            "source": "commons-desc-page"
+          },
+          "GPSMapDatum": {
+            "value": "WGS-84",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "ImageDescription": {
+            "value": "Preston Hall on fire at the College of William and Mary",
+            "source": "commons-desc-page"
+          },
+          "DateTimeOriginal": {
+            "value": "2005-05-03 12:41",
+            "source": "commons-desc-page"
+          },
+          "Credit": {
+            "value": "<p><a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/photos/benuski/3501318153/\">Preston Hall on fire at the College of William and Mary</a>\n</p>\n<ul><li>Uploaded by <a href=\"//commons.wikimedia.org/wiki/User:AlbertHerring\" class=\"mw-redirect\" title=\"User:AlbertHerring\">AlbertHerring</a></li></ul>",
+            "source": "commons-desc-page"
+          },
+          "Artist": {
+            "value": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/people/36986477@N05\">benuski</a> from Richmond, VA, USA",
+            "source": "commons-desc-page"
+          },
+          "LicenseShortName": {
+            "value": "CC BY-SA 2.0",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "UsageTerms": {
+            "value": "Creative Commons Attribution-Share Alike 2.0",
+            "source": "commons-desc-page"
+          },
+          "AttributionRequired": {
+            "value": "true",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "LicenseUrl": {
+            "value": "https://creativecommons.org/licenses/by-sa/2.0",
+            "source": "commons-desc-page"
+          },
+          "Copyrighted": {
+            "value": "True",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "Restrictions": {
+            "value": "",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "License": {
+            "value": "cc-by-sa-2.0",
+            "source": "commons-templates",
+            "hidden": ""
+          }
+        }
+      }
+    ]
+  },
+  {
+    "pageid": 29380118,
+    "ns": 6,
+    "title": "File:Preston Hall on fire at the College of William and Mary (3502130036).jpg",
+    "index": 1,
+    "coordinates": [
+      {
+        "lat": 37.270428,
+        "lon": -76.718907,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
+    "imagerepository": "local",
+    "imageinfo": [
+      {
+        "size": 714479,
+        "width": 2048,
+        "height": 1536,
+        "thumburl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/27/Preston_Hall_on_fire_at_the_College_of_William_and_Mary_%283502130036%29.jpg/330px-Preston_Hall_on_fire_at_the_College_of_William_and_Mary_%283502130036%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "thumbwidth": 330,
+        "thumbheight": 248,
+        "responsiveUrls": {
+          "2": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/27/Preston_Hall_on_fire_at_the_College_of_William_and_Mary_%283502130036%29.jpg/960px-Preston_Hall_on_fire_at_the_College_of_William_and_Mary_%283502130036%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        "thumbattribs": {
+          "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/27/Preston_Hall_on_fire_at_the_College_of_William_and_Mary_%283502130036%29.jpg/330px-Preston_Hall_on_fire_at_the_College_of_William_and_Mary_%283502130036%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "decoding": "async",
+          "loading": "lazy",
+          "width": 330,
+          "height": 248,
+          "srcset": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/27/Preston_Hall_on_fire_at_the_College_of_William_and_Mary_%283502130036%29.jpg/960px-Preston_Hall_on_fire_at_the_College_of_William_and_Mary_%283502130036%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail 2x"
+        },
+        "url": "https://upload.wikimedia.org/wikipedia/commons/2/27/Preston_Hall_on_fire_at_the_College_of_William_and_Mary_%283502130036%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "descriptionurl": "https://commons.wikimedia.org/wiki/File:Preston_Hall_on_fire_at_the_College_of_William_and_Mary_(3502130036).jpg",
+        "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=29380118",
+        "extmetadata": {
+          "DateTime": {
+            "value": "2013-11-03 09:56:35",
+            "source": "mediawiki-metadata",
+            "hidden": ""
+          },
+          "ObjectName": {
+            "value": "Preston Hall on fire at the College of William and Mary (3502130036)",
+            "source": "mediawiki-metadata"
+          },
+          "CommonsMetadataExtension": {
+            "value": 1.2,
+            "source": "extension",
+            "hidden": ""
+          },
+          "Categories": {
+            "value": "Taken with Nikon Coolpix 3200|Flickr images reviewed by File Upload Bot (Magnus Manske)|Files with coordinates missing SDC location of creation|Preston Hall fire",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "Assessments": {
+            "value": "",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "GPSLatitude": {
+            "value": "37.270428",
+            "source": "commons-desc-page"
+          },
+          "GPSLongitude": {
+            "value": "-76.718907",
+            "source": "commons-desc-page"
+          },
+          "GPSMapDatum": {
+            "value": "WGS-84",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "ImageDescription": {
+            "value": "Preston Hall on fire at the College of William and Mary",
+            "source": "commons-desc-page"
+          },
+          "DateTimeOriginal": {
+            "value": "2005-05-03 12:40",
+            "source": "commons-desc-page"
+          },
+          "Credit": {
+            "value": "<p><a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/photos/benuski/3502130036/\">Preston Hall on fire at the College of William and Mary</a>\n</p>\n<ul><li>Uploaded by <a href=\"//commons.wikimedia.org/wiki/User:AlbertHerring\" class=\"mw-redirect\" title=\"User:AlbertHerring\">AlbertHerring</a></li></ul>",
+            "source": "commons-desc-page"
+          },
+          "Artist": {
+            "value": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/people/36986477@N05\">benuski</a> from Richmond, VA, USA",
+            "source": "commons-desc-page"
+          },
+          "LicenseShortName": {
+            "value": "CC BY-SA 2.0",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "UsageTerms": {
+            "value": "Creative Commons Attribution-Share Alike 2.0",
+            "source": "commons-desc-page"
+          },
+          "AttributionRequired": {
+            "value": "true",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "LicenseUrl": {
+            "value": "https://creativecommons.org/licenses/by-sa/2.0",
+            "source": "commons-desc-page"
+          },
+          "Copyrighted": {
+            "value": "True",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "Restrictions": {
+            "value": "",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "License": {
+            "value": "cc-by-sa-2.0",
+            "source": "commons-templates",
+            "hidden": ""
+          }
+        }
+      }
+    ]
+  },
+  {
+    "pageid": 29380123,
+    "ns": 6,
+    "title": "File:Preston Hall on fire at the College of William and Mary (3501315235).jpg",
+    "index": 2,
+    "coordinates": [
+      {
+        "lat": 37.270428,
+        "lon": -76.718907,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
+    "imagerepository": "local",
+    "imageinfo": [
+      {
+        "size": 736454,
+        "width": 2048,
+        "height": 1536,
+        "thumburl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/Preston_Hall_on_fire_at_the_College_of_William_and_Mary_%283501315235%29.jpg/330px-Preston_Hall_on_fire_at_the_College_of_William_and_Mary_%283501315235%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "thumbwidth": 330,
+        "thumbheight": 248,
+        "responsiveUrls": {
+          "2": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/Preston_Hall_on_fire_at_the_College_of_William_and_Mary_%283501315235%29.jpg/960px-Preston_Hall_on_fire_at_the_College_of_William_and_Mary_%283501315235%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        "thumbattribs": {
+          "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/Preston_Hall_on_fire_at_the_College_of_William_and_Mary_%283501315235%29.jpg/330px-Preston_Hall_on_fire_at_the_College_of_William_and_Mary_%283501315235%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "decoding": "async",
+          "loading": "lazy",
+          "width": 330,
+          "height": 248,
+          "srcset": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/Preston_Hall_on_fire_at_the_College_of_William_and_Mary_%283501315235%29.jpg/960px-Preston_Hall_on_fire_at_the_College_of_William_and_Mary_%283501315235%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail 2x"
+        },
+        "url": "https://upload.wikimedia.org/wikipedia/commons/8/83/Preston_Hall_on_fire_at_the_College_of_William_and_Mary_%283501315235%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "descriptionurl": "https://commons.wikimedia.org/wiki/File:Preston_Hall_on_fire_at_the_College_of_William_and_Mary_(3501315235).jpg",
+        "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=29380123",
+        "extmetadata": {
+          "DateTime": {
+            "value": "2013-11-03 09:56:55",
+            "source": "mediawiki-metadata",
+            "hidden": ""
+          },
+          "ObjectName": {
+            "value": "Preston Hall on fire at the College of William and Mary (3501315235)",
+            "source": "mediawiki-metadata"
+          },
+          "CommonsMetadataExtension": {
+            "value": 1.2,
+            "source": "extension",
+            "hidden": ""
+          },
+          "Categories": {
+            "value": "Taken with Nikon Coolpix 3200|Flickr images reviewed by File Upload Bot (Magnus Manske)|Files with coordinates missing SDC location of creation|Preston Hall fire",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "Assessments": {
+            "value": "",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "GPSLatitude": {
+            "value": "37.270428",
+            "source": "commons-desc-page"
+          },
+          "GPSLongitude": {
+            "value": "-76.718907",
+            "source": "commons-desc-page"
+          },
+          "GPSMapDatum": {
+            "value": "WGS-84",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "ImageDescription": {
+            "value": "Preston Hall on fire at the College of William and Mary",
+            "source": "commons-desc-page"
+          },
+          "DateTimeOriginal": {
+            "value": "2005-05-03 12:39",
+            "source": "commons-desc-page"
+          },
+          "Credit": {
+            "value": "<p><a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/photos/benuski/3501315235/\">Preston Hall on fire at the College of William and Mary</a>\n</p>\n<ul><li>Uploaded by <a href=\"//commons.wikimedia.org/wiki/User:AlbertHerring\" class=\"mw-redirect\" title=\"User:AlbertHerring\">AlbertHerring</a></li></ul>",
+            "source": "commons-desc-page"
+          },
+          "Artist": {
+            "value": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/people/36986477@N05\">benuski</a> from Richmond, VA, USA",
+            "source": "commons-desc-page"
+          },
+          "LicenseShortName": {
+            "value": "CC BY-SA 2.0",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "UsageTerms": {
+            "value": "Creative Commons Attribution-Share Alike 2.0",
+            "source": "commons-desc-page"
+          },
+          "AttributionRequired": {
+            "value": "true",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "LicenseUrl": {
+            "value": "https://creativecommons.org/licenses/by-sa/2.0",
+            "source": "commons-desc-page"
+          },
+          "Copyrighted": {
+            "value": "True",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "Restrictions": {
+            "value": "",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "License": {
+            "value": "cc-by-sa-2.0",
+            "source": "commons-templates",
+            "hidden": ""
+          }
+        }
+      }
+    ]
+  },
+  {
+    "pageid": 37336998,
+    "ns": 6,
+    "title": "File:Preston Hall on a bad day, May 3, 2005 - panoramio.jpg",
+    "index": 3,
+    "coordinates": [
+      {
+        "lat": 37.270786,
+        "lon": -76.719047,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
+    "imagerepository": "local",
+    "imageinfo": [
+      {
+        "size": 201417,
+        "width": 1182,
+        "height": 846,
+        "thumburl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3d/Preston_Hall_on_a_bad_day%2C_May_3%2C_2005_-_panoramio.jpg/330px-Preston_Hall_on_a_bad_day%2C_May_3%2C_2005_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "thumbwidth": 330,
+        "thumbheight": 236,
+        "responsiveUrls": {
+          "2": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3d/Preston_Hall_on_a_bad_day%2C_May_3%2C_2005_-_panoramio.jpg/960px-Preston_Hall_on_a_bad_day%2C_May_3%2C_2005_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        "thumbattribs": {
+          "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3d/Preston_Hall_on_a_bad_day%2C_May_3%2C_2005_-_panoramio.jpg/330px-Preston_Hall_on_a_bad_day%2C_May_3%2C_2005_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "decoding": "async",
+          "loading": "lazy",
+          "width": 330,
+          "height": 236,
+          "srcset": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3d/Preston_Hall_on_a_bad_day%2C_May_3%2C_2005_-_panoramio.jpg/960px-Preston_Hall_on_a_bad_day%2C_May_3%2C_2005_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail 2x"
+        },
+        "url": "https://upload.wikimedia.org/wikipedia/commons/3/3d/Preston_Hall_on_a_bad_day%2C_May_3%2C_2005_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "descriptionurl": "https://commons.wikimedia.org/wiki/File:Preston_Hall_on_a_bad_day,_May_3,_2005_-_panoramio.jpg",
+        "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=37336998",
+        "extmetadata": {
+          "DateTime": {
+            "value": "2014-12-17 02:59:24",
+            "source": "mediawiki-metadata",
+            "hidden": ""
+          },
+          "ObjectName": {
+            "value": "Preston Hall on a bad day, May 3, 2005 - panoramio",
+            "source": "mediawiki-metadata"
+          },
+          "CommonsMetadataExtension": {
+            "value": 1.2,
+            "source": "extension",
+            "hidden": ""
+          },
+          "Categories": {
+            "value": "Firefighting in Virginia|Panoramio files uploaded by Panoramio upload bot|Panoramio images reviewed by trusted users|Photos from Panoramio|Media needing category review as of 17 December 2014|Files with coordinates missing SDC location of creation|Preston Hall fire",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "Assessments": {
+            "value": "",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "GPSLatitude": {
+            "value": "37.270786",
+            "source": "commons-desc-page"
+          },
+          "GPSLongitude": {
+            "value": "-76.719047",
+            "source": "commons-desc-page"
+          },
+          "GPSMapDatum": {
+            "value": "WGS-84",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "ImageDescription": {
+            "value": "Preston Hall on a bad day:  May 3, 2005",
+            "source": "commons-desc-page"
+          },
+          "DateTimeOriginal": {
+            "value": "23 March 2007 (original upload date)",
+            "source": "commons-desc-page"
+          },
+          "Credit": {
+            "value": "<a rel=\"nofollow\" class=\"external free\" href=\"https://web.archive.org/web/20161010194823/http://www.panoramio.com/photo/1454050\">https://web.archive.org/web/20161010194823/http://www.panoramio.com/photo/1454050</a>",
+            "source": "commons-desc-page"
+          },
+          "Artist": {
+            "value": "<a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/20161010194827/http://www.panoramio.com/user/305276?with_photo_id=1454050\">KTBowman</a>",
             "source": "commons-desc-page"
           },
           "Permission": {
-            "value": "<div class=\"responsive-license-cc layouttemplate licensetpl\" dir=\"ltr\" lang=\"en\"><div class=\"rlicense-icons\"><span class=\"skin-invert\" typeof=\"mw:File\"><span title=\"w:en:Creative Commons\"><img alt=\"w:en:Creative Commons\" src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/CC_some_rights_reserved.svg/120px-CC_some_rights_reserved.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail\" decoding=\"async\" width=\"90\" height=\"36\" class=\"mw-file-element\" srcset=\"https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/CC_some_rights_reserved.svg/250px-CC_some_rights_reserved.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail 2x\" data-file-width=\"744\" data-file-height=\"300\"></span></span><br>\n<span class=\"skin-invert\" typeof=\"mw:File\"><span title=\"attribution\"><img alt=\"attribution\" src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Cc-by_new_white.svg/40px-Cc-by_new_white.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail\" decoding=\"async\" width=\"24\" height=\"24\" class=\"mw-file-element\" srcset=\"https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Cc-by_new_white.svg/60px-Cc-by_new_white.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail 2x\" data-file-width=\"64\" data-file-height=\"64\"></span></span> <span class=\"skin-invert\" typeof=\"mw:File\"><span title=\"share alike\"><img alt=\"share alike\" src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Cc-sa_white.svg/40px-Cc-sa_white.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail\" decoding=\"async\" width=\"24\" height=\"24\" class=\"mw-file-element\" srcset=\"https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Cc-sa_white.svg/60px-Cc-sa_white.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail 2x\" data-file-width=\"64\" data-file-height=\"64\"></span></span></div><div class=\"rlicense-text\"><div class=\"rlicense-declaration\">This file is licensed under the <a href=\"https://en.wikipedia.org/wiki/en:Creative_Commons\" class=\"extiw\" title=\"w:en:Creative Commons\">Creative Commons</a> <a href=\"//creativecommons.org/licenses/by-sa/3.0/deed.en\" class=\"extiw\" title=\"creativecommons:by-sa/3.0/deed.en\">Attribution-Share Alike 3.0 Unported</a> license.</div><div class=\"rlicense-attr\" style=\"font-weight: bold;\">Attribution: <div style=\"display:inline;font-size:larger;\" class=\"licensetpl_attr\">KTBowman</div></div><div class=\"rlicense-desc\" style=\"text-align:start;\" lang=\"en\">\n<dl><dd>You are free:\n<ul><li><b>to share</b> – to copy, distribute and transmit the work</li>\n<li><b>to remix</b> – to adapt the work</li></ul></dd>\n<dd>Under the following conditions:\n<ul><li><b>attribution</b> – You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.</li>\n<li><b>share alike</b> – If you remix, transform, or build upon the material, you must distribute your contributions under the <a href=\"https://creativecommons.org/share-your-work/licensing-considerations/compatible-licenses\" class=\"extiw\" title=\"ccorg:share-your-work/licensing-considerations/compatible-licenses\">same or compatible license</a> as the original.</li></ul></dd></dl></div><span class=\"licensetpl_link\" style=\"display:none;\">https://creativecommons.org/licenses/by-sa/3.0</span><span class=\"licensetpl_short\" style=\"display:none;\">CC BY-SA 3.0 </span><span class=\"licensetpl_long\" style=\"display:none;\">Creative Commons Attribution-Share Alike 3.0 </span><span class=\"licensetpl_link_req\" style=\"display:none;\">true</span><span class=\"licensetpl_attr_req\" style=\"display:none;\">true</span></div></div>\n<style data-mw-deduplicate=\"TemplateStyles:r901585720\">.mw-parser-output .panoramioreview{width:100%;margin:0.5em 0;background-color:var(--background-color-warning-subtle,#fffff0);padding:5px;border:1px solid var(--border-color-warning,#aa8);color:inherit}.mw-parser-output .panoramioreview-failed{background-color:var(--background-color-error-subtle,#fcc);color:inherit}.mw-parser-output .panoramioreview-passed{background-color:var(--background-color-success-subtle,#efe);color:inherit}</style>\n<table class=\"panoramioreview panoramioreview-passed\" lang=\"en\" dir=\"ltr\">\n\n<tbody><tr>\n<td><span typeof=\"mw:File\"><span><img alt=\"\" src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Checked_copyright_icon.svg/60px-Checked_copyright_icon.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail\" decoding=\"async\" width=\"50\" height=\"48\" class=\"mw-file-element\" srcset=\"https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Checked_copyright_icon.svg/120px-Checked_copyright_icon.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail 2x\" data-file-width=\"160\" data-file-height=\"153\"></span></span>\n</td>\n<td>This image, which was originally posted to <b><span lang=\"en\" dir=\"ltr\"><a href=\"https://en.wikipedia.org/wiki/Panoramio\" class=\"extiw\" title=\"en:Panoramio\">Panoramio</a></span></b>, was automatically reviewed on 17 December 2014 by <b><a href=\"//commons.wikimedia.org/wiki/User:Panoramio_upload_bot\" title=\"User:Panoramio upload bot\">Panoramio upload bot</a></b>, who confirmed that it was available on Panoramio under the above license on that date.\n</td>\n<td><span typeof=\"mw:File\"><a href=\"//commons.wikimedia.org/wiki/File:Star_and_ring.svg\" class=\"mw-file-description\"><img src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Star_and_ring.svg/60px-Star_and_ring.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail\" decoding=\"async\" width=\"50\" height=\"50\" class=\"mw-file-element\" srcset=\"https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Star_and_ring.svg/120px-Star_and_ring.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail 2x\" data-file-width=\"75\" data-file-height=\"75\"></a></span>\n</td></tr></tbody></table>",
+            "value": "<div class=\"responsive-license-cc layouttemplate licensetpl\" dir=\"ltr\" lang=\"en\"><div class=\"rlicense-icons\"><span class=\"skin-invert\" typeof=\"mw:File\"><span title=\"w:en:Creative Commons\"><img alt=\"w:en:Creative Commons\" src=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/CC_some_rights_reserved.svg/120px-CC_some_rights_reserved.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail\" decoding=\"async\" loading=\"lazy\" width=\"90\" height=\"36\" class=\"mw-file-element\" srcset=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/CC_some_rights_reserved.svg/250px-CC_some_rights_reserved.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail 2x\" data-file-width=\"744\" data-file-height=\"300\"></span></span><br>\n<span class=\"skin-invert\" typeof=\"mw:File\"><span title=\"attribution\"><img alt=\"attribution\" src=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/Cc-by_new_white.svg/40px-Cc-by_new_white.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail\" decoding=\"async\" loading=\"lazy\" width=\"24\" height=\"24\" class=\"mw-file-element\" srcset=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/Cc-by_new_white.svg/60px-Cc-by_new_white.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail 2x\" data-file-width=\"64\" data-file-height=\"64\"></span></span> <span class=\"skin-invert\" typeof=\"mw:File\"><span title=\"share alike\"><img alt=\"share alike\" src=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/d/df/Cc-sa_white.svg/40px-Cc-sa_white.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail\" decoding=\"async\" loading=\"lazy\" width=\"24\" height=\"24\" class=\"mw-file-element\" srcset=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/d/df/Cc-sa_white.svg/60px-Cc-sa_white.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail 2x\" data-file-width=\"64\" data-file-height=\"64\"></span></span></div><div class=\"rlicense-text\"><div class=\"rlicense-declaration\">This file is licensed under the <a href=\"https://en.wikipedia.org/wiki/en:Creative_Commons\" class=\"extiw\" title=\"w:en:Creative Commons\">Creative Commons</a> <a href=\"//creativecommons.org/licenses/by-sa/3.0/deed.en\" class=\"extiw\" title=\"creativecommons:by-sa/3.0/deed.en\">Attribution-Share Alike 3.0 Unported</a> license.</div><div class=\"rlicense-attr\" style=\"font-weight: bold;\">Attribution: <div style=\"display:inline;font-size:larger;\" class=\"licensetpl_attr\">KTBowman</div></div><div class=\"rlicense-desc\" style=\"text-align:start;\" lang=\"en\">\n<dl><dd>You are free:\n<ul><li><b>to share</b> – to copy, distribute and transmit the work</li>\n<li><b>to remix</b> – to adapt the work</li></ul></dd>\n<dd>Under the following conditions:\n<ul><li><b>attribution</b> – You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.</li>\n<li><b>share alike</b> – If you remix, transform, or build upon the material, you must distribute your contributions under the <a href=\"https://creativecommons.org/share-your-work/licensing-considerations/compatible-licenses\" class=\"extiw\" title=\"ccorg:share-your-work/licensing-considerations/compatible-licenses\">same or compatible license</a> as the original.</li></ul></dd></dl></div><span class=\"licensetpl_link\" style=\"display:none;\">https://creativecommons.org/licenses/by-sa/3.0</span><span class=\"licensetpl_short\" style=\"display:none;\">CC BY-SA 3.0 </span><span class=\"licensetpl_long\" style=\"display:none;\">Creative Commons Attribution-Share Alike 3.0 </span><span class=\"licensetpl_link_req\" style=\"display:none;\">true</span><span class=\"licensetpl_attr_req\" style=\"display:none;\">true</span></div></div>\n<style data-mw-deduplicate=\"TemplateStyles:r901585720\">.mw-parser-output .panoramioreview{width:100%;margin:0.5em 0;background-color:var(--background-color-warning-subtle,#fffff0);padding:5px;border:1px solid var(--border-color-warning,#aa8);color:inherit}.mw-parser-output .panoramioreview-failed{background-color:var(--background-color-error-subtle,#fcc);color:inherit}.mw-parser-output .panoramioreview-passed{background-color:var(--background-color-success-subtle,#efe);color:inherit}</style>\n<table class=\"panoramioreview panoramioreview-passed\" lang=\"en\" dir=\"ltr\">\n\n<tbody><tr>\n<td><span typeof=\"mw:File\"><span><img alt=\"\" src=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/9/95/Checked_copyright_icon.svg/60px-Checked_copyright_icon.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail\" decoding=\"async\" loading=\"lazy\" width=\"50\" height=\"48\" class=\"mw-file-element\" srcset=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/9/95/Checked_copyright_icon.svg/120px-Checked_copyright_icon.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail 2x\" data-file-width=\"160\" data-file-height=\"153\"></span></span>\n</td>\n<td>This image, which was originally posted to <b><span lang=\"en\" dir=\"ltr\"><a href=\"https://en.wikipedia.org/wiki/Panoramio\" class=\"extiw\" title=\"en:Panoramio\">Panoramio</a></span></b>, was automatically reviewed on 17 December 2014 by <b><a href=\"//commons.wikimedia.org/wiki/User:Panoramio_upload_bot\" title=\"User:Panoramio upload bot\">Panoramio upload bot</a></b>, who confirmed that it was available on Panoramio under the above license on that date.\n</td>\n<td><span typeof=\"mw:File\"><a href=\"//commons.wikimedia.org/wiki/File:Star_and_ring.svg\" class=\"mw-file-description\"><img src=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/9/98/Star_and_ring.svg/60px-Star_and_ring.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail\" decoding=\"async\" loading=\"lazy\" width=\"50\" height=\"50\" class=\"mw-file-element\" srcset=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/9/98/Star_and_ring.svg/120px-Star_and_ring.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail 2x\" data-file-width=\"75\" data-file-height=\"75\"></a></span>\n</td></tr></tbody></table>",
             "source": "commons-desc-page",
             "hidden": ""
           },
@@ -137,14 +645,14 @@
     ]
   },
   {
-    "pageid": 48892681,
+    "pageid": 56884375,
     "ns": 6,
-    "title": "File:William and mary lake matoaka ampitheater september 2011.jpeg",
-    "index": 0,
+    "title": "File:Williamsburg, VA, USA - panoramio (19).jpg",
+    "index": 4,
     "coordinates": [
       {
-        "lat": 37.26616667,
-        "lon": -76.722,
+        "lat": 37.27379,
+        "lon": -76.71849,
         "primary": "",
         "globe": "earth"
       }
@@ -152,34 +660,34 @@
     "imagerepository": "local",
     "imageinfo": [
       {
-        "size": 1836388,
-        "width": 2592,
-        "height": 1936,
-        "thumburl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/William_and_mary_lake_matoaka_ampitheater_september_2011.jpeg/330px-William_and_mary_lake_matoaka_ampitheater_september_2011.jpeg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "size": 4362865,
+        "width": 2123,
+        "height": 2123,
+        "thumburl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/05/Williamsburg%2C_VA%2C_USA_-_panoramio_%2819%29.jpg/330px-Williamsburg%2C_VA%2C_USA_-_panoramio_%2819%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
         "thumbwidth": 330,
-        "thumbheight": 246,
+        "thumbheight": 330,
         "responsiveUrls": {
-          "2": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/William_and_mary_lake_matoaka_ampitheater_september_2011.jpeg/960px-William_and_mary_lake_matoaka_ampitheater_september_2011.jpeg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+          "2": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/05/Williamsburg%2C_VA%2C_USA_-_panoramio_%2819%29.jpg/960px-Williamsburg%2C_VA%2C_USA_-_panoramio_%2819%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
         },
         "thumbattribs": {
-          "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/William_and_mary_lake_matoaka_ampitheater_september_2011.jpeg/330px-William_and_mary_lake_matoaka_ampitheater_september_2011.jpeg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/05/Williamsburg%2C_VA%2C_USA_-_panoramio_%2819%29.jpg/330px-Williamsburg%2C_VA%2C_USA_-_panoramio_%2819%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
           "decoding": "async",
           "loading": "lazy",
           "width": 330,
-          "height": 246,
-          "srcset": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/William_and_mary_lake_matoaka_ampitheater_september_2011.jpeg/960px-William_and_mary_lake_matoaka_ampitheater_september_2011.jpeg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail 2x"
+          "height": 330,
+          "srcset": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/05/Williamsburg%2C_VA%2C_USA_-_panoramio_%2819%29.jpg/960px-Williamsburg%2C_VA%2C_USA_-_panoramio_%2819%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail 2x"
         },
-        "url": "https://upload.wikimedia.org/wikipedia/commons/c/cb/William_and_mary_lake_matoaka_ampitheater_september_2011.jpeg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-        "descriptionurl": "https://commons.wikimedia.org/wiki/File:William_and_mary_lake_matoaka_ampitheater_september_2011.jpeg",
-        "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=48892681",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/0/05/Williamsburg%2C_VA%2C_USA_-_panoramio_%2819%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "descriptionurl": "https://commons.wikimedia.org/wiki/File:Williamsburg,_VA,_USA_-_panoramio_(19).jpg",
+        "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=56884375",
         "extmetadata": {
           "DateTime": {
-            "value": "2016-05-19 19:34:18",
+            "value": "2017-03-07 17:26:28",
             "source": "mediawiki-metadata",
             "hidden": ""
           },
           "ObjectName": {
-            "value": "William and mary lake matoaka ampitheater september 2011",
+            "value": "Williamsburg, VA, USA - panoramio (19)",
             "source": "mediawiki-metadata"
           },
           "CommonsMetadataExtension": {
@@ -188,7 +696,7 @@
             "hidden": ""
           },
           "Categories": {
-            "value": "CC-Zero|Amphitheatres in the United States|College of William and Mary|Theaters in Virginia|Self-published work|Files with coordinates missing SDC location of creation",
+            "value": "College of William and Mary buildings|Panoramio files uploaded by Panoramio upload bot|Panoramio images reviewed by trusted users|Photos from Panoramio|Files with coordinates missing SDC location of creation|United States photographs taken on 2013-12-02",
             "source": "commons-categories",
             "hidden": ""
           },
@@ -198,11 +706,11 @@
             "hidden": ""
           },
           "GPSLatitude": {
-            "value": "37.266167",
+            "value": "37.273790",
             "source": "commons-desc-page"
           },
           "GPSLongitude": {
-            "value": "-76.722000",
+            "value": "-76.718490",
             "source": "commons-desc-page"
           },
           "GPSMapDatum": {
@@ -211,37 +719,47 @@
             "hidden": ""
           },
           "ImageDescription": {
-            "value": "This photo was self-taken by user Kjst.wm.tribe.2015 of the Lake Matoaka Amphitheater located on the campus of William and Mary immediately adjacent to the aforementioned lake on September 5, 2011. The photo was taken looking down on to the stage and canopy with the rows of permanent seats in view.",
+            "value": "Williamsburg, VA, USA",
             "source": "commons-desc-page"
           },
           "DateTimeOriginal": {
-            "value": "29 September 2012 (original upload date)",
+            "value": "Taken on 2 December 2013",
             "source": "commons-desc-page"
           },
           "Credit": {
-            "value": "<bdi lang=\"en\" dir=\"ltr\">Transferred from <span class=\"plainlinks\"><a class=\"external text\" data-mw-original-href=\"//en.wikipedia.org\" href=\"https://en.wikipedia.org\">en.wikipedia</a></span> to Commons.</bdi>",
+            "value": "<a rel=\"nofollow\" class=\"external free\" href=\"https://web.archive.org/web/20161102091610/http://www.panoramio.com/photo/100099178\">https://web.archive.org/web/20161102091610/http://www.panoramio.com/photo/100099178</a>",
             "source": "commons-desc-page"
           },
           "Artist": {
-            "value": "<a href=\"https://en.wikipedia.org/wiki/User:Kjst.wm.tribe.2015\" class=\"extiw\" title=\"wikipedia:User:Kjst.wm.tribe.2015\">Kjst.wm.tribe.2015</a> at <a href=\"https://en.wikipedia.org/wiki/\" class=\"extiw\" title=\"wikipedia:\">English Wikipedia</a>",
+            "value": "<a rel=\"nofollow\" class=\"external text\" href=\"https://web.archive.org/web/20161102091612/http://www.panoramio.com/user/2504136?with_photo_id=100099178\">Bobby17543</a>",
             "source": "commons-desc-page"
           },
+          "Permission": {
+            "value": "<div class=\"responsive-license-cc layouttemplate licensetpl\" dir=\"ltr\" lang=\"en\"><div class=\"rlicense-icons\"><span class=\"skin-invert\" typeof=\"mw:File\"><span title=\"w:en:Creative Commons\"><img alt=\"w:en:Creative Commons\" src=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/CC_some_rights_reserved.svg/120px-CC_some_rights_reserved.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail\" decoding=\"async\" loading=\"lazy\" width=\"90\" height=\"36\" class=\"mw-file-element\" srcset=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/CC_some_rights_reserved.svg/250px-CC_some_rights_reserved.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail 2x\" data-file-width=\"744\" data-file-height=\"300\"></span></span><br>\n<span class=\"skin-invert\" typeof=\"mw:File\"><span title=\"attribution\"><img alt=\"attribution\" src=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/Cc-by_new_white.svg/40px-Cc-by_new_white.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail\" decoding=\"async\" loading=\"lazy\" width=\"24\" height=\"24\" class=\"mw-file-element\" srcset=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/Cc-by_new_white.svg/60px-Cc-by_new_white.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail 2x\" data-file-width=\"64\" data-file-height=\"64\"></span></span> <span class=\"skin-invert\" typeof=\"mw:File\"><span title=\"share alike\"><img alt=\"share alike\" src=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/d/df/Cc-sa_white.svg/40px-Cc-sa_white.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail\" decoding=\"async\" loading=\"lazy\" width=\"24\" height=\"24\" class=\"mw-file-element\" srcset=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/d/df/Cc-sa_white.svg/60px-Cc-sa_white.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail 2x\" data-file-width=\"64\" data-file-height=\"64\"></span></span></div><div class=\"rlicense-text\"><div class=\"rlicense-declaration\">This file is licensed under the <a href=\"https://en.wikipedia.org/wiki/en:Creative_Commons\" class=\"extiw\" title=\"w:en:Creative Commons\">Creative Commons</a> <a href=\"//creativecommons.org/licenses/by-sa/3.0/deed.en\" class=\"extiw\" title=\"creativecommons:by-sa/3.0/deed.en\">Attribution-Share Alike 3.0 Unported</a> license.</div><div class=\"rlicense-attr\" style=\"font-weight: bold;\">Attribution: <div style=\"display:inline;font-size:larger;\" class=\"licensetpl_attr\">Bobby17543</div></div><div class=\"rlicense-desc\" style=\"text-align:start;\" lang=\"en\">\n<dl><dd>You are free:\n<ul><li><b>to share</b> – to copy, distribute and transmit the work</li>\n<li><b>to remix</b> – to adapt the work</li></ul></dd>\n<dd>Under the following conditions:\n<ul><li><b>attribution</b> – You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.</li>\n<li><b>share alike</b> – If you remix, transform, or build upon the material, you must distribute your contributions under the <a href=\"https://creativecommons.org/share-your-work/licensing-considerations/compatible-licenses\" class=\"extiw\" title=\"ccorg:share-your-work/licensing-considerations/compatible-licenses\">same or compatible license</a> as the original.</li></ul></dd></dl></div><span class=\"licensetpl_link\" style=\"display:none;\">https://creativecommons.org/licenses/by-sa/3.0</span><span class=\"licensetpl_short\" style=\"display:none;\">CC BY-SA 3.0 </span><span class=\"licensetpl_long\" style=\"display:none;\">Creative Commons Attribution-Share Alike 3.0 </span><span class=\"licensetpl_link_req\" style=\"display:none;\">true</span><span class=\"licensetpl_attr_req\" style=\"display:none;\">true</span></div></div>\n<style data-mw-deduplicate=\"TemplateStyles:r901585720\">.mw-parser-output .panoramioreview{width:100%;margin:0.5em 0;background-color:var(--background-color-warning-subtle,#fffff0);padding:5px;border:1px solid var(--border-color-warning,#aa8);color:inherit}.mw-parser-output .panoramioreview-failed{background-color:var(--background-color-error-subtle,#fcc);color:inherit}.mw-parser-output .panoramioreview-passed{background-color:var(--background-color-success-subtle,#efe);color:inherit}</style>\n<table class=\"panoramioreview panoramioreview-passed\" lang=\"en\" dir=\"ltr\">\n\n<tbody><tr>\n<td><span typeof=\"mw:File\"><span><img alt=\"\" src=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/9/95/Checked_copyright_icon.svg/60px-Checked_copyright_icon.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail\" decoding=\"async\" loading=\"lazy\" width=\"50\" height=\"48\" class=\"mw-file-element\" srcset=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/9/95/Checked_copyright_icon.svg/120px-Checked_copyright_icon.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail 2x\" data-file-width=\"160\" data-file-height=\"153\"></span></span>\n</td>\n<td>This image, which was originally posted to <b><span lang=\"en\" dir=\"ltr\"><a href=\"https://en.wikipedia.org/wiki/Panoramio\" class=\"extiw\" title=\"en:Panoramio\">Panoramio</a></span></b>, was automatically reviewed on 7 March 2017 by <b><a href=\"//commons.wikimedia.org/wiki/User:Panoramio_upload_bot\" title=\"User:Panoramio upload bot\">Panoramio upload bot</a></b>, who confirmed that it was available on Panoramio under the above license on that date.\n</td>\n<td><span typeof=\"mw:File\"><a href=\"//commons.wikimedia.org/wiki/File:Star_and_ring.svg\" class=\"mw-file-description\"><img src=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/9/98/Star_and_ring.svg/60px-Star_and_ring.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail\" decoding=\"async\" loading=\"lazy\" width=\"50\" height=\"50\" class=\"mw-file-element\" srcset=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/9/98/Star_and_ring.svg/120px-Star_and_ring.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail 2x\" data-file-width=\"75\" data-file-height=\"75\"></a></span>\n</td></tr></tbody></table>",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
           "LicenseShortName": {
-            "value": "CC0",
+            "value": "CC BY-SA 3.0",
             "source": "commons-desc-page",
             "hidden": ""
           },
           "UsageTerms": {
-            "value": "Creative Commons Zero, Public Domain Dedication",
+            "value": "Creative Commons Attribution-Share Alike 3.0",
             "source": "commons-desc-page"
           },
           "AttributionRequired": {
-            "value": "false",
+            "value": "true",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "Attribution": {
+            "value": "Bobby17543",
             "source": "commons-desc-page",
             "hidden": ""
           },
           "LicenseUrl": {
-            "value": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+            "value": "https://creativecommons.org/licenses/by-sa/3.0",
             "source": "commons-desc-page"
           },
           "Copyrighted": {
@@ -255,7 +773,7 @@
             "hidden": ""
           },
           "License": {
-            "value": "cc0",
+            "value": "cc-by-sa-3.0",
             "source": "commons-templates",
             "hidden": ""
           }
@@ -264,14 +782,14 @@
     ]
   },
   {
-    "pageid": 115280496,
+    "pageid": 73320319,
     "ns": 6,
-    "title": "File:Lake Matoaka, 2020.jpg",
-    "index": 1,
+    "title": "File:Anheuser-Busch Field entrance.jpg",
+    "index": 5,
     "coordinates": [
       {
-        "lat": 37.2654,
-        "lon": -76.7241,
+        "lat": 37.273611,
+        "lon": -76.720556,
         "primary": "",
         "globe": "earth"
       }
@@ -279,34 +797,34 @@
     "imagerepository": "local",
     "imageinfo": [
       {
-        "size": 2350843,
-        "width": 4032,
-        "height": 3024,
-        "thumburl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6c/Lake_Matoaka%2C_2020.jpg/330px-Lake_Matoaka%2C_2020.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "size": 3265652,
+        "width": 3264,
+        "height": 2448,
+        "thumburl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/22/Anheuser-Busch_Field_entrance.jpg/330px-Anheuser-Busch_Field_entrance.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
         "thumbwidth": 330,
         "thumbheight": 248,
         "responsiveUrls": {
-          "2": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6c/Lake_Matoaka%2C_2020.jpg/960px-Lake_Matoaka%2C_2020.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+          "2": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/22/Anheuser-Busch_Field_entrance.jpg/960px-Anheuser-Busch_Field_entrance.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
         },
         "thumbattribs": {
-          "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6c/Lake_Matoaka%2C_2020.jpg/330px-Lake_Matoaka%2C_2020.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/22/Anheuser-Busch_Field_entrance.jpg/330px-Anheuser-Busch_Field_entrance.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
           "decoding": "async",
           "loading": "lazy",
           "width": 330,
           "height": 248,
-          "srcset": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6c/Lake_Matoaka%2C_2020.jpg/960px-Lake_Matoaka%2C_2020.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail 2x"
+          "srcset": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/22/Anheuser-Busch_Field_entrance.jpg/960px-Anheuser-Busch_Field_entrance.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail 2x"
         },
-        "url": "https://upload.wikimedia.org/wikipedia/commons/6/6c/Lake_Matoaka%2C_2020.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
-        "descriptionurl": "https://commons.wikimedia.org/wiki/File:Lake_Matoaka,_2020.jpg",
-        "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=115280496",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/2/22/Anheuser-Busch_Field_entrance.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "descriptionurl": "https://commons.wikimedia.org/wiki/File:Anheuser-Busch_Field_entrance.jpg",
+        "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=73320319",
         "extmetadata": {
           "DateTime": {
-            "value": "2022-02-15 16:36:57",
+            "value": "2018-10-02 14:25:18",
             "source": "mediawiki-metadata",
             "hidden": ""
           },
           "ObjectName": {
-            "value": "Lake Matoaka, 2020",
+            "value": "Anheuser-Busch Field entrance",
             "source": "mediawiki-metadata"
           },
           "CommonsMetadataExtension": {
@@ -315,7 +833,7 @@
             "hidden": ""
           },
           "Categories": {
-            "value": "Kayaking|College of William and Mary|Lake Matoaka Amphitheatre|Self-published work|Rainbows in Virginia|Files with coordinates missing SDC location of creation|October 2020 in Virginia|Williamsburg, Virginia in the 2020s|Standup paddleboarding in the United States",
+            "value": "Self-published work|Files with coordinates missing SDC location of creation|Busch Field (William & Mary)",
             "source": "commons-categories",
             "hidden": ""
           },
@@ -325,11 +843,11 @@
             "hidden": ""
           },
           "GPSLatitude": {
-            "value": "37.265400",
+            "value": "37.273611",
             "source": "commons-desc-page"
           },
           "GPSLongitude": {
-            "value": "-76.724100",
+            "value": "-76.720556",
             "source": "commons-desc-page"
           },
           "GPSMapDatum": {
@@ -338,11 +856,11 @@
             "hidden": ""
           },
           "ImageDescription": {
-            "value": "Paddleboarding and kayaking on Lake Matoaka, College of William &amp; Mary, in 2020. A rainbow is also visible",
+            "value": "College of William &amp; Mary, Field Hockey Williamsburg, Virginia",
             "source": "commons-desc-page"
           },
           "DateTimeOriginal": {
-            "value": "2020-10-19 18:12",
+            "value": "2018-07-09 15:17:29",
             "source": "commons-desc-page"
           },
           "Credit": {
@@ -350,7 +868,2166 @@
             "source": "commons-desc-page"
           },
           "Artist": {
-            "value": "<a href=\"//commons.wikimedia.org/wiki/User:Pbritti\" title=\"User:Pbritti\">Pbritti</a>",
+            "value": "<a href=\"//commons.wikimedia.org/wiki/User:Ser_Amantio_di_Nicolao\" title=\"User:Ser Amantio di Nicolao\">Ser Amantio di Nicolao</a>",
+            "source": "commons-desc-page"
+          },
+          "LicenseShortName": {
+            "value": "CC BY-SA 4.0",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "UsageTerms": {
+            "value": "Creative Commons Attribution-Share Alike 4.0",
+            "source": "commons-desc-page"
+          },
+          "AttributionRequired": {
+            "value": "true",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "LicenseUrl": {
+            "value": "https://creativecommons.org/licenses/by-sa/4.0",
+            "source": "commons-desc-page"
+          },
+          "Copyrighted": {
+            "value": "True",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "Restrictions": {
+            "value": "",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "License": {
+            "value": "cc-by-sa-4.0",
+            "source": "commons-templates",
+            "hidden": ""
+          }
+        }
+      }
+    ]
+  },
+  {
+    "pageid": 73320323,
+    "ns": 6,
+    "title": "File:Campus rec center, W&M.jpg",
+    "index": 6,
+    "coordinates": [
+      {
+        "lat": 37.273611,
+        "lon": -76.720556,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
+    "imagerepository": "local",
+    "imageinfo": [
+      {
+        "size": 3000916,
+        "width": 3264,
+        "height": 2448,
+        "thumburl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/Campus_rec_center%2C_W%26M.jpg/330px-Campus_rec_center%2C_W%26M.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "thumbwidth": 330,
+        "thumbheight": 248,
+        "responsiveUrls": {
+          "2": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/Campus_rec_center%2C_W%26M.jpg/960px-Campus_rec_center%2C_W%26M.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        "thumbattribs": {
+          "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/Campus_rec_center%2C_W%26M.jpg/330px-Campus_rec_center%2C_W%26M.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "decoding": "async",
+          "loading": "lazy",
+          "width": 330,
+          "height": 248,
+          "srcset": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/Campus_rec_center%2C_W%26M.jpg/960px-Campus_rec_center%2C_W%26M.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail 2x"
+        },
+        "url": "https://upload.wikimedia.org/wikipedia/commons/a/a7/Campus_rec_center%2C_W%26M.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "descriptionurl": "https://commons.wikimedia.org/wiki/File:Campus_rec_center,_W%26M.jpg",
+        "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=73320323",
+        "extmetadata": {
+          "DateTime": {
+            "value": "2018-10-02 14:25:23",
+            "source": "mediawiki-metadata",
+            "hidden": ""
+          },
+          "ObjectName": {
+            "value": "Campus rec center, W&M",
+            "source": "mediawiki-metadata"
+          },
+          "CommonsMetadataExtension": {
+            "value": 1.2,
+            "source": "extension",
+            "hidden": ""
+          },
+          "Categories": {
+            "value": "College of William and Mary buildings|Self-published work|Files with coordinates missing SDC location of creation",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "Assessments": {
+            "value": "",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "GPSLatitude": {
+            "value": "37.273611",
+            "source": "commons-desc-page"
+          },
+          "GPSLongitude": {
+            "value": "-76.720556",
+            "source": "commons-desc-page"
+          },
+          "GPSMapDatum": {
+            "value": "WGS-84",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "ImageDescription": {
+            "value": "College of William &amp; Mary, Williamsburg, Virginia",
+            "source": "commons-desc-page"
+          },
+          "DateTimeOriginal": {
+            "value": "2018-07-09 15:18:19",
+            "source": "commons-desc-page"
+          },
+          "Credit": {
+            "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+            "source": "commons-desc-page"
+          },
+          "Artist": {
+            "value": "<a href=\"//commons.wikimedia.org/wiki/User:Ser_Amantio_di_Nicolao\" title=\"User:Ser Amantio di Nicolao\">Ser Amantio di Nicolao</a>",
+            "source": "commons-desc-page"
+          },
+          "LicenseShortName": {
+            "value": "CC BY-SA 4.0",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "UsageTerms": {
+            "value": "Creative Commons Attribution-Share Alike 4.0",
+            "source": "commons-desc-page"
+          },
+          "AttributionRequired": {
+            "value": "true",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "LicenseUrl": {
+            "value": "https://creativecommons.org/licenses/by-sa/4.0",
+            "source": "commons-desc-page"
+          },
+          "Copyrighted": {
+            "value": "True",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "Restrictions": {
+            "value": "",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "License": {
+            "value": "cc-by-sa-4.0",
+            "source": "commons-templates",
+            "hidden": ""
+          }
+        }
+      }
+    ]
+  },
+  {
+    "pageid": 73320330,
+    "ns": 6,
+    "title": "File:Dinwiddie Complex dorms, W&M (3).jpg",
+    "index": 7,
+    "coordinates": [
+      {
+        "lat": 37.27,
+        "lon": -76.720833,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
+    "imagerepository": "local",
+    "imageinfo": [
+      {
+        "size": 5396232,
+        "width": 3264,
+        "height": 2448,
+        "thumburl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3f/Dinwiddie_Complex_dorms%2C_W%26M_%283%29.jpg/330px-Dinwiddie_Complex_dorms%2C_W%26M_%283%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "thumbwidth": 330,
+        "thumbheight": 248,
+        "responsiveUrls": {
+          "2": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3f/Dinwiddie_Complex_dorms%2C_W%26M_%283%29.jpg/960px-Dinwiddie_Complex_dorms%2C_W%26M_%283%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        "thumbattribs": {
+          "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3f/Dinwiddie_Complex_dorms%2C_W%26M_%283%29.jpg/330px-Dinwiddie_Complex_dorms%2C_W%26M_%283%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "decoding": "async",
+          "loading": "lazy",
+          "width": 330,
+          "height": 248,
+          "srcset": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3f/Dinwiddie_Complex_dorms%2C_W%26M_%283%29.jpg/960px-Dinwiddie_Complex_dorms%2C_W%26M_%283%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail 2x"
+        },
+        "url": "https://upload.wikimedia.org/wikipedia/commons/3/3f/Dinwiddie_Complex_dorms%2C_W%26M_%283%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "descriptionurl": "https://commons.wikimedia.org/wiki/File:Dinwiddie_Complex_dorms,_W%26M_(3).jpg",
+        "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=73320330",
+        "extmetadata": {
+          "DateTime": {
+            "value": "2018-10-02 14:25:30",
+            "source": "mediawiki-metadata",
+            "hidden": ""
+          },
+          "ObjectName": {
+            "value": "Dinwiddie Complex dorms, W&M (3)",
+            "source": "mediawiki-metadata"
+          },
+          "CommonsMetadataExtension": {
+            "value": 1.2,
+            "source": "extension",
+            "hidden": ""
+          },
+          "Categories": {
+            "value": "Self-published work|Files with coordinates missing SDC location of creation|Dinwiddie Complex",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "Assessments": {
+            "value": "",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "GPSLatitude": {
+            "value": "37.270000",
+            "source": "commons-desc-page"
+          },
+          "GPSLongitude": {
+            "value": "-76.720833",
+            "source": "commons-desc-page"
+          },
+          "GPSMapDatum": {
+            "value": "WGS-84",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "ImageDescription": {
+            "value": "College of William &amp; Mary, Williamsburg, Virginia",
+            "source": "commons-desc-page"
+          },
+          "DateTimeOriginal": {
+            "value": "2018-07-09 15:22:10",
+            "source": "commons-desc-page"
+          },
+          "Credit": {
+            "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+            "source": "commons-desc-page"
+          },
+          "Artist": {
+            "value": "<a href=\"//commons.wikimedia.org/wiki/User:Ser_Amantio_di_Nicolao\" title=\"User:Ser Amantio di Nicolao\">Ser Amantio di Nicolao</a>",
+            "source": "commons-desc-page"
+          },
+          "LicenseShortName": {
+            "value": "CC BY-SA 4.0",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "UsageTerms": {
+            "value": "Creative Commons Attribution-Share Alike 4.0",
+            "source": "commons-desc-page"
+          },
+          "AttributionRequired": {
+            "value": "true",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "LicenseUrl": {
+            "value": "https://creativecommons.org/licenses/by-sa/4.0",
+            "source": "commons-desc-page"
+          },
+          "Copyrighted": {
+            "value": "True",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "Restrictions": {
+            "value": "",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "License": {
+            "value": "cc-by-sa-4.0",
+            "source": "commons-templates",
+            "hidden": ""
+          }
+        }
+      }
+    ]
+  },
+  {
+    "pageid": 73320332,
+    "ns": 6,
+    "title": "File:Dinwiddie Complex dorms, W&M (4).jpg",
+    "index": 8,
+    "coordinates": [
+      {
+        "lat": 37.27,
+        "lon": -76.720833,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
+    "imagerepository": "local",
+    "imageinfo": [
+      {
+        "size": 5193295,
+        "width": 3264,
+        "height": 2448,
+        "thumburl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/70/Dinwiddie_Complex_dorms%2C_W%26M_%284%29.jpg/330px-Dinwiddie_Complex_dorms%2C_W%26M_%284%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "thumbwidth": 330,
+        "thumbheight": 248,
+        "responsiveUrls": {
+          "2": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/70/Dinwiddie_Complex_dorms%2C_W%26M_%284%29.jpg/960px-Dinwiddie_Complex_dorms%2C_W%26M_%284%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        "thumbattribs": {
+          "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/70/Dinwiddie_Complex_dorms%2C_W%26M_%284%29.jpg/330px-Dinwiddie_Complex_dorms%2C_W%26M_%284%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "decoding": "async",
+          "loading": "lazy",
+          "width": 330,
+          "height": 248,
+          "srcset": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/70/Dinwiddie_Complex_dorms%2C_W%26M_%284%29.jpg/960px-Dinwiddie_Complex_dorms%2C_W%26M_%284%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail 2x"
+        },
+        "url": "https://upload.wikimedia.org/wikipedia/commons/7/70/Dinwiddie_Complex_dorms%2C_W%26M_%284%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "descriptionurl": "https://commons.wikimedia.org/wiki/File:Dinwiddie_Complex_dorms,_W%26M_(4).jpg",
+        "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=73320332",
+        "extmetadata": {
+          "DateTime": {
+            "value": "2018-10-02 14:25:30",
+            "source": "mediawiki-metadata",
+            "hidden": ""
+          },
+          "ObjectName": {
+            "value": "Dinwiddie Complex dorms, W&M (4)",
+            "source": "mediawiki-metadata"
+          },
+          "CommonsMetadataExtension": {
+            "value": 1.2,
+            "source": "extension",
+            "hidden": ""
+          },
+          "Categories": {
+            "value": "Self-published work|Files with coordinates missing SDC location of creation|Dinwiddie Complex",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "Assessments": {
+            "value": "",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "GPSLatitude": {
+            "value": "37.270000",
+            "source": "commons-desc-page"
+          },
+          "GPSLongitude": {
+            "value": "-76.720833",
+            "source": "commons-desc-page"
+          },
+          "GPSMapDatum": {
+            "value": "WGS-84",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "ImageDescription": {
+            "value": "College of William &amp; Mary, Williamsburg, Virginia",
+            "source": "commons-desc-page"
+          },
+          "DateTimeOriginal": {
+            "value": "2018-07-09 15:22:20",
+            "source": "commons-desc-page"
+          },
+          "Credit": {
+            "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+            "source": "commons-desc-page"
+          },
+          "Artist": {
+            "value": "<a href=\"//commons.wikimedia.org/wiki/User:Ser_Amantio_di_Nicolao\" title=\"User:Ser Amantio di Nicolao\">Ser Amantio di Nicolao</a>",
+            "source": "commons-desc-page"
+          },
+          "LicenseShortName": {
+            "value": "CC BY-SA 4.0",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "UsageTerms": {
+            "value": "Creative Commons Attribution-Share Alike 4.0",
+            "source": "commons-desc-page"
+          },
+          "AttributionRequired": {
+            "value": "true",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "LicenseUrl": {
+            "value": "https://creativecommons.org/licenses/by-sa/4.0",
+            "source": "commons-desc-page"
+          },
+          "Copyrighted": {
+            "value": "True",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "Restrictions": {
+            "value": "",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "License": {
+            "value": "cc-by-sa-4.0",
+            "source": "commons-templates",
+            "hidden": ""
+          }
+        }
+      }
+    ]
+  },
+  {
+    "pageid": 73320339,
+    "ns": 6,
+    "title": "File:Entrance, Millie West Tennis Facility.jpg",
+    "index": 9,
+    "coordinates": [
+      {
+        "lat": 37.273611,
+        "lon": -76.720556,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
+    "imagerepository": "local",
+    "imageinfo": [
+      {
+        "size": 3112311,
+        "width": 3264,
+        "height": 2448,
+        "thumburl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Entrance%2C_Millie_West_Tennis_Facility.jpg/330px-Entrance%2C_Millie_West_Tennis_Facility.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "thumbwidth": 330,
+        "thumbheight": 248,
+        "responsiveUrls": {
+          "2": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Entrance%2C_Millie_West_Tennis_Facility.jpg/960px-Entrance%2C_Millie_West_Tennis_Facility.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        "thumbattribs": {
+          "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Entrance%2C_Millie_West_Tennis_Facility.jpg/330px-Entrance%2C_Millie_West_Tennis_Facility.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "decoding": "async",
+          "loading": "lazy",
+          "width": 330,
+          "height": 248,
+          "srcset": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Entrance%2C_Millie_West_Tennis_Facility.jpg/960px-Entrance%2C_Millie_West_Tennis_Facility.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail 2x"
+        },
+        "url": "https://upload.wikimedia.org/wikipedia/commons/1/18/Entrance%2C_Millie_West_Tennis_Facility.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "descriptionurl": "https://commons.wikimedia.org/wiki/File:Entrance,_Millie_West_Tennis_Facility.jpg",
+        "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=73320339",
+        "extmetadata": {
+          "DateTime": {
+            "value": "2018-10-02 14:25:36",
+            "source": "mediawiki-metadata",
+            "hidden": ""
+          },
+          "ObjectName": {
+            "value": "Entrance, Millie West Tennis Facility",
+            "source": "mediawiki-metadata"
+          },
+          "CommonsMetadataExtension": {
+            "value": 1.2,
+            "source": "extension",
+            "hidden": ""
+          },
+          "Categories": {
+            "value": "College of William and Mary buildings|Self-published work|Files with coordinates missing SDC location of creation",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "Assessments": {
+            "value": "",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "GPSLatitude": {
+            "value": "37.273611",
+            "source": "commons-desc-page"
+          },
+          "GPSLongitude": {
+            "value": "-76.720556",
+            "source": "commons-desc-page"
+          },
+          "GPSMapDatum": {
+            "value": "WGS-84",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "ImageDescription": {
+            "value": "College of William &amp; Mary, Williamsburg, Virginia",
+            "source": "commons-desc-page"
+          },
+          "DateTimeOriginal": {
+            "value": "2018-07-09 15:18:00",
+            "source": "commons-desc-page"
+          },
+          "Credit": {
+            "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+            "source": "commons-desc-page"
+          },
+          "Artist": {
+            "value": "<a href=\"//commons.wikimedia.org/wiki/User:Ser_Amantio_di_Nicolao\" title=\"User:Ser Amantio di Nicolao\">Ser Amantio di Nicolao</a>",
+            "source": "commons-desc-page"
+          },
+          "LicenseShortName": {
+            "value": "CC BY-SA 4.0",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "UsageTerms": {
+            "value": "Creative Commons Attribution-Share Alike 4.0",
+            "source": "commons-desc-page"
+          },
+          "AttributionRequired": {
+            "value": "true",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "LicenseUrl": {
+            "value": "https://creativecommons.org/licenses/by-sa/4.0",
+            "source": "commons-desc-page"
+          },
+          "Copyrighted": {
+            "value": "True",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "Restrictions": {
+            "value": "",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "License": {
+            "value": "cc-by-sa-4.0",
+            "source": "commons-templates",
+            "hidden": ""
+          }
+        }
+      }
+    ]
+  },
+  {
+    "pageid": 73320433,
+    "ns": 6,
+    "title": "File:New Greek life buildings, W&M.jpg",
+    "index": 10,
+    "coordinates": [
+      {
+        "lat": 37.274444,
+        "lon": -76.718611,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
+    "imagerepository": "local",
+    "imageinfo": [
+      {
+        "size": 3553869,
+        "width": 3264,
+        "height": 2448,
+        "thumburl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/New_Greek_life_buildings%2C_W%26M.jpg/330px-New_Greek_life_buildings%2C_W%26M.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "thumbwidth": 330,
+        "thumbheight": 248,
+        "responsiveUrls": {
+          "2": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/New_Greek_life_buildings%2C_W%26M.jpg/960px-New_Greek_life_buildings%2C_W%26M.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        "thumbattribs": {
+          "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/New_Greek_life_buildings%2C_W%26M.jpg/330px-New_Greek_life_buildings%2C_W%26M.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "decoding": "async",
+          "loading": "lazy",
+          "width": 330,
+          "height": 248,
+          "srcset": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/New_Greek_life_buildings%2C_W%26M.jpg/960px-New_Greek_life_buildings%2C_W%26M.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail 2x"
+        },
+        "url": "https://upload.wikimedia.org/wikipedia/commons/c/cb/New_Greek_life_buildings%2C_W%26M.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "descriptionurl": "https://commons.wikimedia.org/wiki/File:New_Greek_life_buildings,_W%26M.jpg",
+        "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=73320433",
+        "extmetadata": {
+          "DateTime": {
+            "value": "2018-10-02 14:28:46",
+            "source": "mediawiki-metadata",
+            "hidden": ""
+          },
+          "ObjectName": {
+            "value": "New Greek life buildings, W&M",
+            "source": "mediawiki-metadata"
+          },
+          "CommonsMetadataExtension": {
+            "value": 1.2,
+            "source": "extension",
+            "hidden": ""
+          },
+          "Categories": {
+            "value": "College of William and Mary buildings|Self-published work|Files with coordinates missing SDC location of creation",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "Assessments": {
+            "value": "",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "GPSLatitude": {
+            "value": "37.274444",
+            "source": "commons-desc-page"
+          },
+          "GPSLongitude": {
+            "value": "-76.718611",
+            "source": "commons-desc-page"
+          },
+          "GPSMapDatum": {
+            "value": "WGS-84",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "ImageDescription": {
+            "value": "College of William &amp; Mary, Williamsburg, Virginia",
+            "source": "commons-desc-page"
+          },
+          "DateTimeOriginal": {
+            "value": "2018-07-09 15:19:29",
+            "source": "commons-desc-page"
+          },
+          "Credit": {
+            "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+            "source": "commons-desc-page"
+          },
+          "Artist": {
+            "value": "<a href=\"//commons.wikimedia.org/wiki/User:Ser_Amantio_di_Nicolao\" title=\"User:Ser Amantio di Nicolao\">Ser Amantio di Nicolao</a>",
+            "source": "commons-desc-page"
+          },
+          "LicenseShortName": {
+            "value": "CC BY-SA 4.0",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "UsageTerms": {
+            "value": "Creative Commons Attribution-Share Alike 4.0",
+            "source": "commons-desc-page"
+          },
+          "AttributionRequired": {
+            "value": "true",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "LicenseUrl": {
+            "value": "https://creativecommons.org/licenses/by-sa/4.0",
+            "source": "commons-desc-page"
+          },
+          "Copyrighted": {
+            "value": "True",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "Restrictions": {
+            "value": "",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "License": {
+            "value": "cc-by-sa-4.0",
+            "source": "commons-templates",
+            "hidden": ""
+          }
+        }
+      }
+    ]
+  },
+  {
+    "pageid": 82604367,
+    "ns": 6,
+    "title": "File:Williamsburg, VA - Historic District - Governor's Palace (1).jpg",
+    "index": 11,
+    "coordinates": [
+      {
+        "lat": 37.274167,
+        "lon": -76.722222,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
+    "imagerepository": "local",
+    "imageinfo": [
+      {
+        "size": 84971,
+        "width": 682,
+        "height": 1024,
+        "thumburl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Williamsburg%2C_VA_-_Historic_District_-_Governor%27s_Palace_%281%29.jpg/330px-Williamsburg%2C_VA_-_Historic_District_-_Governor%27s_Palace_%281%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "thumbwidth": 330,
+        "thumbheight": 495,
+        "responsiveUrls": {
+          "2": "https://upload.wikimedia.org/wikipedia/commons/6/63/Williamsburg%2C_VA_-_Historic_District_-_Governor%27s_Palace_%281%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+        },
+        "thumbattribs": {
+          "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Williamsburg%2C_VA_-_Historic_District_-_Governor%27s_Palace_%281%29.jpg/330px-Williamsburg%2C_VA_-_Historic_District_-_Governor%27s_Palace_%281%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "decoding": "async",
+          "loading": "lazy",
+          "width": 330,
+          "height": 495,
+          "srcset": "https://upload.wikimedia.org/wikipedia/commons/6/63/Williamsburg%2C_VA_-_Historic_District_-_Governor%27s_Palace_%281%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled 2x"
+        },
+        "url": "https://upload.wikimedia.org/wikipedia/commons/6/63/Williamsburg%2C_VA_-_Historic_District_-_Governor%27s_Palace_%281%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "descriptionurl": "https://commons.wikimedia.org/wiki/File:Williamsburg,_VA_-_Historic_District_-_Governor%27s_Palace_(1).jpg",
+        "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=82604367",
+        "extmetadata": {
+          "DateTime": {
+            "value": "2019-09-27 20:59:16",
+            "source": "mediawiki-metadata",
+            "hidden": ""
+          },
+          "ObjectName": {
+            "value": "Williamsburg, VA - Historic District - Governor's Palace (1)",
+            "source": "mediawiki-metadata"
+          },
+          "CommonsMetadataExtension": {
+            "value": 1.2,
+            "source": "extension",
+            "hidden": ""
+          },
+          "Categories": {
+            "value": "Exterior of the Governor's Palace (Williamsburg, Virginia)|Images from Wiki Loves Monuments 2019|Self-published work|National Register of Historic Places with known IDs|Uploaded via Campaign:wlm-us|United States photographs taken on 2019-09-23|Images from Wiki Loves Monuments 2019 in the United States|Images from Wiki Loves Monuments 2019 in Virginia|Wiki Loves Monuments 2019 in the United States unreviewed",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "Assessments": {
+            "value": "",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "GPSLatitude": {
+            "value": "37.274167",
+            "source": "commons-desc-page"
+          },
+          "GPSLongitude": {
+            "value": "-76.722222",
+            "source": "commons-desc-page"
+          },
+          "GPSMapDatum": {
+            "value": "WGS-84",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "ImageDescription": {
+            "value": "<table cellspacing=\"0\" style=\"text-align: left; color: inherit; background: var(--background-color-neutral-subtle,#f9f9f9); border:4px solid #b28000; solid #bbb; margin: 1px;\" class=\"layouttemplate\" lang=\"en\" dir=\"auto\">\n<tbody><tr>\n<td style=\"width:22px; height:22px;\"><span typeof=\"mw:File\"><span><img src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Logo_of_the_United_States_National_Park_Service.svg/20px-Logo_of_the_United_States_National_Park_Service.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail\" decoding=\"async\" loading=\"lazy\" width=\"20\" height=\"26\" class=\"mw-file-element\" srcset=\"https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Logo_of_the_United_States_National_Park_Service.svg/40px-Logo_of_the_United_States_National_Park_Service.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail 2x\" data-file-width=\"553\" data-file-height=\"720\"></span></span>\n</td>\n<td style=\"font-size: 8pt; padding: 1pt 5pt 1pt 1pt; line-height: 1.4;\">\n<p>This is an image of a place or building that is listed on the <a href=\"https://en.wikipedia.org/wiki/National_Register_of_Historic_Places\" class=\"extiw\" title=\"en:National Register of Historic Places\">National Register of Historic Places</a> in the <a href=\"https://en.wikipedia.org/wiki/USA\" class=\"extiw\" title=\"en:USA\">United States of America</a>. Its reference number is <span class=\"plainlinks\"><a rel=\"nofollow\" class=\"external text\" href=\"https://npgallery.nps.gov/AssetDetail/NRIS/66000925\">66000925</a></span> (<a class=\"external text\" href=\"https://tools.wmflabs.org/hub/P649:66000925?site=wikidata\">Wikidata</a>).<br>\n</p>\n</td></tr></tbody></table>",
+            "source": "commons-desc-page"
+          },
+          "DateTimeOriginal": {
+            "value": "2019-09-23",
+            "source": "commons-desc-page"
+          },
+          "Credit": {
+            "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+            "source": "commons-desc-page"
+          },
+          "Artist": {
+            "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Jrozwado&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Jrozwado (page does not exist)\">Jrozwado</a>",
+            "source": "commons-desc-page"
+          },
+          "LicenseShortName": {
+            "value": "CC BY-SA 4.0",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "UsageTerms": {
+            "value": "Creative Commons Attribution-Share Alike 4.0",
+            "source": "commons-desc-page"
+          },
+          "AttributionRequired": {
+            "value": "true",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "LicenseUrl": {
+            "value": "https://creativecommons.org/licenses/by-sa/4.0",
+            "source": "commons-desc-page"
+          },
+          "Copyrighted": {
+            "value": "True",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "Restrictions": {
+            "value": "",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "License": {
+            "value": "cc-by-sa-4.0",
+            "source": "commons-templates",
+            "hidden": ""
+          }
+        }
+      }
+    ]
+  },
+  {
+    "pageid": 82604368,
+    "ns": 6,
+    "title": "File:Williamsburg, VA - Historic District - Governor's Palace (3).jpg",
+    "index": 12,
+    "coordinates": [
+      {
+        "lat": 37.274167,
+        "lon": -76.722222,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
+    "imagerepository": "local",
+    "imageinfo": [
+      {
+        "size": 117999,
+        "width": 683,
+        "height": 1024,
+        "thumburl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c9/Williamsburg%2C_VA_-_Historic_District_-_Governor%27s_Palace_%283%29.jpg/330px-Williamsburg%2C_VA_-_Historic_District_-_Governor%27s_Palace_%283%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "thumbwidth": 330,
+        "thumbheight": 495,
+        "responsiveUrls": {
+          "2": "https://upload.wikimedia.org/wikipedia/commons/c/c9/Williamsburg%2C_VA_-_Historic_District_-_Governor%27s_Palace_%283%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+        },
+        "thumbattribs": {
+          "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c9/Williamsburg%2C_VA_-_Historic_District_-_Governor%27s_Palace_%283%29.jpg/330px-Williamsburg%2C_VA_-_Historic_District_-_Governor%27s_Palace_%283%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "decoding": "async",
+          "loading": "lazy",
+          "width": 330,
+          "height": 495,
+          "srcset": "https://upload.wikimedia.org/wikipedia/commons/c/c9/Williamsburg%2C_VA_-_Historic_District_-_Governor%27s_Palace_%283%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled 2x"
+        },
+        "url": "https://upload.wikimedia.org/wikipedia/commons/c/c9/Williamsburg%2C_VA_-_Historic_District_-_Governor%27s_Palace_%283%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "descriptionurl": "https://commons.wikimedia.org/wiki/File:Williamsburg,_VA_-_Historic_District_-_Governor%27s_Palace_(3).jpg",
+        "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=82604368",
+        "extmetadata": {
+          "DateTime": {
+            "value": "2019-09-27 20:59:17",
+            "source": "mediawiki-metadata",
+            "hidden": ""
+          },
+          "ObjectName": {
+            "value": "Williamsburg, VA - Historic District - Governor's Palace (3)",
+            "source": "mediawiki-metadata"
+          },
+          "CommonsMetadataExtension": {
+            "value": 1.2,
+            "source": "extension",
+            "hidden": ""
+          },
+          "Categories": {
+            "value": "Exterior of the Governor's Palace (Williamsburg, Virginia)|Images from Wiki Loves Monuments 2019|Self-published work|National Register of Historic Places with known IDs|Uploaded via Campaign:wlm-us|United States photographs taken on 2019-09-23|Images from Wiki Loves Monuments 2019 in the United States|Images from Wiki Loves Monuments 2019 in Virginia|Wiki Loves Monuments 2019 in the United States unreviewed",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "Assessments": {
+            "value": "",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "GPSLatitude": {
+            "value": "37.274167",
+            "source": "commons-desc-page"
+          },
+          "GPSLongitude": {
+            "value": "-76.722222",
+            "source": "commons-desc-page"
+          },
+          "GPSMapDatum": {
+            "value": "WGS-84",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "ImageDescription": {
+            "value": "<table cellspacing=\"0\" style=\"text-align: left; color: inherit; background: var(--background-color-neutral-subtle,#f9f9f9); border:4px solid #b28000; solid #bbb; margin: 1px;\" class=\"layouttemplate\" lang=\"en\" dir=\"auto\">\n<tbody><tr>\n<td style=\"width:22px; height:22px;\"><span typeof=\"mw:File\"><span><img src=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/Logo_of_the_United_States_National_Park_Service.svg/20px-Logo_of_the_United_States_National_Park_Service.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail\" decoding=\"async\" loading=\"lazy\" width=\"20\" height=\"26\" class=\"mw-file-element\" srcset=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/Logo_of_the_United_States_National_Park_Service.svg/40px-Logo_of_the_United_States_National_Park_Service.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail 2x\" data-file-width=\"553\" data-file-height=\"720\"></span></span>\n</td>\n<td style=\"font-size: 8pt; padding: 1pt 5pt 1pt 1pt; line-height: 1.4;\">\n<p>This is an image of a place or building that is listed on the <a href=\"https://en.wikipedia.org/wiki/National_Register_of_Historic_Places\" class=\"extiw\" title=\"en:National Register of Historic Places\">National Register of Historic Places</a> in the <a href=\"https://en.wikipedia.org/wiki/USA\" class=\"extiw\" title=\"en:USA\">United States of America</a>. Its reference number is <span class=\"plainlinks\"><a rel=\"nofollow\" class=\"external text\" href=\"https://npgallery.nps.gov/AssetDetail/NRIS/66000925\">66000925</a></span> (<a class=\"external text\" href=\"https://tools.wmflabs.org/hub/P649:66000925?site=wikidata\">Wikidata</a>).<br>\n</p>\n</td></tr></tbody></table>",
+            "source": "commons-desc-page"
+          },
+          "DateTimeOriginal": {
+            "value": "2019-09-23",
+            "source": "commons-desc-page"
+          },
+          "Credit": {
+            "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+            "source": "commons-desc-page"
+          },
+          "Artist": {
+            "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Jrozwado&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Jrozwado (page does not exist)\">Jrozwado</a>",
+            "source": "commons-desc-page"
+          },
+          "LicenseShortName": {
+            "value": "CC BY-SA 4.0",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "UsageTerms": {
+            "value": "Creative Commons Attribution-Share Alike 4.0",
+            "source": "commons-desc-page"
+          },
+          "AttributionRequired": {
+            "value": "true",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "LicenseUrl": {
+            "value": "https://creativecommons.org/licenses/by-sa/4.0",
+            "source": "commons-desc-page"
+          },
+          "Copyrighted": {
+            "value": "True",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "Restrictions": {
+            "value": "",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "License": {
+            "value": "cc-by-sa-4.0",
+            "source": "commons-templates",
+            "hidden": ""
+          }
+        }
+      }
+    ]
+  },
+  {
+    "pageid": 82604369,
+    "ns": 6,
+    "title": "File:Williamsburg, VA - Historic District - Governor's Palace (2).jpg",
+    "index": 13,
+    "coordinates": [
+      {
+        "lat": 37.274167,
+        "lon": -76.722222,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
+    "imagerepository": "local",
+    "imageinfo": [
+      {
+        "size": 101304,
+        "width": 1024,
+        "height": 684,
+        "thumburl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/74/Williamsburg%2C_VA_-_Historic_District_-_Governor%27s_Palace_%282%29.jpg/330px-Williamsburg%2C_VA_-_Historic_District_-_Governor%27s_Palace_%282%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "thumbwidth": 330,
+        "thumbheight": 220,
+        "responsiveUrls": {
+          "2": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/74/Williamsburg%2C_VA_-_Historic_District_-_Governor%27s_Palace_%282%29.jpg/960px-Williamsburg%2C_VA_-_Historic_District_-_Governor%27s_Palace_%282%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        "thumbattribs": {
+          "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/74/Williamsburg%2C_VA_-_Historic_District_-_Governor%27s_Palace_%282%29.jpg/330px-Williamsburg%2C_VA_-_Historic_District_-_Governor%27s_Palace_%282%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "decoding": "async",
+          "loading": "lazy",
+          "width": 330,
+          "height": 220,
+          "srcset": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/74/Williamsburg%2C_VA_-_Historic_District_-_Governor%27s_Palace_%282%29.jpg/960px-Williamsburg%2C_VA_-_Historic_District_-_Governor%27s_Palace_%282%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail 2x"
+        },
+        "url": "https://upload.wikimedia.org/wikipedia/commons/7/74/Williamsburg%2C_VA_-_Historic_District_-_Governor%27s_Palace_%282%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "descriptionurl": "https://commons.wikimedia.org/wiki/File:Williamsburg,_VA_-_Historic_District_-_Governor%27s_Palace_(2).jpg",
+        "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=82604369",
+        "extmetadata": {
+          "DateTime": {
+            "value": "2019-09-27 20:59:17",
+            "source": "mediawiki-metadata",
+            "hidden": ""
+          },
+          "ObjectName": {
+            "value": "Williamsburg, VA - Historic District - Governor's Palace (2)",
+            "source": "mediawiki-metadata"
+          },
+          "CommonsMetadataExtension": {
+            "value": 1.2,
+            "source": "extension",
+            "hidden": ""
+          },
+          "Categories": {
+            "value": "Exterior of the Governor's Palace (Williamsburg, Virginia)|Images from Wiki Loves Monuments 2019|Self-published work|National Register of Historic Places with known IDs|Uploaded via Campaign:wlm-us|United States photographs taken on 2019-09-23|Images from Wiki Loves Monuments 2019 in the United States|Images from Wiki Loves Monuments 2019 in Virginia|Wiki Loves Monuments 2019 in the United States unreviewed",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "Assessments": {
+            "value": "",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "GPSLatitude": {
+            "value": "37.274167",
+            "source": "commons-desc-page"
+          },
+          "GPSLongitude": {
+            "value": "-76.722222",
+            "source": "commons-desc-page"
+          },
+          "GPSMapDatum": {
+            "value": "WGS-84",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "ImageDescription": {
+            "value": "<table cellspacing=\"0\" style=\"text-align: left; color: inherit; background: var(--background-color-neutral-subtle,#f9f9f9); border:4px solid #b28000; solid #bbb; margin: 1px;\" class=\"layouttemplate\" lang=\"en\" dir=\"auto\">\n<tbody><tr>\n<td style=\"width:22px; height:22px;\"><span typeof=\"mw:File\"><span><img src=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/Logo_of_the_United_States_National_Park_Service.svg/20px-Logo_of_the_United_States_National_Park_Service.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail\" decoding=\"async\" loading=\"lazy\" width=\"20\" height=\"26\" class=\"mw-file-element\" srcset=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/Logo_of_the_United_States_National_Park_Service.svg/40px-Logo_of_the_United_States_National_Park_Service.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail 2x\" data-file-width=\"553\" data-file-height=\"720\"></span></span>\n</td>\n<td style=\"font-size: 8pt; padding: 1pt 5pt 1pt 1pt; line-height: 1.4;\">\n<p>This is an image of a place or building that is listed on the <a href=\"https://en.wikipedia.org/wiki/National_Register_of_Historic_Places\" class=\"extiw\" title=\"en:National Register of Historic Places\">National Register of Historic Places</a> in the <a href=\"https://en.wikipedia.org/wiki/USA\" class=\"extiw\" title=\"en:USA\">United States of America</a>. Its reference number is <span class=\"plainlinks\"><a rel=\"nofollow\" class=\"external text\" href=\"https://npgallery.nps.gov/AssetDetail/NRIS/66000925\">66000925</a></span> (<a class=\"external text\" href=\"https://tools.wmflabs.org/hub/P649:66000925?site=wikidata\">Wikidata</a>).<br>\n</p>\n</td></tr></tbody></table>",
+            "source": "commons-desc-page"
+          },
+          "DateTimeOriginal": {
+            "value": "2019-09-23",
+            "source": "commons-desc-page"
+          },
+          "Credit": {
+            "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+            "source": "commons-desc-page"
+          },
+          "Artist": {
+            "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Jrozwado&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Jrozwado (page does not exist)\">Jrozwado</a>",
+            "source": "commons-desc-page"
+          },
+          "LicenseShortName": {
+            "value": "CC BY-SA 4.0",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "UsageTerms": {
+            "value": "Creative Commons Attribution-Share Alike 4.0",
+            "source": "commons-desc-page"
+          },
+          "AttributionRequired": {
+            "value": "true",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "LicenseUrl": {
+            "value": "https://creativecommons.org/licenses/by-sa/4.0",
+            "source": "commons-desc-page"
+          },
+          "Copyrighted": {
+            "value": "True",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "Restrictions": {
+            "value": "",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "License": {
+            "value": "cc-by-sa-4.0",
+            "source": "commons-templates",
+            "hidden": ""
+          }
+        }
+      }
+    ]
+  },
+  {
+    "pageid": 82604370,
+    "ns": 6,
+    "title": "File:Williamsburg, VA - Historic District - Magazine.jpg",
+    "index": 14,
+    "coordinates": [
+      {
+        "lat": 37.274167,
+        "lon": -76.722222,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
+    "imagerepository": "local",
+    "imageinfo": [
+      {
+        "size": 100173,
+        "width": 1024,
+        "height": 683,
+        "thumburl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/Williamsburg%2C_VA_-_Historic_District_-_Magazine.jpg/330px-Williamsburg%2C_VA_-_Historic_District_-_Magazine.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "thumbwidth": 330,
+        "thumbheight": 220,
+        "responsiveUrls": {
+          "2": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/Williamsburg%2C_VA_-_Historic_District_-_Magazine.jpg/960px-Williamsburg%2C_VA_-_Historic_District_-_Magazine.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        "thumbattribs": {
+          "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/Williamsburg%2C_VA_-_Historic_District_-_Magazine.jpg/330px-Williamsburg%2C_VA_-_Historic_District_-_Magazine.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "decoding": "async",
+          "loading": "lazy",
+          "width": 330,
+          "height": 220,
+          "srcset": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/Williamsburg%2C_VA_-_Historic_District_-_Magazine.jpg/960px-Williamsburg%2C_VA_-_Historic_District_-_Magazine.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail 2x"
+        },
+        "url": "https://upload.wikimedia.org/wikipedia/commons/2/23/Williamsburg%2C_VA_-_Historic_District_-_Magazine.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "descriptionurl": "https://commons.wikimedia.org/wiki/File:Williamsburg,_VA_-_Historic_District_-_Magazine.jpg",
+        "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=82604370",
+        "extmetadata": {
+          "DateTime": {
+            "value": "2019-09-27 20:59:20",
+            "source": "mediawiki-metadata",
+            "hidden": ""
+          },
+          "ObjectName": {
+            "value": "Williamsburg, VA - Historic District - Magazine",
+            "source": "mediawiki-metadata"
+          },
+          "CommonsMetadataExtension": {
+            "value": 1.2,
+            "source": "extension",
+            "hidden": ""
+          },
+          "Categories": {
+            "value": "Images from Wiki Loves Monuments 2019|Self-published work|National Register of Historic Places with known IDs|Uploaded via Campaign:wlm-us|United States photographs taken on 2019-09-23|Images from Wiki Loves Monuments 2019 in the United States|Images from Wiki Loves Monuments 2019 in Virginia|Wiki Loves Monuments 2019 in the United States unreviewed|Magazine (Williamsburg, Virginia)",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "Assessments": {
+            "value": "",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "GPSLatitude": {
+            "value": "37.274167",
+            "source": "commons-desc-page"
+          },
+          "GPSLongitude": {
+            "value": "-76.722222",
+            "source": "commons-desc-page"
+          },
+          "GPSMapDatum": {
+            "value": "WGS-84",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "ImageDescription": {
+            "value": "<table cellspacing=\"0\" style=\"text-align: left; color: inherit; background: var(--background-color-neutral-subtle,#f9f9f9); border:4px solid #b28000; solid #bbb; margin: 1px;\" class=\"layouttemplate\" lang=\"en\" dir=\"auto\">\n<tbody><tr>\n<td style=\"width:22px; height:22px;\"><span typeof=\"mw:File\"><span><img src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Logo_of_the_United_States_National_Park_Service.svg/20px-Logo_of_the_United_States_National_Park_Service.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail\" decoding=\"async\" loading=\"lazy\" width=\"20\" height=\"26\" class=\"mw-file-element\" srcset=\"https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Logo_of_the_United_States_National_Park_Service.svg/40px-Logo_of_the_United_States_National_Park_Service.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail 2x\" data-file-width=\"553\" data-file-height=\"720\"></span></span>\n</td>\n<td style=\"font-size: 8pt; padding: 1pt 5pt 1pt 1pt; line-height: 1.4;\">\n<p>This is an image of a place or building that is listed on the <a href=\"https://en.wikipedia.org/wiki/National_Register_of_Historic_Places\" class=\"extiw\" title=\"en:National Register of Historic Places\">National Register of Historic Places</a> in the <a href=\"https://en.wikipedia.org/wiki/USA\" class=\"extiw\" title=\"en:USA\">United States of America</a>. Its reference number is <span class=\"plainlinks\"><a rel=\"nofollow\" class=\"external text\" href=\"https://npgallery.nps.gov/AssetDetail/NRIS/66000925\">66000925</a></span> (<a class=\"external text\" href=\"https://tools.wmflabs.org/hub/P649:66000925?site=wikidata\">Wikidata</a>).<br>\n</p>\n</td></tr></tbody></table>",
+            "source": "commons-desc-page"
+          },
+          "DateTimeOriginal": {
+            "value": "2019-09-23",
+            "source": "commons-desc-page"
+          },
+          "Credit": {
+            "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+            "source": "commons-desc-page"
+          },
+          "Artist": {
+            "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Jrozwado&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Jrozwado (page does not exist)\">Jrozwado</a>",
+            "source": "commons-desc-page"
+          },
+          "LicenseShortName": {
+            "value": "CC BY-SA 4.0",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "UsageTerms": {
+            "value": "Creative Commons Attribution-Share Alike 4.0",
+            "source": "commons-desc-page"
+          },
+          "AttributionRequired": {
+            "value": "true",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "LicenseUrl": {
+            "value": "https://creativecommons.org/licenses/by-sa/4.0",
+            "source": "commons-desc-page"
+          },
+          "Copyrighted": {
+            "value": "True",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "Restrictions": {
+            "value": "",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "License": {
+            "value": "cc-by-sa-4.0",
+            "source": "commons-templates",
+            "hidden": ""
+          }
+        }
+      }
+    ]
+  },
+  {
+    "pageid": 82604371,
+    "ns": 6,
+    "title": "File:Williamsburg, VA - Historic District (2).jpg",
+    "index": 15,
+    "coordinates": [
+      {
+        "lat": 37.274167,
+        "lon": -76.722222,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
+    "imagerepository": "local",
+    "imageinfo": [
+      {
+        "size": 110782,
+        "width": 683,
+        "height": 1024,
+        "thumburl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/Williamsburg%2C_VA_-_Historic_District_%282%29.jpg/330px-Williamsburg%2C_VA_-_Historic_District_%282%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "thumbwidth": 330,
+        "thumbheight": 495,
+        "responsiveUrls": {
+          "2": "https://upload.wikimedia.org/wikipedia/commons/7/79/Williamsburg%2C_VA_-_Historic_District_%282%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+        },
+        "thumbattribs": {
+          "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/Williamsburg%2C_VA_-_Historic_District_%282%29.jpg/330px-Williamsburg%2C_VA_-_Historic_District_%282%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "decoding": "async",
+          "loading": "lazy",
+          "width": 330,
+          "height": 495,
+          "srcset": "https://upload.wikimedia.org/wikipedia/commons/7/79/Williamsburg%2C_VA_-_Historic_District_%282%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled 2x"
+        },
+        "url": "https://upload.wikimedia.org/wikipedia/commons/7/79/Williamsburg%2C_VA_-_Historic_District_%282%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "descriptionurl": "https://commons.wikimedia.org/wiki/File:Williamsburg,_VA_-_Historic_District_(2).jpg",
+        "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=82604371",
+        "extmetadata": {
+          "DateTime": {
+            "value": "2019-09-27 20:59:20",
+            "source": "mediawiki-metadata",
+            "hidden": ""
+          },
+          "ObjectName": {
+            "value": "Williamsburg, VA - Historic District (2)",
+            "source": "mediawiki-metadata"
+          },
+          "CommonsMetadataExtension": {
+            "value": 1.2,
+            "source": "extension",
+            "hidden": ""
+          },
+          "Categories": {
+            "value": "Images from Wiki Loves Monuments 2019|Self-published work|National Register of Historic Places with known IDs|Uploaded via Campaign:wlm-us|United States photographs taken on 2019-09-23|Images from Wiki Loves Monuments 2019 in the United States|Images from Wiki Loves Monuments 2019 in Virginia|Wiki Loves Monuments 2019 in the United States unreviewed|Williamsburg Historic District (Williamsburg, Virginia)",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "Assessments": {
+            "value": "",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "GPSLatitude": {
+            "value": "37.274167",
+            "source": "commons-desc-page"
+          },
+          "GPSLongitude": {
+            "value": "-76.722222",
+            "source": "commons-desc-page"
+          },
+          "GPSMapDatum": {
+            "value": "WGS-84",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "ImageDescription": {
+            "value": "<table cellspacing=\"0\" style=\"text-align: left; color: inherit; background: var(--background-color-neutral-subtle,#f9f9f9); border:4px solid #b28000; solid #bbb; margin: 1px;\" class=\"layouttemplate\" lang=\"en\" dir=\"auto\">\n<tbody><tr>\n<td style=\"width:22px; height:22px;\"><span typeof=\"mw:File\"><span><img src=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/Logo_of_the_United_States_National_Park_Service.svg/20px-Logo_of_the_United_States_National_Park_Service.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail\" decoding=\"async\" loading=\"lazy\" width=\"20\" height=\"26\" class=\"mw-file-element\" srcset=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/Logo_of_the_United_States_National_Park_Service.svg/40px-Logo_of_the_United_States_National_Park_Service.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail 2x\" data-file-width=\"553\" data-file-height=\"720\"></span></span>\n</td>\n<td style=\"font-size: 8pt; padding: 1pt 5pt 1pt 1pt; line-height: 1.4;\">\n<p>This is an image of a place or building that is listed on the <a href=\"https://en.wikipedia.org/wiki/National_Register_of_Historic_Places\" class=\"extiw\" title=\"en:National Register of Historic Places\">National Register of Historic Places</a> in the <a href=\"https://en.wikipedia.org/wiki/USA\" class=\"extiw\" title=\"en:USA\">United States of America</a>. Its reference number is <span class=\"plainlinks\"><a rel=\"nofollow\" class=\"external text\" href=\"https://npgallery.nps.gov/AssetDetail/NRIS/66000925\">66000925</a></span> (<a class=\"external text\" href=\"https://tools.wmflabs.org/hub/P649:66000925?site=wikidata\">Wikidata</a>).<br>\n</p>\n</td></tr></tbody></table>",
+            "source": "commons-desc-page"
+          },
+          "DateTimeOriginal": {
+            "value": "2019-09-23",
+            "source": "commons-desc-page"
+          },
+          "Credit": {
+            "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+            "source": "commons-desc-page"
+          },
+          "Artist": {
+            "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Jrozwado&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Jrozwado (page does not exist)\">Jrozwado</a>",
+            "source": "commons-desc-page"
+          },
+          "LicenseShortName": {
+            "value": "CC BY-SA 4.0",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "UsageTerms": {
+            "value": "Creative Commons Attribution-Share Alike 4.0",
+            "source": "commons-desc-page"
+          },
+          "AttributionRequired": {
+            "value": "true",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "LicenseUrl": {
+            "value": "https://creativecommons.org/licenses/by-sa/4.0",
+            "source": "commons-desc-page"
+          },
+          "Copyrighted": {
+            "value": "True",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "Restrictions": {
+            "value": "",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "License": {
+            "value": "cc-by-sa-4.0",
+            "source": "commons-templates",
+            "hidden": ""
+          }
+        }
+      }
+    ]
+  },
+  {
+    "pageid": 82604372,
+    "ns": 6,
+    "title": "File:Williamsburg, VA - Historic District.jpg",
+    "index": 16,
+    "coordinates": [
+      {
+        "lat": 37.274167,
+        "lon": -76.722222,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
+    "imagerepository": "local",
+    "imageinfo": [
+      {
+        "size": 156979,
+        "width": 1024,
+        "height": 684,
+        "thumburl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/68/Williamsburg%2C_VA_-_Historic_District.jpg/330px-Williamsburg%2C_VA_-_Historic_District.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "thumbwidth": 330,
+        "thumbheight": 220,
+        "responsiveUrls": {
+          "2": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/68/Williamsburg%2C_VA_-_Historic_District.jpg/960px-Williamsburg%2C_VA_-_Historic_District.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        "thumbattribs": {
+          "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/68/Williamsburg%2C_VA_-_Historic_District.jpg/330px-Williamsburg%2C_VA_-_Historic_District.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "decoding": "async",
+          "loading": "lazy",
+          "width": 330,
+          "height": 220,
+          "srcset": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/68/Williamsburg%2C_VA_-_Historic_District.jpg/960px-Williamsburg%2C_VA_-_Historic_District.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail 2x"
+        },
+        "url": "https://upload.wikimedia.org/wikipedia/commons/6/68/Williamsburg%2C_VA_-_Historic_District.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "descriptionurl": "https://commons.wikimedia.org/wiki/File:Williamsburg,_VA_-_Historic_District.jpg",
+        "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=82604372",
+        "extmetadata": {
+          "DateTime": {
+            "value": "2019-09-27 20:59:21",
+            "source": "mediawiki-metadata",
+            "hidden": ""
+          },
+          "ObjectName": {
+            "value": "Williamsburg, VA - Historic District",
+            "source": "mediawiki-metadata"
+          },
+          "CommonsMetadataExtension": {
+            "value": 1.2,
+            "source": "extension",
+            "hidden": ""
+          },
+          "Categories": {
+            "value": "Images from Wiki Loves Monuments 2019|Self-published work|National Register of Historic Places with known IDs|Uploaded via Campaign:wlm-us|United States photographs taken on 2019-09-23|Images from Wiki Loves Monuments 2019 in the United States|Images from Wiki Loves Monuments 2019 in Virginia|Wiki Loves Monuments 2019 in the United States unreviewed|Williamsburg Historic District (Williamsburg, Virginia)",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "Assessments": {
+            "value": "",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "GPSLatitude": {
+            "value": "37.274167",
+            "source": "commons-desc-page"
+          },
+          "GPSLongitude": {
+            "value": "-76.722222",
+            "source": "commons-desc-page"
+          },
+          "GPSMapDatum": {
+            "value": "WGS-84",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "ImageDescription": {
+            "value": "<table cellspacing=\"0\" style=\"text-align: left; color: inherit; background: var(--background-color-neutral-subtle,#f9f9f9); border:4px solid #b28000; solid #bbb; margin: 1px;\" class=\"layouttemplate\" lang=\"en\" dir=\"auto\">\n<tbody><tr>\n<td style=\"width:22px; height:22px;\"><span typeof=\"mw:File\"><span><img src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Logo_of_the_United_States_National_Park_Service.svg/20px-Logo_of_the_United_States_National_Park_Service.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail\" decoding=\"async\" loading=\"lazy\" width=\"20\" height=\"26\" class=\"mw-file-element\" srcset=\"https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Logo_of_the_United_States_National_Park_Service.svg/40px-Logo_of_the_United_States_National_Park_Service.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail 2x\" data-file-width=\"553\" data-file-height=\"720\"></span></span>\n</td>\n<td style=\"font-size: 8pt; padding: 1pt 5pt 1pt 1pt; line-height: 1.4;\">\n<p>This is an image of a place or building that is listed on the <a href=\"https://en.wikipedia.org/wiki/National_Register_of_Historic_Places\" class=\"extiw\" title=\"en:National Register of Historic Places\">National Register of Historic Places</a> in the <a href=\"https://en.wikipedia.org/wiki/USA\" class=\"extiw\" title=\"en:USA\">United States of America</a>. Its reference number is <span class=\"plainlinks\"><a rel=\"nofollow\" class=\"external text\" href=\"https://npgallery.nps.gov/AssetDetail/NRIS/66000925\">66000925</a></span> (<a class=\"external text\" href=\"https://tools.wmflabs.org/hub/P649:66000925?site=wikidata\">Wikidata</a>).<br>\n</p>\n</td></tr></tbody></table>",
+            "source": "commons-desc-page"
+          },
+          "DateTimeOriginal": {
+            "value": "2019-09-23",
+            "source": "commons-desc-page"
+          },
+          "Credit": {
+            "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+            "source": "commons-desc-page"
+          },
+          "Artist": {
+            "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Jrozwado&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Jrozwado (page does not exist)\">Jrozwado</a>",
+            "source": "commons-desc-page"
+          },
+          "LicenseShortName": {
+            "value": "CC BY-SA 4.0",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "UsageTerms": {
+            "value": "Creative Commons Attribution-Share Alike 4.0",
+            "source": "commons-desc-page"
+          },
+          "AttributionRequired": {
+            "value": "true",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "LicenseUrl": {
+            "value": "https://creativecommons.org/licenses/by-sa/4.0",
+            "source": "commons-desc-page"
+          },
+          "Copyrighted": {
+            "value": "True",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "Restrictions": {
+            "value": "",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "License": {
+            "value": "cc-by-sa-4.0",
+            "source": "commons-templates",
+            "hidden": ""
+          }
+        }
+      }
+    ]
+  },
+  {
+    "pageid": 82604373,
+    "ns": 6,
+    "title": "File:Williamsburg, VA (4).jpg",
+    "index": 17,
+    "coordinates": [
+      {
+        "lat": 37.274167,
+        "lon": -76.722222,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
+    "imagerepository": "local",
+    "imageinfo": [
+      {
+        "size": 117779,
+        "width": 1024,
+        "height": 683,
+        "thumburl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a5/Williamsburg%2C_VA_%284%29.jpg/330px-Williamsburg%2C_VA_%284%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "thumbwidth": 330,
+        "thumbheight": 220,
+        "responsiveUrls": {
+          "2": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a5/Williamsburg%2C_VA_%284%29.jpg/960px-Williamsburg%2C_VA_%284%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        "thumbattribs": {
+          "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a5/Williamsburg%2C_VA_%284%29.jpg/330px-Williamsburg%2C_VA_%284%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "decoding": "async",
+          "loading": "lazy",
+          "width": 330,
+          "height": 220,
+          "srcset": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a5/Williamsburg%2C_VA_%284%29.jpg/960px-Williamsburg%2C_VA_%284%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail 2x"
+        },
+        "url": "https://upload.wikimedia.org/wikipedia/commons/a/a5/Williamsburg%2C_VA_%284%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "descriptionurl": "https://commons.wikimedia.org/wiki/File:Williamsburg,_VA_(4).jpg",
+        "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=82604373",
+        "extmetadata": {
+          "DateTime": {
+            "value": "2019-09-27 20:59:22",
+            "source": "mediawiki-metadata",
+            "hidden": ""
+          },
+          "ObjectName": {
+            "value": "Williamsburg, VA (4)",
+            "source": "mediawiki-metadata"
+          },
+          "CommonsMetadataExtension": {
+            "value": 1.2,
+            "source": "extension",
+            "hidden": ""
+          },
+          "Categories": {
+            "value": "Images from Wiki Loves Monuments 2019|Self-published work|National Register of Historic Places with known IDs|Uploaded via Campaign:wlm-us|United States photographs taken on 2019-09-23|Images from Wiki Loves Monuments 2019 in the United States|Images from Wiki Loves Monuments 2019 in Virginia|Wiki Loves Monuments 2019 in the United States unreviewed|Gardens of Colonial Williamsburg",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "Assessments": {
+            "value": "",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "GPSLatitude": {
+            "value": "37.274167",
+            "source": "commons-desc-page"
+          },
+          "GPSLongitude": {
+            "value": "-76.722222",
+            "source": "commons-desc-page"
+          },
+          "GPSMapDatum": {
+            "value": "WGS-84",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "ImageDescription": {
+            "value": "<table cellspacing=\"0\" style=\"text-align: left; color: inherit; background: var(--background-color-neutral-subtle,#f9f9f9); border:4px solid #b28000; solid #bbb; margin: 1px;\" class=\"layouttemplate\" lang=\"en\" dir=\"auto\">\n<tbody><tr>\n<td style=\"width:22px; height:22px;\"><span typeof=\"mw:File\"><span><img src=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/Logo_of_the_United_States_National_Park_Service.svg/20px-Logo_of_the_United_States_National_Park_Service.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail\" decoding=\"async\" loading=\"lazy\" width=\"20\" height=\"26\" class=\"mw-file-element\" srcset=\"https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/Logo_of_the_United_States_National_Park_Service.svg/40px-Logo_of_the_United_States_National_Park_Service.svg.png?utm_source=commons.wikimedia.org&amp;utm_campaign=parser&amp;utm_content=thumbnail 2x\" data-file-width=\"553\" data-file-height=\"720\"></span></span>\n</td>\n<td style=\"font-size: 8pt; padding: 1pt 5pt 1pt 1pt; line-height: 1.4;\">\n<p>This is an image of a place or building that is listed on the <a href=\"https://en.wikipedia.org/wiki/National_Register_of_Historic_Places\" class=\"extiw\" title=\"en:National Register of Historic Places\">National Register of Historic Places</a> in the <a href=\"https://en.wikipedia.org/wiki/USA\" class=\"extiw\" title=\"en:USA\">United States of America</a>. Its reference number is <span class=\"plainlinks\"><a rel=\"nofollow\" class=\"external text\" href=\"https://npgallery.nps.gov/AssetDetail/NRIS/66000925\">66000925</a></span> (<a class=\"external text\" href=\"https://tools.wmflabs.org/hub/P649:66000925?site=wikidata\">Wikidata</a>).<br>\n</p>\n</td></tr></tbody></table>",
+            "source": "commons-desc-page"
+          },
+          "DateTimeOriginal": {
+            "value": "2019-09-23",
+            "source": "commons-desc-page"
+          },
+          "Credit": {
+            "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+            "source": "commons-desc-page"
+          },
+          "Artist": {
+            "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Jrozwado&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Jrozwado (page does not exist)\">Jrozwado</a>",
+            "source": "commons-desc-page"
+          },
+          "LicenseShortName": {
+            "value": "CC BY-SA 4.0",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "UsageTerms": {
+            "value": "Creative Commons Attribution-Share Alike 4.0",
+            "source": "commons-desc-page"
+          },
+          "AttributionRequired": {
+            "value": "true",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "LicenseUrl": {
+            "value": "https://creativecommons.org/licenses/by-sa/4.0",
+            "source": "commons-desc-page"
+          },
+          "Copyrighted": {
+            "value": "True",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "Restrictions": {
+            "value": "",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "License": {
+            "value": "cc-by-sa-4.0",
+            "source": "commons-templates",
+            "hidden": ""
+          }
+        }
+      }
+    ]
+  },
+  {
+    "pageid": 131341593,
+    "ns": 6,
+    "title": "File:Yates Hall, 600 Ukrop Way.jpg",
+    "index": 18,
+    "coordinates": [
+      {
+        "lat": 37.272728,
+        "lon": -76.718378,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
+    "imagerepository": "local",
+    "imageinfo": [
+      {
+        "size": 4427955,
+        "width": 4032,
+        "height": 2103,
+        "thumburl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dd/Yates_Hall%2C_600_Ukrop_Way.jpg/330px-Yates_Hall%2C_600_Ukrop_Way.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "thumbwidth": 330,
+        "thumbheight": 172,
+        "responsiveUrls": {
+          "2": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dd/Yates_Hall%2C_600_Ukrop_Way.jpg/960px-Yates_Hall%2C_600_Ukrop_Way.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        "thumbattribs": {
+          "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dd/Yates_Hall%2C_600_Ukrop_Way.jpg/330px-Yates_Hall%2C_600_Ukrop_Way.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "decoding": "async",
+          "loading": "lazy",
+          "width": 330,
+          "height": 172,
+          "srcset": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dd/Yates_Hall%2C_600_Ukrop_Way.jpg/960px-Yates_Hall%2C_600_Ukrop_Way.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail 2x"
+        },
+        "url": "https://upload.wikimedia.org/wikipedia/commons/d/dd/Yates_Hall%2C_600_Ukrop_Way.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "descriptionurl": "https://commons.wikimedia.org/wiki/File:Yates_Hall,_600_Ukrop_Way.jpg",
+        "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=131341593",
+        "extmetadata": {
+          "DateTime": {
+            "value": "2023-04-30 01:57:21",
+            "source": "mediawiki-metadata",
+            "hidden": ""
+          },
+          "ObjectName": {
+            "value": "Yates Hall, 600 Ukrop Way",
+            "source": "mediawiki-metadata"
+          },
+          "CommonsMetadataExtension": {
+            "value": 1.2,
+            "source": "extension",
+            "hidden": ""
+          },
+          "Categories": {
+            "value": "College of William and Mary buildings|Self-published work|Files with coordinates missing SDC location of creation",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "Assessments": {
+            "value": "",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "GPSLatitude": {
+            "value": "37.272728",
+            "source": "commons-desc-page"
+          },
+          "GPSLongitude": {
+            "value": "-76.718378",
+            "source": "commons-desc-page"
+          },
+          "GPSMapDatum": {
+            "value": "WGS-84",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "ImageDescription": {
+            "value": "Yates Hall, 600 Ukrop Way",
+            "source": "commons-desc-page"
+          },
+          "DateTimeOriginal": {
+            "value": "2023-04-28 14:15:34",
+            "source": "commons-desc-page"
+          },
+          "Credit": {
+            "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+            "source": "commons-desc-page"
+          },
+          "Artist": {
+            "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:ProfReader&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:ProfReader (page does not exist)\">ProfReader</a>",
+            "source": "commons-desc-page"
+          },
+          "LicenseShortName": {
+            "value": "CC BY-SA 4.0",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "UsageTerms": {
+            "value": "Creative Commons Attribution-Share Alike 4.0",
+            "source": "commons-desc-page"
+          },
+          "AttributionRequired": {
+            "value": "true",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "LicenseUrl": {
+            "value": "https://creativecommons.org/licenses/by-sa/4.0",
+            "source": "commons-desc-page"
+          },
+          "Copyrighted": {
+            "value": "True",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "Restrictions": {
+            "value": "",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "License": {
+            "value": "cc-by-sa-4.0",
+            "source": "commons-templates",
+            "hidden": ""
+          }
+        }
+      }
+    ]
+  },
+  {
+    "pageid": 131341594,
+    "ns": 6,
+    "title": "File:Dupont Hall, 101 Wake Drive.jpg",
+    "index": 19,
+    "coordinates": [
+      {
+        "lat": 37.270267,
+        "lon": -76.719528,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
+    "imagerepository": "local",
+    "imageinfo": [
+      {
+        "size": 3479443,
+        "width": 4032,
+        "height": 1540,
+        "thumburl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1e/Dupont_Hall%2C_101_Wake_Drive.jpg/330px-Dupont_Hall%2C_101_Wake_Drive.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "thumbwidth": 330,
+        "thumbheight": 126,
+        "responsiveUrls": {
+          "2": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1e/Dupont_Hall%2C_101_Wake_Drive.jpg/960px-Dupont_Hall%2C_101_Wake_Drive.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        "thumbattribs": {
+          "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1e/Dupont_Hall%2C_101_Wake_Drive.jpg/330px-Dupont_Hall%2C_101_Wake_Drive.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "decoding": "async",
+          "loading": "lazy",
+          "width": 330,
+          "height": 126,
+          "srcset": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1e/Dupont_Hall%2C_101_Wake_Drive.jpg/960px-Dupont_Hall%2C_101_Wake_Drive.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail 2x"
+        },
+        "url": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Dupont_Hall%2C_101_Wake_Drive.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "descriptionurl": "https://commons.wikimedia.org/wiki/File:Dupont_Hall,_101_Wake_Drive.jpg",
+        "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=131341594",
+        "extmetadata": {
+          "DateTime": {
+            "value": "2023-04-30 01:57:22",
+            "source": "mediawiki-metadata",
+            "hidden": ""
+          },
+          "ObjectName": {
+            "value": "Dupont Hall, 101 Wake Drive",
+            "source": "mediawiki-metadata"
+          },
+          "CommonsMetadataExtension": {
+            "value": 1.2,
+            "source": "extension",
+            "hidden": ""
+          },
+          "Categories": {
+            "value": "College of William and Mary buildings|Brick buildings in the United States|Self-published work|Files with coordinates missing SDC location of creation|Three-story buildings in the United States",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "Assessments": {
+            "value": "",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "GPSLatitude": {
+            "value": "37.270267",
+            "source": "commons-desc-page"
+          },
+          "GPSLongitude": {
+            "value": "-76.719528",
+            "source": "commons-desc-page"
+          },
+          "GPSMapDatum": {
+            "value": "WGS-84",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "ImageDescription": {
+            "value": "Dupont Hall, 101 Wake Drive",
+            "source": "commons-desc-page"
+          },
+          "DateTimeOriginal": {
+            "value": "2023-04-28 14:20:39",
+            "source": "commons-desc-page"
+          },
+          "Credit": {
+            "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+            "source": "commons-desc-page"
+          },
+          "Artist": {
+            "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:ProfReader&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:ProfReader (page does not exist)\">ProfReader</a>",
+            "source": "commons-desc-page"
+          },
+          "LicenseShortName": {
+            "value": "CC BY-SA 4.0",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "UsageTerms": {
+            "value": "Creative Commons Attribution-Share Alike 4.0",
+            "source": "commons-desc-page"
+          },
+          "AttributionRequired": {
+            "value": "true",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "LicenseUrl": {
+            "value": "https://creativecommons.org/licenses/by-sa/4.0",
+            "source": "commons-desc-page"
+          },
+          "Copyrighted": {
+            "value": "True",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "Restrictions": {
+            "value": "",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "License": {
+            "value": "cc-by-sa-4.0",
+            "source": "commons-templates",
+            "hidden": ""
+          }
+        }
+      }
+    ]
+  },
+  {
+    "pageid": 139898983,
+    "ns": 6,
+    "title": "File:Colin Trevor Smith memorial plaque.jpg",
+    "index": 20,
+    "coordinates": [
+      {
+        "lat": 37.270833,
+        "lon": -76.719167,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
+    "imagerepository": "local",
+    "imageinfo": [
+      {
+        "size": 5160055,
+        "width": 3264,
+        "height": 2448,
+        "thumburl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/Colin_Trevor_Smith_memorial_plaque.jpg/330px-Colin_Trevor_Smith_memorial_plaque.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "thumbwidth": 330,
+        "thumbheight": 248,
+        "responsiveUrls": {
+          "2": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/Colin_Trevor_Smith_memorial_plaque.jpg/960px-Colin_Trevor_Smith_memorial_plaque.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        "thumbattribs": {
+          "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/Colin_Trevor_Smith_memorial_plaque.jpg/330px-Colin_Trevor_Smith_memorial_plaque.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "decoding": "async",
+          "loading": "lazy",
+          "width": 330,
+          "height": 248,
+          "srcset": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/Colin_Trevor_Smith_memorial_plaque.jpg/960px-Colin_Trevor_Smith_memorial_plaque.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail 2x"
+        },
+        "url": "https://upload.wikimedia.org/wikipedia/commons/8/86/Colin_Trevor_Smith_memorial_plaque.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "descriptionurl": "https://commons.wikimedia.org/wiki/File:Colin_Trevor_Smith_memorial_plaque.jpg",
+        "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=139898983",
+        "extmetadata": {
+          "DateTime": {
+            "value": "2023-10-31 17:00:49",
+            "source": "mediawiki-metadata",
+            "hidden": ""
+          },
+          "ObjectName": {
+            "value": "Colin Trevor Smith memorial plaque",
+            "source": "mediawiki-metadata"
+          },
+          "CommonsMetadataExtension": {
+            "value": 1.2,
+            "source": "extension",
+            "hidden": ""
+          },
+          "Categories": {
+            "value": "College of William and Mary|Self-published work|Files with coordinates missing SDC location of creation",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "Assessments": {
+            "value": "",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "GPSLatitude": {
+            "value": "37.270833",
+            "source": "commons-desc-page"
+          },
+          "GPSLongitude": {
+            "value": "-76.719167",
+            "source": "commons-desc-page"
+          },
+          "GPSMapDatum": {
+            "value": "WGS-84",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "ImageDescription": {
+            "value": "Memorial to Colin Trevor Smith, William and Mary Class of 2006",
+            "source": "commons-desc-page"
+          },
+          "DateTimeOriginal": {
+            "value": "2023-10-22 14:38:06",
+            "source": "commons-desc-page"
+          },
+          "Credit": {
+            "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+            "source": "commons-desc-page"
+          },
+          "Artist": {
+            "value": "<a href=\"//commons.wikimedia.org/wiki/User:Ser_Amantio_di_Nicolao\" title=\"User:Ser Amantio di Nicolao\">Ser Amantio di Nicolao</a>",
+            "source": "commons-desc-page"
+          },
+          "LicenseShortName": {
+            "value": "CC BY-SA 4.0",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "UsageTerms": {
+            "value": "Creative Commons Attribution-Share Alike 4.0",
+            "source": "commons-desc-page"
+          },
+          "AttributionRequired": {
+            "value": "true",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "LicenseUrl": {
+            "value": "https://creativecommons.org/licenses/by-sa/4.0",
+            "source": "commons-desc-page"
+          },
+          "Copyrighted": {
+            "value": "True",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "Restrictions": {
+            "value": "",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "License": {
+            "value": "cc-by-sa-4.0",
+            "source": "commons-templates",
+            "hidden": ""
+          }
+        }
+      }
+    ]
+  },
+  {
+    "pageid": 139898985,
+    "ns": 6,
+    "title": "File:Colin's bench from farther away.jpg",
+    "index": 21,
+    "coordinates": [
+      {
+        "lat": 37.270556,
+        "lon": -76.719167,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
+    "imagerepository": "local",
+    "imageinfo": [
+      {
+        "size": 6219224,
+        "width": 3264,
+        "height": 2448,
+        "thumburl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/Colin%27s_bench_from_farther_away.jpg/330px-Colin%27s_bench_from_farther_away.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "thumbwidth": 330,
+        "thumbheight": 248,
+        "responsiveUrls": {
+          "2": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/Colin%27s_bench_from_farther_away.jpg/960px-Colin%27s_bench_from_farther_away.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        "thumbattribs": {
+          "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/Colin%27s_bench_from_farther_away.jpg/330px-Colin%27s_bench_from_farther_away.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "decoding": "async",
+          "loading": "lazy",
+          "width": 330,
+          "height": 248,
+          "srcset": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/Colin%27s_bench_from_farther_away.jpg/960px-Colin%27s_bench_from_farther_away.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail 2x"
+        },
+        "url": "https://upload.wikimedia.org/wikipedia/commons/0/04/Colin%27s_bench_from_farther_away.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "descriptionurl": "https://commons.wikimedia.org/wiki/File:Colin%27s_bench_from_farther_away.jpg",
+        "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=139898985",
+        "extmetadata": {
+          "DateTime": {
+            "value": "2023-10-31 17:00:49",
+            "source": "mediawiki-metadata",
+            "hidden": ""
+          },
+          "ObjectName": {
+            "value": "Colin's bench from farther away",
+            "source": "mediawiki-metadata"
+          },
+          "CommonsMetadataExtension": {
+            "value": 1.2,
+            "source": "extension",
+            "hidden": ""
+          },
+          "Categories": {
+            "value": "College of William and Mary|Self-published work|Files with coordinates missing SDC location of creation",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "Assessments": {
+            "value": "",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "GPSLatitude": {
+            "value": "37.270556",
+            "source": "commons-desc-page"
+          },
+          "GPSLongitude": {
+            "value": "-76.719167",
+            "source": "commons-desc-page"
+          },
+          "GPSMapDatum": {
+            "value": "WGS-84",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "ImageDescription": {
+            "value": "Memorial to Colin Trevor Smith, William and Mary Class of 2006",
+            "source": "commons-desc-page"
+          },
+          "DateTimeOriginal": {
+            "value": "2023-10-22 14:39:34",
+            "source": "commons-desc-page"
+          },
+          "Credit": {
+            "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+            "source": "commons-desc-page"
+          },
+          "Artist": {
+            "value": "<a href=\"//commons.wikimedia.org/wiki/User:Ser_Amantio_di_Nicolao\" title=\"User:Ser Amantio di Nicolao\">Ser Amantio di Nicolao</a>",
+            "source": "commons-desc-page"
+          },
+          "LicenseShortName": {
+            "value": "CC BY-SA 4.0",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "UsageTerms": {
+            "value": "Creative Commons Attribution-Share Alike 4.0",
+            "source": "commons-desc-page"
+          },
+          "AttributionRequired": {
+            "value": "true",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "LicenseUrl": {
+            "value": "https://creativecommons.org/licenses/by-sa/4.0",
+            "source": "commons-desc-page"
+          },
+          "Copyrighted": {
+            "value": "True",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "Restrictions": {
+            "value": "",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "License": {
+            "value": "cc-by-sa-4.0",
+            "source": "commons-templates",
+            "hidden": ""
+          }
+        }
+      }
+    ]
+  },
+  {
+    "pageid": 139898989,
+    "ns": 6,
+    "title": "File:Colin's bench, Homecoming 2023.jpg",
+    "index": 22,
+    "coordinates": [
+      {
+        "lat": 37.270833,
+        "lon": -76.719167,
+        "primary": "",
+        "globe": "earth"
+      }
+    ],
+    "imagerepository": "local",
+    "imageinfo": [
+      {
+        "size": 6218045,
+        "width": 3264,
+        "height": 2448,
+        "thumburl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/67/Colin%27s_bench%2C_Homecoming_2023.jpg/330px-Colin%27s_bench%2C_Homecoming_2023.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "thumbwidth": 330,
+        "thumbheight": 248,
+        "responsiveUrls": {
+          "2": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/67/Colin%27s_bench%2C_Homecoming_2023.jpg/960px-Colin%27s_bench%2C_Homecoming_2023.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+        "thumbattribs": {
+          "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/67/Colin%27s_bench%2C_Homecoming_2023.jpg/330px-Colin%27s_bench%2C_Homecoming_2023.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "decoding": "async",
+          "loading": "lazy",
+          "width": 330,
+          "height": 248,
+          "srcset": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/67/Colin%27s_bench%2C_Homecoming_2023.jpg/960px-Colin%27s_bench%2C_Homecoming_2023.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail 2x"
+        },
+        "url": "https://upload.wikimedia.org/wikipedia/commons/6/67/Colin%27s_bench%2C_Homecoming_2023.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "descriptionurl": "https://commons.wikimedia.org/wiki/File:Colin%27s_bench,_Homecoming_2023.jpg",
+        "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=139898989",
+        "extmetadata": {
+          "DateTime": {
+            "value": "2023-10-31 17:00:51",
+            "source": "mediawiki-metadata",
+            "hidden": ""
+          },
+          "ObjectName": {
+            "value": "Colin's bench, Homecoming 2023",
+            "source": "mediawiki-metadata"
+          },
+          "CommonsMetadataExtension": {
+            "value": 1.2,
+            "source": "extension",
+            "hidden": ""
+          },
+          "Categories": {
+            "value": "College of William and Mary|Self-published work|Files with coordinates missing SDC location of creation",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "Assessments": {
+            "value": "",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "GPSLatitude": {
+            "value": "37.270833",
+            "source": "commons-desc-page"
+          },
+          "GPSLongitude": {
+            "value": "-76.719167",
+            "source": "commons-desc-page"
+          },
+          "GPSMapDatum": {
+            "value": "WGS-84",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "ImageDescription": {
+            "value": "Memorial to Colin Trevor Smith, William and Mary Class of 2006",
+            "source": "commons-desc-page"
+          },
+          "DateTimeOriginal": {
+            "value": "2023-10-22 14:39:01",
+            "source": "commons-desc-page"
+          },
+          "Credit": {
+            "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+            "source": "commons-desc-page"
+          },
+          "Artist": {
+            "value": "<a href=\"//commons.wikimedia.org/wiki/User:Ser_Amantio_di_Nicolao\" title=\"User:Ser Amantio di Nicolao\">Ser Amantio di Nicolao</a>",
             "source": "commons-desc-page"
           },
           "LicenseShortName": {
