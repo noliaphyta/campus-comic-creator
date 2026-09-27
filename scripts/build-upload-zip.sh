@@ -37,6 +37,7 @@ zip -r -X -q "$OUT" . \
   -x "node_modules/*" \
   -x "*/node_modules/*" \
   -x "*.log" \
+  -x "assets/photos/*" \
   -x "$(basename "$OUT")"
 
 SIZE="$(du -h "$OUT" | cut -f1)"
