@@ -364,8 +364,17 @@ async function buildPanel(photo, i, total, aspect, settings) {
     if (settings.filterStyle === "none" || typeof stylizePhoto !== "function") {
       panelCanvas = cropped;
     } else {
-      const { canvas } = stylizePhoto(cropped, { year: photo.year, lat: photo.lat, lon: photo.lon }, { ditherStyle: settings.filterStyle });
+      const { canvas, ditherStyle } = stylizePhoto(cropped, { year: photo.year, lat: photo.lat, lon: photo.lon }, { ditherStyle: settings.filterStyle });
       panelCanvas = canvas;
+      // stylizePhoto() falls back to "css-fallback" uniformly when WebGL
+      // isn't available this session (see js/stylize.js changelog) - flag
+      // it visibly rather than silently showing a plain photo next to
+      // fully-stylized panels, which would read as a bug rather than a
+      // deliberate reduced-fidelity mode.
+      if (ditherStyle === "css-fallback") {
+        img.classList.add("style-halftone");
+        panel.dataset.stylizeFallback = "true";
+      }
     }
     img.src = panelCanvas.toDataURL("image/png");
   } catch (err) {
@@ -549,8 +558,12 @@ async function buildVNPanel(photo, i, total, settings) {
     if (settings.filterStyle === "none" || typeof stylizePhoto !== "function") {
       panelCanvas = srcImg; // stylizePhoto expects a canvas-like source; the raw <img> works fine as medianColor()'s/drawImage()'s source too
     } else {
-      const { canvas } = stylizePhoto(srcImg, { year: photo.year, lat: photo.lat, lon: photo.lon }, { ditherStyle: settings.filterStyle });
+      const { canvas, ditherStyle } = stylizePhoto(srcImg, { year: photo.year, lat: photo.lat, lon: photo.lon }, { ditherStyle: settings.filterStyle });
       panelCanvas = canvas;
+      if (ditherStyle === "css-fallback") {
+        img.classList.add("style-halftone");
+        panel.dataset.stylizeFallback = "true";
+      }
     }
     img.src = panelCanvas.toDataURL ? panelCanvas.toDataURL("image/png") : (photo.web || photo.file);
     panel.style.background = medianColor(panelCanvas);
@@ -810,7 +823,8 @@ async function buildManualEditors(photos, statusEl) {
     filterSelect.className = "manual-filter-select";
     filterSelect.innerHTML = `
       <option value="halftone" selected>Halftone (ink dots)</option>
-      <option value="dither">CMYK dither</option>
+      <option value="dither">Ordered Dither</option>
+      <option value="duotone">Duotone</option>
       <option value="none">None (cropped only)</option>`;
     controlsRow.appendChild(filterSelect);
 

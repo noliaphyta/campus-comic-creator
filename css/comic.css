@@ -215,6 +215,22 @@
   border-radius: 999px;
 }
 
+/* Shown when stylizePhoto() fell back to css-fallback (WebGL unavailable
+   this session) — see js/comic.js buildPanel()/buildVNPanel() and the
+   changelog at the top of js/stylize.js. Visible on purpose: a silently
+   downgraded panel next to fully-stylized ones would read as a bug. */
+.comic-panel[data-stylize-fallback="true"]::after {
+  content: "basic style (WebGL unavailable)";
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 0.65rem;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
 /* Character bounding-box placeholder - swap this out for real character
    art later; positioning/sizing logic lives in js/comic.js's
    renderCharacterPlaceholder() so it's one place to change. */

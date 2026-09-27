@@ -92,7 +92,7 @@ async function queryOverpass(query) {
 function parseArgs(argv) {
   // Rough default box around the W&M campus core - narrow this to your
   // actual campus bounds before running for real.
-  const out = { south: 37.266, west: -76.716, north: 37.276, east: -76.706, out: "./data/buildings.geojson" };
+  const out = { south: 37.258, west: -76.7383, north: 37.284, east: -76.6986, out: "./data/buildings.geojson" };
   for (let i = 0; i < argv.length; i += 2) {
     const key = argv[i].replace(/^--/, "");
     const val = argv[i + 1];

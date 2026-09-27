@@ -330,9 +330,13 @@ footer a:hover {
   text-decoration: underline;
 }
 
-/* ---- Halftone filter (leanrada.com pure-CSS technique) ----
-   Toggled by applyHalftoneCSS() in js/stylize.js. Applies to the element
-   wrapping the stylized <canvas>/<img>, not the canvas pixels themselves. */
+/* ---- Halftone CSS fallback (leanrada.com pure-CSS technique) ----
+   WebGL-unavailable fallback ONLY now. The real halftone effect is
+   glfx-es6's colorHalftone(), baked into the stylized canvas's pixels
+   directly by stylizePhoto() (js/stylize.js). This class is applied by
+   callers only when stylizePhoto() returns ditherStyle: "css-fallback",
+   so there's still some visible stylization when WebGL genuinely isn't
+   available, instead of a plain, unindicated photo. */
 .style-halftone {
   position: relative;
   isolation: isolate;

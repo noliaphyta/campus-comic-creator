@@ -73,7 +73,7 @@ import { constants as fsConstants } from "node:fs";
 import path from "node:path";
 
 const MIN_LONG_EDGE = 1500;
-const DEFAULT_BBOX = { south: 37.266, west: -76.716, north: 37.276, east: -76.706 };
+const DEFAULT_BBOX = { south: 37.258, west: -76.7383, north: 37.284, east: -76.6986 };
 
 function inBbox(lat, lon, bbox) {
   return lat >= bbox.south && lat <= bbox.north && lon >= bbox.west && lon <= bbox.east;

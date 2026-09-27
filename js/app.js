@@ -770,7 +770,13 @@ async function runStylizeAndStory(photo) {
       });
       photo.styled = canvas.toDataURL("image/png");
       const wrap = document.getElementById("story-bg-wrap");
-      if (wrap) applyHalftoneCSS(wrap, ditherStyle === "halftone");
+      // "halftone" is now baked into the canvas pixels by stylizePhoto()
+      // itself (via glfx's colorHalftone) - the CSS dot overlay is ONLY
+      // the fallback for when WebGL genuinely isn't available this
+      // session (ditherStyle comes back "css-fallback" in that case, for
+      // any originally requested style), so it no longer needs to be
+      // toggled on for every "halftone" selection here.
+      if (wrap) applyHalftoneCSS(wrap, ditherStyle === "css-fallback");
     } catch (err) {
       console.warn(`Live stylization failed for "${photo.id}" - using the precomputed/raw image instead.`, err);
     }
